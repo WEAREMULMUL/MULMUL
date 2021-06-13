@@ -1,0 +1,90 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+body, html {
+    margin: 0;
+    font-family: "Noto Sans KR", sans-serif !important;
+}
+
+ul {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+}
+
+/* Site Header START */
+.fixed-wrap {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 1rem;
+}
+
+.user-header-container {
+    border-bottom: 1px solid #DADADA;
+    text-align: center;
+}
+
+.user-header-wrap {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: small;
+    padding: 0.5rem;
+}
+
+.user-header-wrap li {
+    margin: 0 .75rem;
+    float: right;
+    list-style: none;
+    color: rgb(96, 99, 103);
+}
+
+.header-container {
+    padding-top: 1rem;
+}
+
+.header-wrap {
+    display: flex;
+}
+
+.search-form {
+    flex: 1;
+    margin-left: 2rem;
+}
+
+.search-input {
+    border: 3px solid rgb(78, 155, 233);
+    height: 35px;
+    width: calc(100% - 2rem - 6px);
+    padding-left: 1rem;
+}
+
+.search-submit {
+    color: rgb(78, 155, 233);
+    margin-left: -40px;
+}
+
+.popular-keyword {
+    margin-top: .3rem;
+}
+
+@media (max-width: 767px) {
+    .popular-keyword li:first-child {
+        display: none;
+    }
+}
+
+.popular-keyword li:first-child {
+    font-weight: bold;
+}
+
+.popular-keyword li {
+    list-style: none;
+    float: left;
+    margin-right: 1rem;
+    color: rgb(96, 99, 103);
+}
+
+.menu-toggle {
+    margin-top: 14px;
+}
+/* Site Header END */
