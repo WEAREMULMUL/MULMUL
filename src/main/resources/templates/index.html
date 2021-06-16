@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,3 +9,33 @@
 
 </body>
 </html>
+=======
+<!-- index -->
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: head">
+</head>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<!-- Contents에 대한 요소를 body fragments로 이용하는 건 어떨가요?-->
+
+<div th:replace="fragments/body :: body"></div>
+
+<!-- body를 어떻게 할지 PR 날리기-->
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
+<!-- replace -->
+<!--
+
+JSP - Include 방식과 같습니다!!
+단지 fragments라는 조각으로 다룹니다!!
+
+-->
+>>>>>>> 325ab99 ([Modify] thymeleaf 수정중)
