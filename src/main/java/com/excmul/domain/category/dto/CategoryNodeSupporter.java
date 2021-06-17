@@ -4,6 +4,7 @@ import com.excmul.domain.category.CategoryCode;
 import com.excmul.domain.category.CategoryVO;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 // Category Entity 에서 CategoryNode를 대신 구현해주는 클래스
@@ -21,6 +22,6 @@ public interface CategoryNodeSupporter extends CategoryNode {
     }
 
     default List<CategoryNode> getChildCategory() {
-        return new ArrayList<>(getChildren());
+        return Collections.unmodifiableList(getChildren());
     }
 }
