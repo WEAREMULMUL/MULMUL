@@ -6,6 +6,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 
+
+@Setter(AccessLevel.PROTECTED)
+@Getter
 @MappedSuperclass
 public class DateEntity {
     @Temporal(TemporalType.TIMESTAMP)
