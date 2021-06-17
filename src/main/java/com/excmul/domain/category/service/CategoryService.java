@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -24,9 +23,10 @@ public class CategoryService {
 
     // TODO :: 여기에 캐시를 적용하면 좋을것 같습니다.
     @Transactional(readOnly = true)
-    public List<CategoryNode> findRootCategoryNode() { // 모든 최상위 카테고리 반환
-        return categoryRepository.findAllWithGraph().stream()
-                .filter(CategoryNode::isRootCategory)
-                .collect(Collectors.toList());
+    public CategoryNode findRootCategoryNode() { // 모든 카테고리 반환
+        return CategoryNode.newRootNode(
+                    categoryRepository.findAllWithGraph().stream()
+                    .filter(CategoryNode::isRootCategory)
+                    .collect(Collectors.toList()));
     }
 }

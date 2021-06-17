@@ -19,23 +19,23 @@ import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 @SpringBootTest
 public class CategoryTest {
-    private static List<CategoryNode> categoryNodes;
+    private static CategoryNode categoryNode;
 
     @BeforeAll
     public static void findCategoryNodes(@Autowired CategoryService categoryService) {
-        categoryNodes = categoryService.findRootCategoryNode();
+        categoryNode = categoryService.findRootCategoryNode();
     }
 
     @Test
     @DisplayName("Load Category Test")
     public void loadCategoryCountTest() {
-        assertTrue("루트 카테고리의 갯수가 일치하지 않습니다.", categoryNodes.size() == 18);
+        assertTrue("루트 카테고리의 갯수가 일치하지 않습니다.", categoryNode.getChildCategory().size() == 18);
     }
 
     @Test
     @DisplayName("Category View")
     public void categoryViewTest() {
-        for (CategoryNode iCategoryNode : categoryNodes)
+        for (CategoryNode iCategoryNode : categoryNode.getChildCategory())
             viewCategoryNodes(iCategoryNode);
     }
 

@@ -20,6 +20,14 @@ public class CategoryCode implements Serializable {
         this.code = newCodeValue();
     }
 
+    private CategoryCode(String codeValue) {
+        this.code = codeValue;
+    }
+
+    public static CategoryCode from(String codeValue) {
+        return new CategoryCode(codeValue);
+    }
+
     public String getValue() {
         return code;
     }
