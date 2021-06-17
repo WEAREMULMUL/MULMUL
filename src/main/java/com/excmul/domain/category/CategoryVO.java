@@ -1,29 +1,46 @@
 package com.excmul.domain.category;
 
+import com.excmul.domain.category.dto.CategoryNodeSupporter;
+import com.excmul.domain.common.baseentity.DateEntity;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Getter
+@Access(AccessType.FIELD)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class CategoryVO {
+public class CategoryVO extends DateEntity implements CategoryNodeSupporter {
     @EmbeddedId
-    private final CategoryCode code;
+    private CategoryCode code;
+
+    @Column(length = 20, nullable = false)
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private CategoryVO parent;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private List<CategoryVO> children;
 
     @Builder
-    public CategoryVO(CategoryVO parent) {
-        this.code = new CategoryCode(parent == null ? null : parent.getCode());
+    public CategoryVO(CategoryVO parent, String name) {
+        this.code = newCode();
+        this.name = name;
+        this.parent = parent;
     }
 
-    public CategoryVO() {
-        this(null);
+    private CategoryCode newCode() {
+        return new CategoryCode(parent == null ? null : parent.getCode());
+    }
+
+    public void changeCode() {
+        if (children != null && children.size() > 0)
+            throw new RuntimeException("하위 카테고리가 존재해 카테고리 코드를 변경할 수 없습니다."); // TODO :: Exception 클래스 생성 후 교체하기
+        this.code = newCode();
     }
 }

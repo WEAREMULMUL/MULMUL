@@ -13,23 +13,27 @@ public class CategoryCode implements Serializable {
     private final String code;
 
     public CategoryCode(CategoryCode parentCode) {
-        this.code = parentCode + newCodeValue();
+        this.code = (parentCode == null ? "" : parentCode) + newCodeValue();
     }
 
     public CategoryCode() {
         this.code = newCodeValue();
     }
 
-    private String newCodeValue() {
-        return StringUtils.randomString(2);
-    }
-
     public String getValue() {
         return code;
+    }
+
+    public boolean isRootCode() {
+        return this.code.length() == 2;
     }
 
     @Override
     public String toString() {
         return code;
+    }
+
+    private String newCodeValue() {
+        return StringUtils.randomString(2);
     }
 }
