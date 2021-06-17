@@ -17,10 +17,12 @@ public interface CategoryNodeSupporter extends CategoryNode {
 
     List<CategoryVO> getChildren();
 
+    @Override
     default CategoryNode getParentCategory() {
         return getParent();
     }
 
+    @Override
     default List<CategoryNode> getChildCategory() {
         return Collections.unmodifiableList(getChildren());
     }
