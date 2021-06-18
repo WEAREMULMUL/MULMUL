@@ -23,6 +23,9 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private String phoneNumber;
+
     @Column
     private String picture;
 
@@ -31,15 +34,17 @@ public class User extends BaseTimeEntity {
     private Role role;
 
     @Builder
-    public User(String name, String email, String picture, Role role) {
+    public User(String name, String email, String phoneNumber, String picture, Role role) {
         this.name = name;
         this.email = email;
+        this.phoneNumber = phoneNumber;
         this.picture = picture;
         this.role = role;
     }
 
-    public User update(String name, String picture) {
+    public User update(String name, String phoneNumber, String picture) {
         this.name = name;
+        this.phoneNumber = phoneNumber;
         this.picture = picture;
 
         return this;
