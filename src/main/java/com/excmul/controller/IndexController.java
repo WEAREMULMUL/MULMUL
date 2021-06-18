@@ -13,6 +13,3 @@ public class IndexController {
         return "index";
     }
 }
-
-// user <<-- 동건..
-// category처럼 DDD 방향????
