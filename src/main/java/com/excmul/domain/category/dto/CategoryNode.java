@@ -1,6 +1,8 @@
 package com.excmul.domain.category.dto;
 
 import com.excmul.domain.category.CategoryCode;
+import com.excmul.domain.category.CategoryVO;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,14 +15,14 @@ public interface CategoryNode {
 
     CategoryNode getParentCategory();
 
-    List<CategoryNode> getChildCategory();
+    List<CategoryNode> getChildrenCategory();
 
-    default boolean isRootCategory() {
-        return getCode().isRootCode();
-    }
+    boolean isRootCategory();
+
+    boolean isLeafCategory();
 
     static CategoryNode newRootNode(List<CategoryNode> categoryNodes) {
-        return new CategoryNode() {
+        return new CategoryNodeSupporter() {
             @Override
             public CategoryCode getCode() {
                 return null;
@@ -32,12 +34,17 @@ public interface CategoryNode {
             }
 
             @Override
-            public CategoryNode getParentCategory() {
+            public CategoryVO getParent() {
                 return null;
             }
 
             @Override
-            public List<CategoryNode> getChildCategory() {
+            public List<CategoryVO> getChildren() {
+                return null;
+            }
+
+            @Override
+            public List<CategoryNode> getChildrenCategory() {
                 return Collections.unmodifiableList(categoryNodes);
             }
         };

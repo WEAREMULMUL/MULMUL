@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.List;
@@ -29,17 +30,17 @@ public class CategoryVO extends DateEntity implements CategoryNodeSupporter {
 
     @Builder
     public CategoryVO(CategoryVO parent, String name) {
+        this.parent = parent;
         this.code = newCode();
         this.name = name;
-        this.parent = parent;
     }
 
     private CategoryCode newCode() {
-        return new CategoryCode(parent == null ? null : parent.getCode());
+        return parent == null ? CategoryCode.newRootInstance() : CategoryCode.newChildInstance(parent.getCode());
     }
 
     public void changeCode() {
-        if (children != null && children.size() > 0)
+        if (!isLeafCategory())
             throw new RuntimeException("하위 카테고리가 존재해 카테고리 코드를 변경할 수 없습니다."); // TODO :: Exception 클래스 생성 후 교체하기
         this.code = newCode();
     }

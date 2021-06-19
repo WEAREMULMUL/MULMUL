@@ -2,8 +2,8 @@ package com.excmul.domain.category.dto;
 
 import com.excmul.domain.category.CategoryCode;
 import com.excmul.domain.category.CategoryVO;
+import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,12 +18,22 @@ public interface CategoryNodeSupporter extends CategoryNode {
     List<CategoryVO> getChildren();
 
     @Override
+    default boolean isRootCategory() {
+        return getCode().isRootCode();
+    }
+
+    @Override
+    default boolean isLeafCategory() {
+        return CollectionUtils.isEmpty(getChildrenCategory());
+    }
+
+    @Override
     default CategoryNode getParentCategory() {
         return getParent();
     }
 
     @Override
-    default List<CategoryNode> getChildCategory() {
-        return Collections.unmodifiableList(getChildren());
+    default List<CategoryNode> getChildrenCategory() {
+        return getChildren() == null ? null : Collections.unmodifiableList(getChildren());
     }
 }

@@ -13,8 +13,8 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<CategoryVO, CategoryCode> {
     boolean existsByCode(CategoryCode categoryCode);
 
-    // 상위 카테고리와 하위 카테고리 모두 조인
+    // 지정한 레벨까지의 카테고리를 불러온다.
     @EntityGraph(attributePaths = { "parent", "children" })
-    @Query("SELECT c FROM CategoryVO c")
-    List<CategoryVO> findAllWithGraph();
+    @Query("SELECT c FROM CategoryVO c WHERE length(c.code.code) <= :maxLevel * 2")
+    List<CategoryVO> findAllWithGraph(int maxLevel);
 }

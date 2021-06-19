@@ -1,6 +1,9 @@
 package com.excmul.domain.category;
 
-import com.excmul.util.StringUtils;
+import com.excmul.util.RandomUtils;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -9,27 +12,33 @@ import java.io.Serializable;
 
 @Embeddable
 @Access(AccessType.FIELD)
-public class CategoryCode implements Serializable {
-    private final String code;
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public final class CategoryCode implements Serializable {
+    private static final char[] CODE_PATTERNS = "1234567890QWERTYUIOPASDFGHJKLZXCVBNM".toCharArray();
 
-    public CategoryCode(CategoryCode parentCode) {
-        this.code = (parentCode == null ? "" : parentCode) + newCodeValue();
+    private String code;
+
+    public final static CategoryCode newInstance(String codeValue) {
+        return new CategoryCode(codeValue);
     }
 
-    public CategoryCode() {
-        this.code = newCodeValue();
+    public final static CategoryCode newRootInstance() {
+        return newInstance(newCodeValue());
     }
 
-    private CategoryCode(String codeValue) {
-        this.code = codeValue;
-    }
-
-    public String getValue() {
-        return code;
+    public final static CategoryCode newChildInstance(CategoryCode parentCode) {
+        if (parentCode == null)
+            return newRootInstance();
+        return newInstance(parentCode + newCodeValue());
     }
 
     public boolean isRootCode() {
         return this.code.length() == 2;
+    }
+
+    public String getValue() {
+        return code;
     }
 
     @Override
@@ -37,7 +46,7 @@ public class CategoryCode implements Serializable {
         return code;
     }
 
-    private String newCodeValue() {
-        return StringUtils.randomString(2);
+    private static String newCodeValue() {
+        return RandomUtils.randomString(2, CODE_PATTERNS);
     }
 }

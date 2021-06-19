@@ -15,17 +15,17 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public void insertCategory(CategoryVO newChildCategory) {
-        while (categoryRepository.existsByCode(newChildCategory.getCode()))
-            newChildCategory.changeCode();
-        categoryRepository.save(newChildCategory);
+    public void insertCategory(CategoryVO newCategory) {
+        while (categoryRepository.existsByCode(newCategory.getCode()))
+            newCategory.changeCode();
+        categoryRepository.save(newCategory);
     }
 
     // TODO :: 여기에 캐시를 적용하면 좋을것 같습니다.
     @Transactional(readOnly = true)
-    public CategoryNode findRootCategoryNode() { // 모든 카테고리 반환
+    public CategoryNode findCategoryNode(int maxLevel) {
         return CategoryNode.newRootNode(
-                    categoryRepository.findAllWithGraph().stream()
+                    categoryRepository.findAllWithGraph(maxLevel).stream()
                     .filter(CategoryNode::isRootCategory)
                     .collect(Collectors.toList()));
     }
