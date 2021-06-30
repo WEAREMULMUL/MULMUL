@@ -8,3 +8,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 }
+
+
+// 구글, 카카오, 페이스북, 네이버 -> OAUth2.0
