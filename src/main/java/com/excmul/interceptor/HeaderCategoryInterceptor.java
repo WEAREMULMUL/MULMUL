@@ -18,11 +18,16 @@ public class HeaderCategoryInterceptor implements SimpleInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) {
         if (modelAndView == null)
             return;
-        modelAndView.addObject("categoryNode", categoryService.findCategoryNode(1));
+        modelAndView.addObject("categoryNode", categoryService.findCategoryByLevel(1));
     }
 
     @Override
-    public String[] getPathPatterns() {
+    public String[] includePathPatterns() {
         return new String[] { "/**" };
+    }
+
+    @Override
+    public String[] excludePathPatterns() {
+        return new String[] { "/assets/**"};
     }
 }

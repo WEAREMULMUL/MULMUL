@@ -17,7 +17,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         for (SimpleInterceptor iInterceptor : interceptors) {
             registry.addInterceptor(iInterceptor)
-                    .addPathPatterns(iInterceptor.getPathPatterns());
+                    .addPathPatterns(iInterceptor.includePathPatterns())
+                    .excludePathPatterns(iInterceptor.excludePathPatterns());
         }
     }
 }

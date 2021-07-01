@@ -4,8 +4,7 @@ import com.excmul.domain.category.CategoryCode;
 import com.excmul.domain.category.CategoryVO;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 // View단에 전달할 DTO
 public interface CategoryNode {
@@ -17,11 +16,26 @@ public interface CategoryNode {
 
     List<CategoryNode> getChildrenCategory();
 
-    boolean isRootCategory();
+    default List<CategoryNode> getAllParentCategory() { // 호출 카테고리를 포함한 모든 상위 카테고리륿 반환
+        LinkedList<CategoryNode> allParent = new LinkedList<>();
+        CategoryNode categoryNode = this;
+        while(categoryNode != null) {
+            allParent.addFirst(categoryNode);
+            categoryNode = categoryNode.getParentCategory();
+        }
+        return allParent;
+    }
 
-    boolean isLeafCategory();
+    default boolean isRootCategory() {
+        return getCode() == null || getCode().isRootCode();
+    }
 
-    static CategoryNode newRootNode(List<CategoryNode> categoryNodes) {
+    default boolean isLeafCategory() {
+        return CollectionUtils.isEmpty(getChildrenCategory());
+    }
+
+
+    static CategoryNode newRootNode(List<CategoryVO> categoryNodes) {
         return new CategoryNodeSupporter() {
             @Override
             public CategoryCode getCode() {
@@ -29,9 +43,7 @@ public interface CategoryNode {
             }
 
             @Override
-            public String getName() {
-                return null;
-            }
+            public String getName() { return null; }
 
             @Override
             public CategoryVO getParent() {
@@ -40,12 +52,7 @@ public interface CategoryNode {
 
             @Override
             public List<CategoryVO> getChildren() {
-                return null;
-            }
-
-            @Override
-            public List<CategoryNode> getChildrenCategory() {
-                return Collections.unmodifiableList(categoryNodes);
+                return categoryNodes;
             }
         };
     }

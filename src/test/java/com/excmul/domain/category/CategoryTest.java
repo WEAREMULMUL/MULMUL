@@ -26,7 +26,7 @@ public class CategoryTest {
 
     @BeforeAll
     public static void findCategoryNodes(@Autowired CategoryService categoryService) {
-        categoryNode = categoryService.findCategoryNode(3);
+        categoryNode = categoryService.findCategoryByLevel(3);
     }
 
     //@Test
