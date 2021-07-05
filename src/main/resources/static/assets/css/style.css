@@ -1,8 +1,19 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
+:root {
+    --primary: rgb(78, 155, 233);
+    --border: rgba(235, 235, 235);
+    --hint: rgb(96, 99, 103);
+}
+
 body, html {
     margin: 0;
     font-family: "Noto Sans KR", sans-serif !important;
+}
+
+a {
+    color: black;
+    text-decoration: none;
 }
 
 ul {
@@ -12,35 +23,23 @@ ul {
     padding-inline-end: 0;
 }
 
-/* Site Header START */
-.fixed-wrap {
+input {
+    box-shadow: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.fixed-container {
     max-width: 1200px;
     margin: auto;
     padding: 0 1rem;
 }
 
-.user-header-container {
-    border-bottom: 1px solid #DADADA;
-    text-align: center;
-}
-
-.user-header-wrap {
-    display: flex;
-    justify-content: space-between;
-
-    font-size: small;
-    padding: 0.5rem;
-}
-
-.user-header-wrap li {
-    margin: 0 .75rem;
-    float: right;
-    list-style: none;
-    color: rgb(96, 99, 103);
-}
-
+/* Site Header START */
 .header-container {
-    padding-top: 1rem;
+    margin-top: 2rem;
 }
 
 .header-wrap {
@@ -48,19 +47,18 @@ ul {
 }
 
 .search-form {
-    flex: 1;
     margin-left: 2rem;
 }
 
 .search-input {
-    border: 3px solid rgb(78, 155, 233);
+    border: 2px solid var(--primary);
     height: 35px;
-    width: calc(100% - 2rem - 6px);
+    width: 500px;
     padding-left: 1rem;
 }
 
 .search-submit {
-    color: rgb(78, 155, 233);
+    color: var(--primary);
     margin-left: -40px;
 }
 
@@ -69,7 +67,7 @@ ul {
 }
 
 @media (max-width: 767px) {
-    .popular-keyword li:first-child {
+    .popular-keyword {
         display: none;
     }
 }
@@ -82,14 +80,173 @@ ul {
     list-style: none;
     float: left;
     margin-right: 1rem;
-    color: rgb(96, 99, 103);
+    color: var(--hint);
 }
 
-.menu-toggle {
+.category-toggle {
     margin-top: 14px;
+}
+
+@media (max-width: 1199px) {
+    .header-category-nav-container {
+        display: none;
+    }
+
+    .search-form {
+        display: none;
+    }
+}
+
+@media (min-width: 1200px) {
+    .header-category-nav-container {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.header-category-nav-container {
+    list-style: none;
+    width: 100%;
+    border: 1px solid var(--border);
+    overflow-x: scroll;
+}
+
+.header-category-nav-container a {
+    display: inline-block;
+    padding: .75rem 1rem;
+}
+
+.parent-category-nav {
+    flex: 0 0 auto;
+}
+
+.parent-category-nav > a:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.parent-category-nav ul {
+    display: none;
+    position: absolute;
+}
+
+.child-category-nav {
+    list-style: none;
+}
+
+.parent-category-nav > ul {
+    background: white;
+    border: 1px solid var(--border);
+}
+
+.child-category-nav > a:hover {
+    color: var(--primary);
 }
 
 /* Site Header END */
 
+/* Site Footer START */
+@media (min-width: 1200px) {
+    .footer-nav-container {
+        display: none;
+    }
+}
 
+@media (max-width: 1199px) {
+    .footer-nav-container {
+        display: flex;
+        border-top: 1px solid var(--border);
+        background: white;
+    }
+}
 
+.footer-nav-container {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+.footer-nav-container > a {
+    padding: 1rem 0;
+    flex: 1;
+    text-align: center;
+}
+
+.footer-nav-container > a:hover {
+    color: white;
+    background: var(--primary);
+}
+
+.user-header-container {
+    text-align: right;
+    flex: 1;
+}
+
+@media (max-width: 1199px) {
+    .user-header-container {
+        display: none;
+    }
+}
+
+.user-header-container a {
+    display: inline-block;
+    padding: 0 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.user-header-container i {
+    display: block;
+    font-size: 30px;
+    margin-bottom: .25rem;
+}
+
+.user-header-wrap li {
+    list-style: none;
+    display: inline-block;
+}
+
+.user-header-wrap li span {
+    font-size: small;
+}
+
+/* Site Footer END */
+
+/* Product List Page START */
+
+/* Product List Page END */
+
+/* Mobile Categories START */
+.back-submit {
+    font-size: large;
+    float: left;
+}
+
+.back-submit:hover {
+    color: var(--primary);
+}
+
+.categories-header {
+    text-align: center;
+    font-weight: bolder;
+    padding: 1rem;
+}
+
+.categories-container {
+    display: grid;
+    list-style: none;
+}
+
+.categories-container a {
+    display: block;
+    padding: 1rem 1rem 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.categories-container a:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* Mobile Categories END */

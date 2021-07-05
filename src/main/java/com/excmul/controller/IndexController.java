@@ -1,16 +1,26 @@
 package com.excmul.controller;
 
+import com.excmul.domain.category.service.CategoryService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class IndexController {
+    private final CategoryService categoryService;
+
     @GetMapping({"/", ""})
     public String index() {
         return "layout";
+    }
+
+    @GetMapping("/categories")
+    public String categories(ModelAndView modelAndView) {
+        modelAndView.addObject("categoryNode", categoryService.findCategoryByLevel(0));
+        return "categories";
     }
 
     @GetMapping("/sign")
@@ -18,12 +28,4 @@ public class IndexController {
         return "sign";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
 }
-
-// 회원가입, 푸터 -> 외부 디자인 날리기~~
-// 불변 객체 공부하기~~
-// https://velog.io/@conatuseus/Java-Immutable-Object%EB%B6%88%EB%B3%80%EA%B0%9D%EC%B2%B4
