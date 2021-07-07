@@ -7,6 +7,7 @@ use mulmul;
 show tables;
 
 select * from categoryvo;
+select * from user;
 
 show variables like 'c%';
 SELECT VERSION();

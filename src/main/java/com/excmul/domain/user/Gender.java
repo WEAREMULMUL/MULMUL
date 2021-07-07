@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Role {
+public enum Gender {
 
-    GUEST("ROLE_GUEST", "손님"),
-    USER("ROLE_USER", "사용자"),
-    ADMIN("ROLE_ADMIN", "관리자");
+    MAN("GENDER_MAN", "남자"),
+    WOMAN("GENDER_WOMAN", "여자"),
+    EMPTY("GENDER_EMPTY", "선택안함");
 
     private final String key;
     private final String title;

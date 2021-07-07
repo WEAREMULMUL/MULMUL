@@ -1,56 +1,64 @@
 <!-- 회원가입에 필요한 내용들!-->
 <div th:fragment="body">
 
+    <!--
+    name은 데이터 때문에 생성한것
+    -->
+
     <div class="signup-container">
         <h2>회원가입</h2>
-        <h3>이메일</h3>
 
-        <span class="signup-input">
-            <input id="signup-email" type="email"/>
+        <form role="form" th:action="@{/signUser}" method="post">
+            <h3>이메일</h3>
+            <span class="signup-input">
+            <input name="email" id="signup-email" type="email"/>
         </span>
 
-        <h3>비밀번호</h3>
-        <span class="signup-input">
-                    <input id="signup-pwd" type="password"/>
+            <h3>비밀번호</h3>
+            <span class="signup-input">
+                    <input name="password" id="signup-pwd" type="password"/>
                     <span class="signup-pwd-lock"></span>
                 </span>
 
-        <h3>비밀번호 재확인</h3>
-        <span class="signup-input">
-                    <input id="signup-pwd" type="password"/>
-                    <span class="signup-pwd-lock"></span>
+            <!--
+            <h3>비밀번호 재확인</h3>
+            <span class="signup-input">
+                        <input id="signup-pwd" type="password"/>
+                        <span class="signup-pwd-lock"></span>
+                    </span>
+            -->
+            <h3>이름</h3>
+            <span class="signup-input">
+                    <input name="name" id="signup-name" type="text"/>
                 </span>
 
-        <h3>이름</h3>
-        <span class="signup-input">
-                    <input id="signup-name" type="text"/>
+            <h3>닉네임</h3>
+            <span class="signup-input">
+                    <input name="nickName" id="signup-nickName" type="text"/>
                 </span>
 
-        <h3>닉네임</h3>
-        <span class="signup-input">
-                    <input id="signup-nickName" type="text"/>
-                </span>
-
-        <h3>성별</h3>
-        <span class="signup-input">
-                    <select id="signup-gender" name="gender" onchange="">
-                        <option value="gender">성별</option>
-                        <option value="man">남자</option>
-                        <option value="woman">여자</option>
-                        <option value="no">선택 안함</option>
+            <h3>성별</h3>
+            <span class="signup-input">
+                    <select name="gender" id="signup-gender" onchange="">
+                        <option th:value="'선택안함'" value="gender">성별</option>
+                        <option th:value="'남자'" value="man">남자</option>
+                        <option th:value="'여자'" value="woman">여자</option>
+                        <option th:value="'선택안함'" value="no">선택안함</option>
                     </select>
                 </span>
 
-        <span class="signup-email-choice">
+            <!--
+            <span class="signup-email-choice">
                     <h3>본인 확인 이메일</h3>
                     <span>(선택)</span>
                 </span>
-        <span class="signup-input">
+            <span class="signup-input">
                     <input id="signup-email-check" type="email" placeholder="선택입력"/>
                 </span>
-
-        <button class="signup-btn">
-            가입하기
-        </button>
+            -->
+            <button type="submit" class="signup-btn">
+                가입하기
+            </button>
+        </form>
     </div>
 </div>

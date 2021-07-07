@@ -23,9 +23,4 @@ public class IndexController {
         return "categories";
     }
 
-    @GetMapping("/sign")
-    public String sign() {
-        return "sign";
-    }
-
 }
