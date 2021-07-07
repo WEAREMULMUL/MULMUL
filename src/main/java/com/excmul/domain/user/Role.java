@@ -1,18 +1,27 @@
 package com.excmul.domain.user;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+
+import java.util.Arrays;
 
 @Getter
-@RequiredArgsConstructor
 public enum Role {
 
-    GUEST("ROLE_GUEST", "손님"),
-    USER("ROLE_USER", "사용자"),
-    ADMIN("ROLE_ADMIN", "관리자");
-
-    private final String key;
-    private final String title;
+    GUEST("손님"),
+    USER("사용자"),
+    ADMIN("관리자");
 
     // 작업 진행중
+    private final String role;
+
+    Role(final String role) {
+        this.role = role;
+    }
+
+    public static Role findByRole(String input) {
+        return Arrays.stream(Role.values())
+                .filter(r -> r.role.equals(input))
+                .findAny()
+                .orElse(GUEST);
+    }
 }

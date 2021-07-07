@@ -2,8 +2,6 @@ package com.excmul.domain.user;
 
 import com.excmul.domain.common.baseentity.DateEntity;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -13,8 +11,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @ToString
-public class User { // // DateEntity 및 BaseEntity에 대해 어떻게 진행할지 Fix
-
+public class User extends DateEntity {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +33,7 @@ public class User { // // DateEntity 및 BaseEntity에 대해 어떻게 진행�
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
 }

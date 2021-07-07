@@ -22,6 +22,11 @@ public class UserController {
         return "sign";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @PostMapping("/signUser")
     public String createUser(@Valid UserDto userDto, BindingResult bindingResult) {
         /*
@@ -34,4 +39,5 @@ public class UserController {
 
         return "redirect:/";
     }
+
 }

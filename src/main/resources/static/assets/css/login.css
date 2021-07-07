@@ -1,0 +1,114 @@
+.login-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.login-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-container h2 {
+    color: rgb(78, 155, 233);
+    font-weight: bold;
+}
+
+.login-input-wrap {
+    width: 465px;
+    height: 48px;
+    border: solid 1px #dadada;
+    background: white;
+}
+
+.password-wrap {
+    margin-top: 13px;
+}
+
+.login-input-wrap input {
+    border: none;
+    width: 430px;
+    margin-top: 10px;
+    font-size: 14px;
+    margin-left: 10px;
+    height: 30px;
+}
+
+.login-button-wrap {
+    padding-top: 13px;
+}
+
+.login-button-wrap button {
+    width: 465px;
+    height: 48px;
+    font-size: 18px;
+    background: rgb(78, 155, 233);
+    font-weight: bold;
+    color: white;
+    border: solid 1px rgb(78, 155, 233);
+}
+
+.easy-sign-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.easy-sign-container .easy-sign-button {
+    padding-top: 25px;
+    list-style: none;
+    width: 465px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.easy-sign-container .easy-sign-button li {
+    padding-bottom: 10px;
+}
+
+.easy-sign-container .easy-sign-button li button {
+    width: 465px;
+    height: 56px;
+    border: solid 1px #dadada;
+    text-align: left;
+    background: white;
+}
+
+.easy-sign-container .easy-sign-button li button i {
+    padding-left: 15px;
+    font-size: 20px;
+}
+
+.fa-comments {
+    color: #f3dc3b;
+}
+
+.fa-line {
+    color: #04c75a;
+}
+
+.fa-facebook-square {
+    color: #4064ac;
+}
+
+.easy-sign-container .easy-sign-button li button span {
+    padding-left: 20px;
+    font-size: 18px;
+}
+
+.easy-sign-container .forget-msg {
+    color: #4e4e4e;
+    font-size: 14px;
+    padding-top: 10px;
+}
+
+.easy-sign-container .sign-msg {
+    color: #4e4e4e;
+    font-size: 14px;
+    padding-top: 10px;
+}

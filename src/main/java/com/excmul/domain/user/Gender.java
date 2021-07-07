@@ -1,18 +1,27 @@
 package com.excmul.domain.user;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+
+import java.util.Arrays;
 
 @Getter
-@RequiredArgsConstructor
 public enum Gender {
 
-    MAN("GENDER_MAN", "남자"),
-    WOMAN("GENDER_WOMAN", "여자"),
-    EMPTY("GENDER_EMPTY", "선택안함");
-
-    private final String key;
-    private final String title;
+    MAN("남자"),
+    WOMAN("여자"),
+    EMPTY("선택안함");
 
     // 작업 진행중
+    private final String gender;
+
+    Gender(final String gender) {
+        this.gender = gender;
+    }
+
+    public static Gender findByGender(String input) {
+        return Arrays.stream(Gender.values())
+                .filter(g -> g.gender.equals(input))
+                .findAny()
+                .orElse(EMPTY);
+    }
 }

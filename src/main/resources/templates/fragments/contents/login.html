@@ -1,0 +1,33 @@
+<!-- 로그인에 필요한 내용들! -->
+
+<div th:fragment="body">
+    <div class="login-container">
+        <h2>로그인</h2>
+        <form class="login-input-container">
+            <div class="login-input-wrap">
+                <input placeholder="Username" type="text"></input>
+            </div>
+            <div class="login-input-wrap password-wrap">
+                <input placeholder="Password" type="password"></input>
+            </div>
+            <div class="login-button-wrap">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+        <section class="easy-sign-container">
+            <ul class="easy-sign-button">
+                <li>
+                    <button><i class="fas fa-comments"></i><span>카카오</span></button>
+                </li>
+                <li>
+                    <button><i class="fab fa-facebook-square"></i><span>페이스북</span></button>
+                </li>
+                <li>
+                    <button><i class="fab fa-line"></i><span>네이버</span></button>
+                </li>
+            </ul>
+            <p class="forget-msg" href="#">Forgot your Username or Password?</p>
+            <p class="sign-msg" href="/sign">Sign up</p>
+        </section>
+    </div>
+</div>
