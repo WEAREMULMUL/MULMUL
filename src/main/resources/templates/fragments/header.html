@@ -1,0 +1,57 @@
+<!-- header 영역에서 필요한 내용들!-->
+
+<div th:fragment="header">
+    <div class="header-container">
+        <div class="header-wrap fixed-container">
+            <img src="/assets/img/logo.png" width="50px" height="50px"/>
+            <form class="search-form">
+                <input type="text" class="search-input"/>
+                <i class="fas fa-search search-submit"></i>
+                <div class="popular-keyword">
+                    <ul>
+                        <li>추천 검색어</li>
+                        <li>서피스 랩탑4</li>
+                        <li>아이 패드</li>
+                        <li>에어팟</li>
+                        <li>애플 워치</li>
+                    </ul>
+                </div>
+            </form>
+            <div class="user-header-container">
+                <ul class="user-header-wrap">
+                    <li>
+                        <a href="/categories">
+                            <i class="far fa-bell"></i>
+                            <span>알림</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/categories">
+                            <i class="fas fa-user"></i>
+                            <span>로그인</span>
+                        </a>
+                    </li>
+                </a>
+                </ul>
+            </div>
+        </div>
+        <ul class="header-category-nav-container">
+            <li th:each="iCategory1 : ${categoryNode.getChildrenCategory()}" class="parent-category-nav">
+                <a th:href="@{'/list/' + ${iCategory1.getCode()}}" th:text="${iCategory1.getName()}">1차 카테고리</a>
+                <ul>
+                    <li th:each="iCategory2 : ${iCategory1.getChildrenCategory()}" class="child-category-nav">
+                        <a th:href="@{'/list/' + ${iCategory2.getCode()}}" th:text="${iCategory2.getName()}">2차 카테고리</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <script>
+        $(document).ready(() => {
+            $(".parent-category-nav").hover(
+                (event) => $(event.currentTarget).children("ul").slideDown(),
+                (event) => $(event.currentTarget).children("ul").hide()
+            );
+        });
+    </script>
+</div>
