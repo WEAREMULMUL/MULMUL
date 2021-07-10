@@ -43,11 +43,10 @@ public class LayoutInterceptor implements SimpleInterceptor {
         if (!StringUtils.hasText(viewName))
             return; // TODO :: 오류 처리
         boolean fullContent = isFullContent(viewName);
+        Layout layout = fullContent ? Layout.FULL_CONTENT_LAYOUT : Layout.DEFAULT;
 
-        modelAndView.setViewName(
-                fullContent ? Layout.FULL_CONTENT_LAYOUT.getPath() : Layout.DEFAULT.getPath());
-        modelAndView.addObject("content",
-                fullContent ? ViewName.FULL_CONTENT_LAYOUT.get(viewName) : ViewName.DEFAULT.get(viewName));
+        modelAndView.setViewName(layout.getPath());
+        modelAndView.addObject("content", layout.getWrapViewName(viewName));
 
         // Header의 CategoryNode 삽입
         if (!fullContent) {
@@ -63,22 +62,19 @@ public class LayoutInterceptor implements SimpleInterceptor {
     @AllArgsConstructor
     private enum Layout {
         DEFAULT("layout.html"),
-        FULL_CONTENT_LAYOUT("layout-full-content.html");
-
-        private String path;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    private enum ViewName {
-        DEFAULT(),
-        FULL_CONTENT_LAYOUT((viewName) -> viewName.substring(FULL_CONTENT_FLAG.length()));
+        FULL_CONTENT_LAYOUT("layout-full-content.html",
+                (viewName) -> viewName.substring(FULL_CONTENT_FLAG.length()));
 
         private static final String FRAGMENTS_PATH = "fragments/contents/";
-        private Function<String, String> funcTrans = null;
 
-        public String get(String viewName) {
+        private String path;
+        private Function<String, String> funcTrans;
+
+        Layout(String layoutName) {
+            this(layoutName, null);
+        }
+
+        public String getWrapViewName(String viewName) {
             return prefix(funcTrans == null ? viewName : funcTrans.apply(viewName));
         }
 
