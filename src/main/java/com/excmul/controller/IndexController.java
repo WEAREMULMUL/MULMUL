@@ -4,6 +4,7 @@ import com.excmul.domain.category.service.CategoryService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,13 +15,13 @@ public class IndexController {
 
     @GetMapping({"/", ""})
     public String index() {
-        return "layout";
+        return "index";
     }
 
     @GetMapping("/categories")
-    public String categories(ModelAndView modelAndView) {
-        modelAndView.addObject("categoryNode", categoryService.findCategoryByLevel(0));
-        return "categories";
+    public String categories(ModelMap modelMap) {
+        modelMap.addAttribute("categoryNode", categoryService.findCategoryByLevel(0));
+        return "f:categories";
     }
 }
 
