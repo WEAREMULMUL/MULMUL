@@ -66,7 +66,7 @@ public class LayoutInterceptor implements SimpleInterceptor {
 
         FULL_CONTENT_LAYOUT("layout-full-content.html",
                 (request, modelAndView) -> modelAndView.getViewName().startsWith(Layout.FULL_CONTENT_FLAG),
-                true),
+                false),
 
 
         DEFAULT("layout.html",
