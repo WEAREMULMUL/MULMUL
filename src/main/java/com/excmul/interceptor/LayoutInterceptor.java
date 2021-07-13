@@ -3,16 +3,14 @@ package com.excmul.interceptor;
 import com.excmul.domain.category.service.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.function.Function;
+import java.util.function.BiPredicate;
 
 /*
     Controller에서 String으로 fragement 이름 반환시 Layout에 감싸주는 interceptor 입니다.
@@ -21,7 +19,6 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 @Component
 public class LayoutInterceptor implements SimpleInterceptor {
-    private static final String FULL_CONTENT_FLAG = "f:";
     private final CategoryService categoryService;
 
     @Override
@@ -38,48 +35,88 @@ public class LayoutInterceptor implements SimpleInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         if (modelAndView == null)
             return;
+        validate(modelAndView);
 
         String viewName = modelAndView.getViewName();
-        if (!StringUtils.hasText(viewName))
-            return; // TODO :: 오류 처리
-        boolean fullContent = isFullContent(viewName);
-        Layout layout = fullContent ? Layout.FULL_CONTENT_LAYOUT : Layout.DEFAULT;
 
-        modelAndView.setViewName(layout.getPath());
-        modelAndView.addObject("content", layout.getWrapViewName(viewName));
+        Layout layout = Layout.of(request, modelAndView);
+        layout.modify(modelAndView, viewName);
 
         // Header의 CategoryNode 삽입
-        if (!fullContent) {
+        if (layout.isInsertHeader() && !modelAndView.getModelMap().containsKey("categoryNode")) {
             modelAndView.addObject("categoryNode", categoryService.findCategoryByLevel(1));
         }
     }
 
-    private boolean isFullContent(String viewName) {
-        return viewName.startsWith(FULL_CONTENT_FLAG);
+    private void validate(ModelAndView modelAndView) {
+        String viewName = modelAndView.getViewName();
+        if (!StringUtils.hasText(viewName))
+            throw new RuntimeException("TODO"); // TODO :: 오류 처리
     }
 
     @Getter
     @AllArgsConstructor
     private enum Layout {
-        DEFAULT("layout.html"),
+        AJAX(
+                (request, modelAndView) -> {
+                    String xRequestWith = request.getHeader("X-Requested-With");
+                    return StringUtils.hasText(xRequestWith) && xRequestWith.equals("XMLHttpRequest");
+                },
+                false),
+
         FULL_CONTENT_LAYOUT("layout-full-content.html",
-                (viewName) -> viewName.substring(FULL_CONTENT_FLAG.length()));
+                (request, modelAndView) -> modelAndView.getViewName().startsWith(Layout.FULL_CONTENT_FLAG),
+                true),
+
+
+        DEFAULT("layout.html",
+                (request, modelAndView) -> false, // 모든 View Mather가 false 반환 시 최종 선택
+                true);
 
         private static final String FRAGMENTS_PATH = "fragments/contents/";
+        private static final String FULL_CONTENT_FLAG = "f:";
 
+        /* Layout Path */
         private String path;
-        private Function<String, String> funcTrans;
+        /* of 메소드에서 matcher의 반환이 true인 Layout 반환 */
+        private BiPredicate<HttpServletRequest, ModelAndView> matcher;
+        /* CategoryNode 자동 삽입 여부 */
+        private Boolean insertHeader;
 
-        Layout(String layoutName) {
-            this(layoutName, null);
+        Layout(BiPredicate<HttpServletRequest, ModelAndView> matcher, boolean insertHeader) {
+            this(null, matcher, insertHeader);
         }
 
-        public String getWrapViewName(String viewName) {
-            return prefix(funcTrans == null ? viewName : funcTrans.apply(viewName));
+        public void modify(ModelAndView modelAndView, String viewName) {
+            if (path != null) {
+                modelAndView.setViewName(getPath());
+                modelAndView.addObject("content", getWrapViewName(viewName));
+            } else {
+                modelAndView.setViewName(getWrapViewName(viewName));
+            }
         }
 
-        private String prefix(String viewName) {
+        private String getWrapViewName(String viewName) {
+            int cutIndex = viewName.indexOf(":");
+            if (cutIndex > -1)
+                viewName = viewName.substring(cutIndex + 1);
+            return contentPrefix(viewName);
+        }
+
+        private String contentPrefix(String viewName) {
             return FRAGMENTS_PATH + viewName;
+        }
+
+        public boolean isInsertHeader() {
+            return insertHeader;
+        }
+
+        public static Layout of(HttpServletRequest request, ModelAndView modelAndView) {
+            for (Layout iLayout : values()) {
+                if (iLayout.matcher.test(request, modelAndView))
+                    return iLayout;
+            }
+            return Layout.DEFAULT;
         }
     }
 }
