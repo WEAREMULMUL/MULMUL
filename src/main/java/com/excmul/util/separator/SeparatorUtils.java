@@ -18,4 +18,5 @@ public enum SeparatorUtils {
     SeparatorUtils(String separator) {
         this.separator = separator;
     }
+
 }

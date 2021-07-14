@@ -21,7 +21,7 @@ public class UUIDRandomUtils implements RandomUtils {
         return separate(UUID.randomUUID().toString());
     }
 
-    private String separate(String input) {
-        return input.replace(SeparatorUtils.HYPHEN.toString(), SeparatorUtils.EMPTY.toString());
+    private String separate(String string) {
+        return string.replace(SeparatorUtils.HYPHEN.toString(), SeparatorUtils.EMPTY.toString());
     }
 }

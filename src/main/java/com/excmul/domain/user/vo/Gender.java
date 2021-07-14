@@ -4,6 +4,16 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
+/*
+ * :: Gender [enum]
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
 @Getter
 public enum Gender {
 

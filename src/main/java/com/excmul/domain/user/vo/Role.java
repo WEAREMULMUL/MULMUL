@@ -4,6 +4,16 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
+/*
+ * :: Role [class]
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
 @Getter
 public enum Role {
 

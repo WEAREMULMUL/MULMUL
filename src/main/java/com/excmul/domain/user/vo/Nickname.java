@@ -14,53 +14,48 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 /*
- * :: Username [class]
+ * :: Nickname [class]
  *
- * 삼항연산자는 되도록 쓰지 않으려고 주의했습니다.
  *
- * @EqualsAndHashCode
- * 해당 어노테이션을 통해 재정의가 가능한데, 어떤 방법이 좋을지 모르겠네요
+ * 정규표현식에 특수문자를 추가하고 싶은데.. 어렵네요...
+ *
+ *
  *
  */
 
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Username implements BaseAggregate {
+public class Nickname implements BaseAggregate {
 
     @Transient
-    private static final String USERNAME_VALIDATOR = "^[가-힣]{2,10}$";
+    private static final String NICKNAME_VALIDATOR = "^[a-zA-Z가-힣0-9]{2,20}$";
 
     @Column(nullable = false)
     private String value;
 
-    public Username(String username) {
-        validate(username);
-        this.value = username;
-    }
-
     @Override
-    public void validate(String username) {
-        if (!Pattern.matches(USERNAME_VALIDATOR, username)) {
-            throw new UserException(UserExceptionMessage.USERNAME);
+    public void validate(String nickname) {
+        if (!Pattern.matches(NICKNAME_VALIDATOR, nickname)) {
+            throw new UserException(UserExceptionMessage.NICKNAME);
         }
     }
 
     @Override
     public String toString() {
         if (isNull(this.getValue())) {
-            throw new UserException(UserExceptionMessage.USERNAME);
+            throw new UserException(UserExceptionMessage.NICKNAME);
         }
         return this.getValue();
     }
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Username)) {
+        if (!(object instanceof Nickname)) {
             return false;
         }
-        Username username = (Username) object;
-        return this.getValue().equals(username.getValue());
+        Nickname nickname = (Nickname) object;
+        return this.getValue().equals(nickname.getValue());
     }
 
     @Override
@@ -72,7 +67,7 @@ public class Username implements BaseAggregate {
     }
 
     @Override
-    public boolean isNull(String username) {
-        return Objects.isNull(username);
+    public boolean isNull(String nickname) {
+        return Objects.isNull(nickname);
     }
 }
