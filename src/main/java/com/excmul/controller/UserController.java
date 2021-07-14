@@ -27,6 +27,7 @@ public class UserController {
         return "login";
     }
 
+    // request에서 valide를 진행하는건 어떨까?
     @PostMapping("/signUser")
     public String createUser(@Valid UserDto userDto, BindingResult bindingResult) {
         /*

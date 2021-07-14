@@ -1,6 +1,6 @@
 package com.excmul.domain.user.service;
 
-import com.excmul.domain.user.User;
+import com.excmul.domain.user.vo.UserVo;
 import com.excmul.domain.user.dto.UserDto;
 import com.excmul.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ public class UserService {
 
     @Transactional
     public void createUser(UserDto userDto) {
-        User user = userDto.user();
-        userRepository.save(user);
+        // UserVo user = userDto.user();
+        // userRepository.save(user);
     }
 }

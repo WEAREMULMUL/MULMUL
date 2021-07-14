@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class CategoryVO extends DateEntity implements CategoryNodeSupporter {
+
     @EmbeddedId
     private CategoryCode code;
 

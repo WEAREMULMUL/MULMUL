@@ -1,4 +1,4 @@
-package com.excmul.domain.user;
+package com.excmul.domain.user.vo;
 
 import lombok.Getter;
 
