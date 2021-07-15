@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@SpringBootTest
 public class CategoryInitializer {
+    @Autowired
+    private CategoryService categoryService;
+
     @Test
     @Transactional
     @Rollback(false)
-    public void insertCategoryTest(@Autowired CategoryService categoryService) {
+    public void insertCategoryTest() {
         List<CategoryVO> data = loadBunjangCategoryData();
         for (CategoryVO iCategory : data) {
             categoryService.insertCategory(iCategory);

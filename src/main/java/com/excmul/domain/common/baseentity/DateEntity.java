@@ -1,5 +1,6 @@
 package com.excmul.domain.common.baseentity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ public class DateEntity {
     @Column(nullable = false, insertable = false, updatable = false, columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP")
     private Date registerDate;
 
-    public Date getRegisterDate() {
+    @JsonIgnore public Date getRegisterDate() {
         return new Date(registerDate.getTime());
     }
 }

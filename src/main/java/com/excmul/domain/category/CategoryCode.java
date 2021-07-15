@@ -1,6 +1,7 @@
 package com.excmul.domain.category;
 
 import com.excmul.util.RandomUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,7 @@ public final class CategoryCode implements Serializable {
         return newInstance(parentCode + newCodeValue());
     }
 
+    @JsonIgnore
     public boolean isRootCode() {
         return this.code.length() == 2;
     }

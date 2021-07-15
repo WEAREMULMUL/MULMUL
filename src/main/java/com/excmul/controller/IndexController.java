@@ -23,6 +23,12 @@ public class IndexController {
         modelMap.addAttribute("categoryNode", categoryService.findCategoryByLevel(0));
         return "f:categories";
     }
+
+    @GetMapping("/select-category")
+    public String selectCategory(ModelMap modelMap) {
+        modelMap.addAttribute("categoryNode", categoryService.findCategoryByLevel(0));
+        return "select-category";
+    }
 }
 
 // user <<-- 동건..

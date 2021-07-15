@@ -2,6 +2,7 @@ package com.excmul.domain.category;
 
 import com.excmul.domain.category.dto.CategoryNodeSupporter;
 import com.excmul.domain.common.baseentity.DateEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,10 +23,10 @@ public class CategoryVO extends DateEntity implements CategoryNodeSupporter {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private CategoryVO parent;
+    @JsonIgnore private CategoryVO parent;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<CategoryVO> children;
+    @JsonIgnore private List<CategoryVO> children;
 
     @Builder
     public CategoryVO(CategoryVO parent, String name) {

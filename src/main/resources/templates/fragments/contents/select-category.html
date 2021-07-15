@@ -1,0 +1,106 @@
+<div th:fragment="body">
+  <style>
+    .category-selector > li {
+      list-style: none;
+    }
+
+    .category-selector select {
+      border: none;
+    }
+
+    .category-selector option {
+      width: 300px;
+      padding: 1rem 3rem 1rem 1rem;
+    }
+
+    .selected-category {
+      width: 100%;
+      height: 40px;
+      padding-left: 1rem;
+      margin-right: 1rem;
+      border: 1px solid var(--border);
+    }
+  </style>
+  <script>
+    const categoryData = JSON.parse("[[${categoryData}]]".replace(/&quot;/g,'"'));
+
+    const getCategoryData = (code, iData) => {
+      if (!iData)
+        iData = categoryData;
+      if (iData.code) {
+        if (iData.code.value == code)
+          return iData;
+        if (iData.code.value.length >= code.length)
+          return null;
+      }
+      if (iData && iData.childrenCategory) {
+        const children = iData.childrenCategory;
+        for (let i = 0; i < children.length; i++) {
+          const data = getCategoryData(code, children[i]);
+          if (data != null)
+            return data;
+        }
+      }
+      return null;
+    }
+
+    const getCategoryPath = (code) => {
+      let data = categoryData.childrenCategory;
+      let path = "";
+
+      for (let parseLength = 2; parseLength <= code.length; parseLength += 2) {
+        const parseCode = code.substring(0, parseLength);
+        const iCategory = data.find(c => c.code.value == parseCode);
+
+        path += (parseLength > 2 ? " > " : "") + iCategory.name;
+
+        data = iCategory.childrenCategory;
+      }
+      return path;
+    }
+
+    $(document).ready(function() {
+      $(".category-selector select").change(function () {
+        const selectedCode = $(this).val();
+        const selectedCategoryData = getCategoryData(selectedCode);
+        const $nextSelectors = $($(this).parent().nextAll("li"));
+        const childrenCategory = selectedCategoryData.childrenCategory;
+
+        let selectorHideStartIndex = 0;
+        if (childrenCategory.length > 0) {
+          const $childSelector = $($nextSelectors[0]);
+          $childSelector.children("select").children("option").remove();
+          $.each(childrenCategory, function (index, iCategory) {
+            $childSelector.children("select").append("<option value=" + iCategory.code.value + ">" + iCategory.name + "</option>");
+          });
+          $childSelector.show();
+          selectorHideStartIndex = 1;
+
+          $(".selected-category").val("");
+          $(".selected-category").css("color", "black");
+          $(".selected-category").css("font-weight", "normal");
+        } else {
+          // Leaf Category
+          $(".selected-category").val(getCategoryPath(selectedCode));
+          $(".selected-category").css("color", "var(--primary)");
+          $(".selected-category").css("font-weight", "bold");
+        }
+        for (let i = selectorHideStartIndex; i < $nextSelectors.length; i++) {
+          $($nextSelectors[i]).hide();
+        }
+      });
+    };
+  </script>
+  <ul class="category-selector">
+    <li>
+      <select th:with="rootCategories = ${categoryNode.getChildrenCategory()}" size="11">
+        <option th:each="iCategory : ${rootCategories}"
+                th:value="${iCategory.getCode()}"
+                th:text="${iCategory.getName()}">카테고리 명</option>
+      </select>
+    </li>
+    <li>
+      <input type="text" class="selected-category" placeholder="카테고리를 선택 해주세요." readonly/>
+    </li>
+  </ul>
+</div>
