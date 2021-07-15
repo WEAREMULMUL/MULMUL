@@ -1,9 +1,9 @@
-package com.excmul.util;
+package com.excmul.util.random.impl;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class RandomUtils {
+public abstract class ThreadRandomUtils {
     private static Random getRandom() {
         return ThreadLocalRandom.current();
     }

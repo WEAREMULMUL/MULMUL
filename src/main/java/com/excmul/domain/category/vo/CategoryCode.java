@@ -1,6 +1,6 @@
-package com.excmul.domain.category;
+package com.excmul.domain.category.vo;
 
-import com.excmul.util.RandomUtils;
+import com.excmul.util.random.impl.ThreadRandomUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -49,6 +49,6 @@ public final class CategoryCode implements Serializable {
     }
 
     private static String newCodeValue() {
-        return RandomUtils.randomString(2, CODE_PATTERNS);
+        return ThreadRandomUtils.randomString(2, CODE_PATTERNS);
     }
 }

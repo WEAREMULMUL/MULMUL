@@ -1,7 +1,7 @@
 package com.excmul.domain.category.dto;
 
-import com.excmul.domain.category.CategoryCode;
-import com.excmul.domain.category.CategoryVO;
+import com.excmul.domain.category.vo.CategoryCode;
+import com.excmul.domain.category.entity.CategoryEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,7 +51,7 @@ public interface CategoryNode {
         }
     }
 
-    static CategoryNode newRootNode(List<CategoryVO> categoryNodes) {
+    static CategoryNode newRootNode(List<CategoryEntity> categoryNodes) {
         return new CategoryNodeSupporter() {
             @Override
             @JsonIgnore
@@ -65,13 +65,13 @@ public interface CategoryNode {
 
             @Override
             @JsonIgnore
-            public CategoryVO getParent() {
+            public CategoryEntity getParent() {
                 return null;
             }
 
             @Override
             @JsonIgnore
-            public List<CategoryVO> getChildren() {
+            public List<CategoryEntity> getChildren() {
                 return categoryNodes;
             }
         };

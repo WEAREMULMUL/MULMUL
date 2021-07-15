@@ -1,5 +1,6 @@
 package com.excmul.domain.category;
 
+import com.excmul.domain.category.entity.CategoryEntity;
 import com.excmul.domain.category.service.CategoryService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,8 +25,8 @@ public class CategoryInitializer {
     @Transactional
     @Rollback(false)
     public void insertCategoryTest() {
-        List<CategoryVO> data = loadBunjangCategoryData();
-        for (CategoryVO iCategory : data) {
+        List<CategoryEntity> data = loadBunjangCategoryData();
+        for (CategoryEntity iCategory : data) {
             categoryService.insertCategory(iCategory);
         }
     }
@@ -39,8 +40,8 @@ public class CategoryInitializer {
         return false;
     }
 
-    private List<CategoryVO> loadBunjangCategoryData() {
-        List<CategoryVO> data = new ArrayList<>();
+    private List<CategoryEntity> loadBunjangCategoryData() {
+        List<CategoryEntity> data = new ArrayList<>();
         ClassPathResource classPathResource = new ClassPathResource("data/번개장터 카테고리.json");
         JsonNode jsonNode;
         try {
@@ -53,11 +54,11 @@ public class CategoryInitializer {
         return data;
     }
 
-    private void parseBunjangCategoryJson(JsonNode jsonNode, List<CategoryVO> data, CategoryVO parentCategory) {
+    private void parseBunjangCategoryJson(JsonNode jsonNode, List<CategoryEntity> data, CategoryEntity parentCategory) {
         String name = jsonNode.get("title").asText();
         if (parentCategory == null && isExcludeCategory(name))
             return;
-        CategoryVO iCategoryVO = CategoryVO.builder()
+        CategoryEntity iCategoryVO = CategoryEntity.builder()
                 .parent(parentCategory)
                 .name(name)
                 .build();

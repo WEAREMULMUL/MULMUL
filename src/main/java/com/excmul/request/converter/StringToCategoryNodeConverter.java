@@ -1,15 +1,11 @@
 package com.excmul.request.converter;
 
-import com.excmul.domain.category.CategoryCode;
-import com.excmul.domain.category.CategoryVO;
+import com.excmul.domain.category.vo.CategoryCode;
 import com.excmul.domain.category.dto.CategoryNode;
 import com.excmul.domain.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
