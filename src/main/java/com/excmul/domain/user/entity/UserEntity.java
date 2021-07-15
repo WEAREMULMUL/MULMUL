@@ -27,6 +27,9 @@ import javax.persistence.*;
  * 11. Location :: 위치 :: 카카오 맵 API ::
  * 12. Auth :: 인증방식 :: 카카오, 구글, 깃허브, 일반
  *
+ *
+ * 엔티티라는 패키지를 만든 이유는, User가 결국 Entity이고 남은 데이터 타입들은 VO역할을 수행한다고 생각했기 때문입니다.
+ *
  */
 
 @Entity
