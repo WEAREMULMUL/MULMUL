@@ -43,7 +43,7 @@ public class Nickname implements BaseAggregate {
 
     @Override
     public String toString() {
-        if (isNull(this.getValue())) {
+        if (this.getValue() == null) {
             throw new UserException(UserExceptionMessage.NICKNAME);
         }
         return this.getValue();
@@ -60,14 +60,9 @@ public class Nickname implements BaseAggregate {
 
     @Override
     public int hashCode() {
-        if (isNull(this.getValue())) {
+        if (this.getValue() == null) {
             return HASH_CODE_NULL;
         }
         return this.getValue().hashCode();
-    }
-
-    @Override
-    public boolean isNull(String nickname) {
-        return Objects.isNull(nickname);
     }
 }

@@ -9,6 +9,7 @@ import lombok.Getter;
  *
  */
 
+// 클래스명을 바꾸기!!
 @Getter
 public enum UserExceptionMessage {
     USERNAME("이름 형식이 맞지 않습니다."),

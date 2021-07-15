@@ -18,13 +18,14 @@ import java.util.regex.Pattern;
  *
  * 삼항연산자는 되도록 쓰지 않으려고 주의했습니다.
  *
- * @EqualsAndHashCode
+ *
  * 해당 어노테이션을 통해 재정의가 가능한데, 어떤 방법이 좋을지 모르겠네요
  *
  */
 
 @Getter
 @Embeddable
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Username implements BaseAggregate {
 
@@ -48,7 +49,7 @@ public class Username implements BaseAggregate {
 
     @Override
     public String toString() {
-        if (isNull(this.getValue())) {
+        if (this.getValue() == null) {
             throw new UserException(UserExceptionMessage.USERNAME);
         }
         return this.getValue();
@@ -65,14 +66,9 @@ public class Username implements BaseAggregate {
 
     @Override
     public int hashCode() {
-        if (isNull(this.getValue())) {
+        if (this.getValue() == null) {
             return HASH_CODE_NULL;
         }
         return this.getValue().hashCode();
-    }
-
-    @Override
-    public boolean isNull(String username) {
-        return Objects.isNull(username);
     }
 }

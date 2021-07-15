@@ -12,7 +12,7 @@ import javax.persistence.*;
 
 
 /*
- * :: User [class]
+ * :: UserEntity [class]
  *
  * 1. Code :: 식별자 PK :: 고민중 [Proceeding]
  * 2. Email :: 이메일 :: wrjs@naver.com [Complete]
@@ -37,10 +37,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
-public class User extends DateEntity {
+public class UserEntity extends DateEntity {
 
-    @EmbeddedId
-    private Code code;
+    @Id
+    long id;
 
     @Embedded
     private Email email;

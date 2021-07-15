@@ -8,6 +8,7 @@ import java.util.UUID;
 /*
  * :: UUIDUtils [class]
  *
+ * 싱글톤~~~
  */
 
 public class UUIDRandomUtils implements RandomUtils {

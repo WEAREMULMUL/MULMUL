@@ -6,6 +6,15 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+/*
+ * :: Code [class]
+ *
+ * @EmbeddedId
+ *
+ * 추후 개발 진행하기
+ *
+ */
+
 @Embeddable
 public abstract class Code implements Serializable {
 
@@ -20,6 +29,7 @@ public abstract class Code implements Serializable {
         this.value = createRandom();
     }
 
+    // 하나의 인스턴스만 되도록~
     private String createRandom() {
         return new UUIDRandomUtils().getValue();
     }

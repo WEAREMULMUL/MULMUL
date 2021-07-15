@@ -6,7 +6,7 @@ package com.excmul.util.random;
  */
 
 public interface RandomUtils {
-
+    
     // Random Output
     String getValue();
 }

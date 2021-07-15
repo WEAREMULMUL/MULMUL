@@ -15,10 +15,16 @@ public class UserDto {
     private String name;
     private String nickName;
     private Gender gender;
-    private Role role;
 
+    // Role 받지 말고
+    private Role role; // 찾기찾기
+
+    // USER GUEST // ADMIN <- 디비에 추가되는지
+    // 
+    
     //
     // jwt <=
+
 
     private String passwordEncoder(String password) {
         return new BCryptPasswordEncoder().encode(password);

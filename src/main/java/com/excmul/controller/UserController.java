@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 
+// URI 주소 정하기 생각하기
+
 @Controller
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class UserController {

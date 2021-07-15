@@ -4,6 +4,7 @@ import com.excmul.domain.common.BaseAggregate;
 import com.excmul.exception.user.UserException;
 import com.excmul.exception.user.UserExceptionMessage;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
@@ -28,6 +29,7 @@ import java.util.regex.Pattern;
 
 @Getter
 @Embeddable
+@EqualsAndHashCode // 고정!
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Email implements BaseAggregate {
 
@@ -63,9 +65,11 @@ public class Email implements BaseAggregate {
         this.emailDomainPart = dividedEmail.get(DOMAIN_PART_NUMBER);
     }
 
-
+    // 역할 분담.,,ㅣ,,
     private List<String> split(String email) {
         List<String> dividedEmail = Arrays.asList(email.split(PART_VALIDATOR));
+
+        // 굳이 유효성 검사를?
         if (dividedEmail.size() != PART_SIZE) {
             throw new UserException(UserExceptionMessage.EMAIL);
         }
@@ -74,38 +78,16 @@ public class Email implements BaseAggregate {
 
     @Override
     public void validate(String email) {
-        if (isNull(email) || !StringUtils.hasText(email) || !Pattern.matches(EMAIL_VALIDATOR, email)) {
+        if (email == null || !StringUtils.hasText(email) || !Pattern.matches(EMAIL_VALIDATOR, email)) {
             throw new UserException(UserExceptionMessage.EMAIL);
         }
     }
 
     @Override
     public String toString() {
-        if (isNull(this.getEmailLocalPart()) || isNull(this.getEmailDomainPart())) {
+        if (this.getEmailLocalPart() == null || this.getEmailDomainPart() == null) {
             throw new UserException(UserExceptionMessage.EMAIL);
         }
         return String.format(EMAIL_FORMAT, this.getEmailDomainPart(), this.getEmailLocalPart());
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Email)) {
-            return false;
-        }
-        Email email = (Email) object;
-        return this.getEmailLocalPart().equals(email.getEmailLocalPart()) && this.getEmailDomainPart().equals(email.getEmailDomainPart());
-    }
-
-    @Override
-    public int hashCode() {
-        if (isNull(this.getEmailLocalPart()) || isNull(this.getEmailDomainPart())) {
-            return HASH_CODE_NULL;
-        }
-        return HASH_CODE_PRIME * this.getEmailLocalPart().hashCode() + this.getEmailDomainPart().hashCode();
-    }
-
-    @Override
-    public boolean isNull(String email) {
-        return Objects.isNull(email);
     }
 }
