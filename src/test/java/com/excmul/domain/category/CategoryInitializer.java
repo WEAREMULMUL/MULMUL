@@ -24,7 +24,7 @@ public class CategoryInitializer {
     @Test
     @Transactional
     @Rollback(false)
-    public void insertCategoryTest() {
+    public void insertCategory() {
         List<CategoryEntity> data = loadBunjangCategoryData();
         for (CategoryEntity iCategory : data) {
             categoryService.insertCategory(iCategory);
