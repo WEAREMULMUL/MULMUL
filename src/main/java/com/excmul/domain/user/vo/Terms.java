@@ -5,6 +5,15 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/*
+ * :: Terms [class]
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 @Getter
 @Embeddable

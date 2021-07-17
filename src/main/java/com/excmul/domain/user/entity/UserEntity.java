@@ -1,10 +1,7 @@
 package com.excmul.domain.user.entity;
 
 import com.excmul.domain.common.date.DateEntity;
-import com.excmul.domain.user.vo.Email;
-import com.excmul.domain.user.vo.Nickname;
-import com.excmul.domain.user.vo.Terms;
-import com.excmul.domain.user.vo.Username;
+import com.excmul.domain.user.vo.*;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,7 +13,7 @@ import javax.persistence.*;
  * 1. id :: 식별자 PK :: 1
  * 2. Email :: 이메일 :: wrjs@naver.com [Complete]
  * 3. UserName :: 사용자명 :: 김동건 [Complete]
- * 4. Password :: 비밀번호 :: SDAlkjh!!slk~
+ * 4. Password :: 비밀번호 :: SDAlkjh!!slk~ [Complete]
  * 5. Role :: 권한 :: 사용자, 관리자
  * 6. NickName :: 닉네임 :: 외쳐갓동건 [Complete]
  * 7. Gender :: 성별 :: 남성, 여성, 없음
@@ -47,7 +44,12 @@ public class UserEntity extends DateEntity {
     private Username username;
 
     @Embedded
+    private Password password;
+
+    @Embedded
     private Nickname nickname;
+
+
 
 
 }
