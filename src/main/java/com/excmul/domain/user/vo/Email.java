@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 
 @Getter
 @Embeddable
-@EqualsAndHashCode // 고정!
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Email implements BaseAggregate {
 

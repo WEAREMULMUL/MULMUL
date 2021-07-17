@@ -4,6 +4,7 @@ import com.excmul.domain.common.BaseAggregate;
 import com.excmul.exception.user.UserException;
 import com.excmul.exception.user.UserExceptionMessage;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +26,7 @@ import java.util.regex.Pattern;
 
 @Getter
 @Embeddable
-
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Username implements BaseAggregate {
 
@@ -55,6 +56,7 @@ public class Username implements BaseAggregate {
         return this.getValue();
     }
 
+    /* 나중을 기약하며, 주석으로 돌아간 나의 코드
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Username)) {
@@ -71,4 +73,5 @@ public class Username implements BaseAggregate {
         }
         return this.getValue().hashCode();
     }
+     */
 }
