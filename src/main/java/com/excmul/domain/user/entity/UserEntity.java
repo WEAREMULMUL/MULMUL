@@ -16,7 +16,7 @@ import javax.persistence.*;
  * 4. Password :: 비밀번호 :: SDAlkjh!!slk~ [Complete]
  * 5. Role :: 권한 :: 사용자, 관리자 [Complete]
  * 6. NickName :: 닉네임 :: 외쳐갓동건 [Complete]
- * 7. Gender :: 성별 :: 남성, 여성, 없음
+ * 7. Gender :: 성별 :: 남성, 여성, 없음 [Complete]
  * 8. Birth :: 생년월일 :: 1997-09-08 (생년월일 API 이용)
  * 9. PhoneNumber :: 전화번호 :: 010-3182-9709 [Complete]
  * 10. Term :: 개인정보 약관 :: 개인정보 약관
@@ -56,6 +56,9 @@ public class UserEntity extends DateEntity {
     // Default - Empty
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @Embedded
+    private Birth birth;
 
 
 }
