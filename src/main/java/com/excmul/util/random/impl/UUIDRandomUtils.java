@@ -8,14 +8,27 @@ import java.util.UUID;
 /*
  * :: UUIDUtils [class]
  *
- * 싱글톤~~~
+ * 클래스 로딩시점부터 시작
+ *
+ * LazyHolder, Bill Pugh Singleton
+ *
  */
 
 public class UUIDRandomUtils implements RandomUtils {
 
-    @Override
+    private UUIDRandomUtils() {
+    }
+    
+    public static UUIDRandomUtils getInstance() {
+        return InnerStaticClass.Instance;
+    }
+
+    private static class InnerStaticClass {
+        private static final UUIDRandomUtils Instance = new UUIDRandomUtils();
+    }
+
     public String getValue() {
-        return uuid();
+        return getInstance().uuid();
     }
 
     private String uuid() {

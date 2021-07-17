@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @EmbeddedId
  *
- * 추후 개발 진행하기
+ * EmbeddedID를 만들어주는 class
  *
  */
 
@@ -31,6 +31,6 @@ public abstract class Code implements Serializable {
 
     // 하나의 인스턴스만 되도록~
     private String createRandom() {
-        return new UUIDRandomUtils().getValue();
+        return UUIDRandomUtils.getInstance().getValue();
     }
 }
