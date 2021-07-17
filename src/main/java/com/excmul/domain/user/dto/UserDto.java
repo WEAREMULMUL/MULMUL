@@ -1,33 +1,35 @@
 package com.excmul.domain.user.dto;
 
-import com.excmul.domain.user.vo.Gender;
-import com.excmul.domain.user.vo.Role;
+import com.excmul.domain.user.entity.UserEntity;
+import com.excmul.domain.user.vo.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Data
 @NoArgsConstructor
 public class UserDto {
 
-    private String email;
-    private String password;
-    private String name;
-    private String nickName;
+    private Email email;
+    private Username username;
+    private Password password;
+    private Nickname nickname;
     private Gender gender;
+    private Birth birth;
+    private PhoneNumber phoneNumber;
+    private Terms terms;
 
-    // Role 받지 말고
-    private Role role; // 찾기찾기
-
-    // USER GUEST // ADMIN <- 디비에 추가되는지
-    // 
-    
-    //
-    // jwt <=
-
-
-    private String passwordEncoder(String password) {
-        return new BCryptPasswordEncoder().encode(password);
+    // private Location location;
+    public UserEntity user(UserDto userDto) {
+        return UserEntity.builder()
+                .email(email)
+                .username(username)
+                .password(password)
+                .nickname(nickname)
+                .gender(gender)
+                .birth(birth)
+                .auth(Auth.DEFAULT)
+                .build();
     }
+
 
 }

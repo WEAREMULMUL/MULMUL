@@ -21,8 +21,8 @@ import javax.persistence.*;
  * 8. Birth :: 생년월일 :: 1997-09-08 [Complete]
  * 9. PhoneNumber :: 전화번호 :: 010-3182-9709 [Complete]
  * 10. Term :: 개인정보 약관 :: 개인정보 약관 [Proceeding]
- * 11. Location :: 위치 :: 카카오 맵 API ::
- * 12. Auth :: 인증방식 :: 카카오, 구글, 깃허브, 일반
+ * 11. Location :: 위치 :: 카카오 맵 API [Proceeding]
+ * 12. Auth :: 인증방식 :: 카카오, 구글, 깃허브, 일반 [Proceeding]
  *
  *
  */
