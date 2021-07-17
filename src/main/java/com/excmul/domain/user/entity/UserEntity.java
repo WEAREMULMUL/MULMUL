@@ -14,7 +14,7 @@ import javax.persistence.*;
  * 2. Email :: 이메일 :: wrjs@naver.com [Complete]
  * 3. UserName :: 사용자명 :: 김동건 [Complete]
  * 4. Password :: 비밀번호 :: SDAlkjh!!slk~ [Complete]
- * 5. Role :: 권한 :: 사용자, 관리자
+ * 5. Role :: 권한 :: 사용자, 관리자 [Complete]
  * 6. NickName :: 닉네임 :: 외쳐갓동건 [Complete]
  * 7. Gender :: 성별 :: 남성, 여성, 없음
  * 8. Birth :: 생년월일 :: 1997-09-08 (생년월일 API 이용)
@@ -49,7 +49,13 @@ public class UserEntity extends DateEntity {
     @Embedded
     private Nickname nickname;
 
+    // Default - Guest
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
+    // Default - Empty
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
 
 }
