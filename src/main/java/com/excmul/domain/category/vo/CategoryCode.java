@@ -1,8 +1,9 @@
-package com.excmul.domain.category;
+package com.excmul.domain.category.vo;
 
 import com.excmul.util.random.impl.ThreadRandomUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Access;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 
 @Embeddable
 @Access(AccessType.FIELD)
+@EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public final class CategoryCode implements Serializable {

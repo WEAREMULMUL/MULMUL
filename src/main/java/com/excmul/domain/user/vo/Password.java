@@ -36,7 +36,7 @@ public class Password implements BaseAggregate {
     @Transient
     private static final String PASSWORD_VALIDATOR = "^(?=.*[~!@#$%^&*()_+`\\-=\\[\\]\\{\\};':\\\",./<>?])(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])\\S{8,30}$";
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String value;
 
     public Password(PasswordEncoder encoder, String password) {

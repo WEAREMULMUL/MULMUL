@@ -1,7 +1,7 @@
 package com.excmul.domain.category.dto;
 
-import com.excmul.domain.category.CategoryCode;
-import com.excmul.domain.category.CategoryVO;
+import com.excmul.domain.category.vo.CategoryCode;
+import com.excmul.domain.category.entity.CategoryEntity;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -35,7 +35,7 @@ public interface CategoryNode {
     }
 
 
-    static CategoryNode newRootNode(List<CategoryVO> categoryNodes) {
+    static CategoryNode newRootNode(List<CategoryEntity> categoryNodes) {
         return new CategoryNodeSupporter() {
             @Override
             public CategoryCode getCode() {
@@ -46,12 +46,12 @@ public interface CategoryNode {
             public String getName() { return null; }
 
             @Override
-            public CategoryVO getParent() {
+            public CategoryEntity getParent() {
                 return null;
             }
 
             @Override
-            public List<CategoryVO> getChildren() {
+            public List<CategoryEntity> getChildren() {
                 return categoryNodes;
             }
         };

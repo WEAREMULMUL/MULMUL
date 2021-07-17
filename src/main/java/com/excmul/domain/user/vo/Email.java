@@ -64,7 +64,7 @@ public class Email implements BaseAggregate {
 
     @Override
     public void validate(String email) {
-        if (email == null || !StringUtils.hasText(email) || !Pattern.matches(EMAIL_VALIDATOR, email)) {
+        if (!StringUtils.hasText(email) || !Pattern.matches(EMAIL_VALIDATOR, email)) {
             throw new UserException(UserExceptionMessage.EMAIL);
         }
     }

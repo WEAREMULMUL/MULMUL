@@ -1,7 +1,8 @@
-package com.excmul.domain.category;
+package com.excmul.domain.category.entity;
 
+import com.excmul.domain.category.vo.CategoryCode;
 import com.excmul.domain.category.dto.CategoryNodeSupporter;
-import com.excmul.domain.common.baseentity.DateEntity;
+import com.excmul.domain.common.date.DateEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.List;
 @Access(AccessType.FIELD)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class CategoryVO extends DateEntity implements CategoryNodeSupporter {
+public class CategoryEntity extends DateEntity implements CategoryNodeSupporter {
 
     @EmbeddedId
     private CategoryCode code;
@@ -23,13 +24,13 @@ public class CategoryVO extends DateEntity implements CategoryNodeSupporter {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private CategoryVO parent;
+    private CategoryEntity parent;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<CategoryVO> children;
+    private List<CategoryEntity> children;
 
     @Builder
-    public CategoryVO(CategoryVO parent, String name) {
+    public CategoryEntity(CategoryEntity parent, String name) {
         this.parent = parent;
         this.code = newCode();
         this.name = name;

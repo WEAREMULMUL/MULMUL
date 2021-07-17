@@ -33,7 +33,7 @@ public class Nickname implements BaseAggregate {
     @Transient
     private static final String NICKNAME_VALIDATOR = "^[a-zA-Z가-힣0-9]{2,20}$";
 
-    @Column(nullable = false)
+    @Column(name = "nickname",nullable = false)
     private String value;
 
     @Override

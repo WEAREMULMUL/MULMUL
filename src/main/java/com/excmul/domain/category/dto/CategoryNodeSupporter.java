@@ -1,8 +1,7 @@
 package com.excmul.domain.category.dto;
 
-import com.excmul.domain.category.CategoryCode;
-import com.excmul.domain.category.CategoryVO;
-import com.excmul.domain.category.dto.CategoryNode;
+import com.excmul.domain.category.vo.CategoryCode;
+import com.excmul.domain.category.entity.CategoryEntity;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
@@ -14,9 +13,9 @@ public interface CategoryNodeSupporter extends CategoryNode {
 
     String getName();
 
-    CategoryVO getParent();
+    CategoryEntity getParent();
 
-    List<CategoryVO> getChildren();
+    List<CategoryEntity> getChildren();
 
     @Override
     default CategoryNode getParentCategory() {

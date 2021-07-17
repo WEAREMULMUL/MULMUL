@@ -32,7 +32,7 @@ public class Username implements BaseAggregate {
     @Transient
     private static final String USERNAME_VALIDATOR = "^[가-힣]{2,10}$";
 
-    @Column(nullable = false)
+    @Column(name = "username", nullable = false)
     private String value;
 
     public Username(String username) {

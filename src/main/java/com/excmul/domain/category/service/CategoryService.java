@@ -1,11 +1,10 @@
 package com.excmul.domain.category.service;
 
-import com.excmul.domain.category.CategoryCode;
-import com.excmul.domain.category.CategoryVO;
+import com.excmul.domain.category.vo.CategoryCode;
+import com.excmul.domain.category.entity.CategoryEntity;
 import com.excmul.domain.category.dto.CategoryNode;
 import com.excmul.domain.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.apache.bcel.classfile.Code;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +21,7 @@ public class CategoryService {
     }
 
     @Transactional
-    public void insertCategory(CategoryVO newCategory) {
+    public void insertCategory(CategoryEntity newCategory) {
         while (existCategory(newCategory.getCode()))
             newCategory.changeCode();
         categoryRepository.save(newCategory);

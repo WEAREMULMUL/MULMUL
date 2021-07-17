@@ -1,12 +1,14 @@
 package com.excmul.domain.user.repository;
 
-import com.excmul.domain.user.vo.UserVo;
+import com.excmul.domain.user.entity.UserEntity;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+
 @Repository
-public interface UserRepository extends JpaRepository<UserVo, Long> {
-    Optional<UserVo> findByEmail(String email);
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+    Optional<UserEntity> findByEmail(String email);
 }
