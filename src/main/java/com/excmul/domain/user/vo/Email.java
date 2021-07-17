@@ -14,15 +14,11 @@ import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 /*
  * :: Email [class]
  *
- * if문을 하나만 쓰려고 하니까, if문 자체의 코드가 너무 방대하게 길어지네요
- *
- * 정규표현식에 특수문자를 추가하고 싶은데.. 어렵네요...
  *
  *
  */
@@ -41,9 +37,6 @@ public class Email implements BaseAggregate {
 
     @Transient
     private static final String EMAIL_FORMAT = "%s@%s";
-
-    @Transient
-    private static final int PART_SIZE = 2;
 
     @Transient
     private static final int LOCAL_PART_NUMBER = 0;
@@ -65,15 +58,8 @@ public class Email implements BaseAggregate {
         this.emailDomainPart = dividedEmail.get(DOMAIN_PART_NUMBER);
     }
 
-    // 역할 분담.,,ㅣ,,
     private List<String> split(String email) {
-        List<String> dividedEmail = Arrays.asList(email.split(PART_VALIDATOR));
-
-        // 굳이 유효성 검사를?
-        if (dividedEmail.size() != PART_SIZE) {
-            throw new UserException(UserExceptionMessage.EMAIL);
-        }
-        return dividedEmail;
+        return Arrays.asList(email.split(PART_VALIDATOR));
     }
 
     @Override
