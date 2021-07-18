@@ -18,7 +18,6 @@ public class ModalController {
     @GetMapping("select-category")
     public String selectCategory(ModelMap modelMap) {
         CategoryNode categoryNode = categoryService.findCategoryByLevel(3);
-        // ajax로 호출 되는 페이지 이기 때문에 categoryNode를 임의로 삽입
         modelMap.addAttribute("categoryData", categoryNode.toJson());
         return "select-category";
     }
