@@ -1,6 +1,6 @@
 package com.excmul.domain.area;
 
-import com.excmul.domain.category.entity.CategoryEntity;
+import com.excmul.domain.area.entity.AreaEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
