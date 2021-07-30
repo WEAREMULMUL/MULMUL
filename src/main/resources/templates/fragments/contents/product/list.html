@@ -1,0 +1,19 @@
+<div th:fragment="body" class="fixed-container">
+    <ul class="category-map-container">
+        <li th:each="iCategory : ${categoryNode.getAllParentCategory()}">
+            <a th:href="@{'/product/list/' + ${iCategory.getCode()}}" th:text="${iCategory.getName()}">카테고리 명</a>
+            <i class="fas fa-chevron-right" th:if="${iCategory != categoryNode}"></i>
+        </li>
+    </ul>
+    <ul th:if="${!categoryNode.isLeafCategory()}" class="children-category-container">
+        <li th:each="iCategory : ${categoryNode.getChildrenCategory()}">
+            <a th:href="@{'/product/list/' + ${iCategory.getCode()}}" th:text="${iCategory.getName()}">카테고리 명</a>
+        </li>
+    </ul>
+
+    <a href="/product/write">임시 상품 등록</a>
+</div>
+
+
+
+
