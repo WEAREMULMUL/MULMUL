@@ -1,4 +1,4 @@
-package com.excmul.config.webmvc;
+package com.excmul.config;
 
 import com.excmul.common.interceptor.SimpleInterceptor;
 import lombok.RequiredArgsConstructor;
