@@ -1,5 +1,6 @@
 package com.excmul.member.domain;
 
+import com.excmul.auth.AuthPrincipal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
