@@ -1,0 +1,110 @@
+<div class="area-selector-container" th:fragment="body">
+  <style>
+    /* 이후에 css 분리 필요 */
+    /* Select Category, Select Area */
+    .category-selector-container > li {
+      list-style: none;
+    }
+
+    .category-selector-container,
+    .area-selector-container {
+      padding: 0 1rem 1rem 1rem;
+      overflow: hidden;
+    }
+
+    #listSelector {
+      width: 100%;
+      border: none;
+      outline: none;
+      list-style: none;
+      overflow: auto;
+    }
+
+    #listSelector > li {
+      font-size: small;
+      min-width: 300px;
+      padding: 1rem 3rem 1rem 1rem;
+    }
+
+    #listSelector > li:hover {
+      color: white;
+      background: var(--primary);
+      cursor: pointer;
+    }
+
+    .category-selector-title,
+    .area-selector-title {
+      display: block;
+      text-align: center;
+    }
+
+    .category-selector-container .selected-category,
+            #inputAreaSearchKeyword {
+      display: block;
+      height: 50px;
+      border: 1px solid var(--border);
+      padding: 0 1rem;
+      width: 500px;
+      max-width: calc(100vw - 50px);
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+  </style>
+
+  <script>
+    var validSearchKeyword = (keyword) => /^[가-힣0-9]{2,}$/.test(keyword);
+
+    var serial = -1;
+    var lastKeyword;
+    $(document).ready(function() {
+      $("#inputAreaSearchKeyword").focus();
+
+      $("#inputAreaSearchKeyword").on("change keyup paste", function() {
+        const inputValue = $(this).val().replaceAll(" ", "");
+        if (!validSearchKeyword(inputValue))
+          return;
+        if (lastKeyword == inputValue)
+          return;
+        lastKeyword = inputValue;
+        const currentSerial = ++serial;
+
+        $.get("/area/" + inputValue + inputValue, function(area) {
+          if (currentSerial != serial)
+            return;
+          if (area.length == 0)
+            return;
+          renderArea(area);
+        });
+      })
+    });
+
+    function eventSelectedArea() {
+      const areaId = $(this).val();
+      const areaText = $(this).text();
+      choiceArea(areaId, areaText);
+      $.featherlight.close();
+    }
+
+    function renderArea(area) {
+      if (!area)
+        return;
+      $("#listSelector > li").remove();
+      const $listSelector = $("#listSelector");
+      $listSelector.css("display", "block");
+
+      $(area).each(function(index, iArea) {
+        let $newElement = $(document.createElement("li"));
+        $newElement.attr("value", iArea.id);
+        $newElement.text(iArea.siDo + " " + iArea.siGunGu + " " + iArea.eupMyeonDong);
+        $newElement.click(eventSelectedArea);
+
+        $listSelector.append($newElement);
+      });
+    }
+  </script>
+
+  <h2 class="area-selector-title">지역 검색</h2>
+  <input type="text" id="inputAreaSearchKeyword" placeholder="읍,면,동으로 검색 해주세요."/>
+  <ul id="listSelector" style="display: none">
+  </ul>
+</div>

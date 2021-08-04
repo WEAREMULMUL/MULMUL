@@ -1,0 +1,230 @@
+<div th:fragment="body" class="fixed-container">
+    <style>
+        .write-product-container {
+            margin-top: 2rem;
+        }
+
+        .write-product-container > li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .selected-area, .selected-category {
+            background: var(--border);
+        }
+        @media (max-width: 767px) {
+            .photo-upload-text {
+                display: none;
+            }
+        }
+        @media (max-width: 1199px) {
+            .write-product-container > li > *:first-child {
+                display: none;
+            }
+        }
+
+        .category-row {
+            display: flex;
+            padding-right: 1rem;
+        }
+        .selected-category {
+            flex: 1;
+        }
+
+        .write-product-container > li > *:first-child {
+            font-size: large;
+            flex: 3;
+            max-width: 230px;
+        }
+
+        .write-product-container > li > *:last-child {
+            flex: 7;
+        }
+
+        .write-product-container input, .write-product-container select {
+            height: 40px;
+            padding-left: 1rem;
+            margin-right: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .write-product-container textarea {
+            padding-left: 1rem;
+            margin-right: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .write-product-container > .divide {
+            border-bottom: 1px solid var(--border);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        #photo li {
+            list-style: none;
+            float: left;
+            margin-right: 1rem;
+        }
+
+        .photo-upload, .preview {
+            max-width: 200px;
+            max-height: 200px;
+            width: calc((100vw / 4) - 1.5rem);
+            height: calc((100vw / 4) - 1.5rem - 2px);
+        }
+
+        .preview {
+            border: 2px solid var(--border);
+            cursor: pointer;
+        }
+
+        .preview:hover {
+            border: 2px dashed Red;
+        }
+
+        .photo-upload {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed var(--border);
+            background: rgb(250, 250, 250);
+        }
+
+        .photo-upload, .photo-upload * {
+            cursor: pointer;
+        }
+
+        .photo-upload:hover {
+            border: 2px dashed var(--primary);
+        }
+
+        .photo-upload input[type="file"] {
+            /* 파일 필드 숨기기 */
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip:rect(0,0,0,0);
+            border: 0;
+        }
+
+        .photo-upload .fa-camera {
+            display: block;
+            text-align: center;
+            margin-bottom: .5rem;
+        }
+    </style>
+
+    <script src="/assets/js/featherlight.js"></script>
+    <script src="/assets/js/script.js"></script>
+    <script>
+        const photos = [];
+
+        $(document).ready(function() {
+            $(".photo-upload").click(function(event) {
+                const dialog = openFileDialog("image/jpg, image/jpeg, image/png", true);
+                dialog.on("change", function () {
+                    if (this.files.length + photos.length > 7) {
+                        alert("이미지 업로드는 최대 7개까지 가능합니다.");
+                        return;
+                    }
+                    $(this.files).each(function(index, iPhoto) {
+                        addPreviewPhoto(iPhoto);
+                        photos.push(iPhoto);
+                    })
+                });
+                dialog.click();
+            });
+        });
+
+        function addPreviewPhoto(photo) {
+            const reader = new FileReader()
+            reader.onload = (e) => {
+                const liElement = document.createElement("li");
+                const previewElement = document.createElement("img");
+                $(previewElement).attr("class", "preview");
+                $(previewElement).attr("src", e.target.result);
+                $(previewElement).attr("img-name", photo.name);
+                $(previewElement).attr("last-modified", photo.lastModified);
+                $(previewElement).click(eventRemovePreview);
+                $(liElement).append(previewElement);
+                $("#photo").append(liElement);
+            }
+            reader.readAsDataURL(photo)
+        }
+
+        function eventRemovePreview() {
+            const photoName = $(this).attr("img-name");
+            const photoLastModified = $(this).attr("last-modified");
+            if (!confirm("이미지를 삭제 하시겠습니까?"))
+                return;
+            const removePhotoIndex = photos.findIndex(p => p.name == photoName && p.lastModified == photoLastModified);
+            if (removePhotoIndex > -1) {
+                photos.splice(removePhotoIndex, 1);
+                $(this).remove();
+            }
+        }
+    </script>
+
+    <ul class="write-product-container">
+        <li>
+            <div>제목</div>
+            <input type="text" placeholder="제목을 입력 해주세요."/>
+        </li>
+        <li>
+            <div>상품 명</div>
+            <input type="text" placeholder="상품 명을 입력 해주세요."/>
+        </li>
+        <li>
+            <div>카테고리</div>
+            <div class="category-row">
+                <input type="text" class="selected-category" placeholder="카테고리를 선택 해주세요." readonly/>
+                <button type="button" href="/category/select" data-featherlight="ajax">카테고리 선택</button>
+            </div>
+        </li>
+        <li class="divide"/>
+        <li>
+            <div>상품 이미지</div>
+            <ul id="photo">
+                <li class="photo-upload">
+                    <div>
+                        <i class="fas fa-camera"></i>
+                        <label class="photo-upload-text">이미지 업로드</label>
+                    </div>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <div>구매 일자</div>
+            <input type="text" placeholder="대략적인 구매일자를 입력 해주세요. ex) 2021-01-01"/>
+        </li>
+        <li>
+            <div>특이 사항</div>
+            <textarea placeholder="특이사항이 있다면 입력 해주세요." rows="10">
+            </textarea>
+        </li>
+        <li>
+            <div>상품 상세</div>
+            <textarea placeholder="특이사항이 있다면 입력 해주세요." rows="20">
+            </textarea>
+        </li>
+        <li class="divide"/>
+        <li>
+            <div>거래 지역</div>
+            <div>
+                <div>
+                    <button>내 위치</button>
+                    <button>지역 선택</button>
+                </div>
+                <input type="text" class="selected-area" placeholder="거래 가능한 지역을 선택 해주세요." readonly/>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+
+

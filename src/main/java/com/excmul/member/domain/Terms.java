@@ -5,18 +5,19 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+// :: TODO
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Terms {
 
-    @Column(name = "member_term_Service")
+    @Column(nullable = false)
     private boolean termService;
 
-    @Column(name = "member_term_Privacy")
+    @Column(nullable = false)
     private boolean termPrivacy;
 
-    @Column(name = "member_term_location")
+    @Column(nullable = false)
     private boolean termLocation;
 
     public boolean isTermService() {

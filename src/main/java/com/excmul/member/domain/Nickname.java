@@ -20,7 +20,7 @@ public class Nickname implements BaseAggregate {
     @Transient
     private static final String NICKNAME_VALIDATOR = "^[a-zA-Z가-힣0-9]{2,20}$";
 
-    @Column(name = "member_nickname", nullable = false)
+    @Column(nullable = false)
     private String value;
 
     public Nickname(String nickname) {
