@@ -13,6 +13,7 @@ import javax.persistence.*;
 public class MemberEntity extends DateEntity {
 
     @Id
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
@@ -20,18 +21,20 @@ public class MemberEntity extends DateEntity {
     private Email email;
 
     @Embedded
-    private Name username;
+    private Password password;
 
     @Embedded
-    private Password password;
+    private Name username;
 
     @Embedded
     private Nickname nickname;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "member_role", nullable = false)
     private Role role;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "member_gender", nullable = false)
     private Gender gender;
 
     @Embedded
@@ -41,6 +44,7 @@ public class MemberEntity extends DateEntity {
     private PhoneNumber phoneNumber;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "member_auth", nullable = false)
     private Auth auth;
 
 }

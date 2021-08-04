@@ -12,27 +12,22 @@ public class MemberSignRequest {
 
     private Email email;
     private Password password;
-    private Name username;
+    private Name name;
     private Nickname nickname;
     private Gender gender;
     private Birth birth;
     private PhoneNumber phoneNumber;
-    //   private Terms terms;
 
-    /**
-     * @return
-     */
     public MemberEntity sign() {
         return MemberEntity.builder()
                 .email(email)
                 .password(password)
-                .username(username)
+                .username(name)
                 .role((Role.USER))
                 .nickname(nickname)
                 .gender(gender)
                 .birth(birth)
                 .phoneNumber(phoneNumber)
-                //    .terms(terms)
                 .auth(Auth.DEFAULT)
                 .build();
     }
