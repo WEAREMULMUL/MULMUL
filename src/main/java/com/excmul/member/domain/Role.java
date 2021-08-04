@@ -8,7 +8,7 @@ public enum Role {
     USER("사용자"),
     ADMIN("관리자");
 
-    @Column(nullable = false)
+    @Column(name = "member_role", nullable = false)
     private final String value;
 
     Role(final String role) {

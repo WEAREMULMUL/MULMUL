@@ -20,7 +20,7 @@ public class Name implements BaseAggregate {
     @Transient
     private static final String NAME_VALIDATOR = "^[가-힣]{2,10}$";
 
-    @Column(nullable = false)
+    @Column(name = "membeR_name", nullable = false)
     private String value;
 
     public Name(String name) {

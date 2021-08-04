@@ -2,10 +2,12 @@ package com.excmul.member.dto;
 
 import com.excmul.member.domain.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class MemberSignRequest {
 
     private Email email;
@@ -20,7 +22,7 @@ public class MemberSignRequest {
     /**
      * @return
      */
-    public MemberEntity toUserEntity() {
+    public MemberEntity sign() {
         return MemberEntity.builder()
                 .email(email)
                 .password(password)

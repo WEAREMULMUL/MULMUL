@@ -21,7 +21,7 @@ public class PhoneNumber implements BaseAggregate {
     @Transient
     private static final String PHONE_NUMBER_VALIDATOR = "^010[0-9]{8}$";
 
-    @Column(nullable = false)
+    @Column(name = "member_phone_number", nullable = false)
     private String value;
 
     public PhoneNumber(String phoneNumber) {

@@ -10,7 +10,7 @@ public enum Auth {
     FACEBOOK("페이스북"),
     DEFAULT("기본");
 
-    @Column(nullable = false)
+    @Column(name = "member_auth", nullable = false)
     private final String value;
 
     Auth(final String auth) {

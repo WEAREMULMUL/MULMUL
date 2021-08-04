@@ -13,7 +13,6 @@ import javax.persistence.*;
 public class MemberEntity extends DateEntity {
 
     @Id
-    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 

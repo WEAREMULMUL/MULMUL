@@ -36,10 +36,10 @@ public class Email implements BaseAggregate {
     @Transient
     private static final int DOMAIN_PART_NUMBER = 1;
 
-    @Column(nullable = false)
+    @Column(name = "member_email_local_part", nullable = false)
     private String emailLocalPart;
 
-    @Column(nullable = false)
+    @Column(name = "member_email_domian_part", nullable = false)
     private String emailDomainPart;
 
     public Email(String email) {
