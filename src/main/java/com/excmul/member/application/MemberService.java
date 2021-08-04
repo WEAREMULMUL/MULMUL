@@ -4,7 +4,7 @@ import com.excmul.member.domain.Email;
 import com.excmul.member.domain.MemberRepository;
 import com.excmul.member.domain.Nickname;
 import com.excmul.member.domain.PhoneNumber;
-import com.excmul.member.dto.MemberSignRequest;
+import com.excmul.member.dto.DefaultMemberSignRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +16,12 @@ public class MemberService {
 
 
     @Transactional
-    public void createDefaultMember(MemberSignRequest request) {
+    public void createDefaultMember(DefaultMemberSignRequest request) {
         checkDuplicateMember(request);
         memberRepository.save(request.sign());
     }
 
-    private void checkDuplicateMember(MemberSignRequest request) {
+    private void checkDuplicateMember(DefaultMemberSignRequest request) {
         if (existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("잘못된 회원가입");
         }

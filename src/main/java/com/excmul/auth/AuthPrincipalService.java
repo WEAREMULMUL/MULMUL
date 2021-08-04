@@ -21,9 +21,13 @@ public class AuthPrincipalService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        MemberEntity member = memberRepository.findByEmail(new Email(email)).orElseThrow(() -> {
+        MemberEntity member = memberRepository.findByEmail(getEmail(email)).orElseThrow(() -> {
             throw new UsernameNotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
         });
         return new AuthPrincipal(member);
+    }
+
+    private Email getEmail(String email) {
+        return new Email(email);
     }
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <h3>나는 로그인 폼이야</h3>
+
+
+    <form role="form" th:action="@{/auth/loginProc}" method="post">
+        <div>
+            <label th:for="email">이메일</label>
+            <input
+                    type="email"
+                    th:name="username"
+                    placeholder="이메일을 입력하세요"
+            />
+        </div>
+        <div>
+            <label th:for="password">패스워드</label>
+            <input
+                    type="password"
+                    th:name="password"
+                    placeholder="패스워드를 입력하세요"
+            />
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</body>
+</html>

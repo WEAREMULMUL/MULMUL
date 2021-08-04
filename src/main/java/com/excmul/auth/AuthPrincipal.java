@@ -1,27 +1,26 @@
 package com.excmul.auth;
 
 
+import com.excmul.member.domain.Auth;
+import com.excmul.member.domain.Email;
 import com.excmul.member.domain.MemberEntity;
+import com.excmul.member.domain.Password;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 @Getter
 public class AuthPrincipal implements UserDetails {
 
-    private final String DEFAULT_ROLE = "USER";
+    private MemberEntity memberEntity;
 
-    private final MemberEntity memberEntity;
-
-    public AuthPrincipal(MemberEntity member) {
-        this.memberEntity = member;
-    }
-
-    public MemberEntity getUser() {
-        return memberEntity;
+    public AuthPrincipal(MemberEntity memberEntity) {
+        this.memberEntity = memberEntity;
     }
 
     @Override
@@ -60,19 +59,11 @@ public class AuthPrincipal implements UserDetails {
         return true;
     }
 
-    /**
-     * IS Not Service
-     * Just Default USER
-     *
-     * @return
-     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // TODO Auto-generated method stub
         Collection<GrantedAuthority> collectors = new ArrayList<>();
-        collectors.add(() -> {
-            return DEFAULT_ROLE;
-        });
+        collectors.add(memberEntity.getAuth()::getValue);
         return collectors;
     }
 

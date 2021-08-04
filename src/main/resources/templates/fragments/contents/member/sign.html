@@ -5,42 +5,72 @@
     <h3>나는 회원가입 폼이야</h3>
 
 
-    <form role="form" th:action="@{/auth/sign}" th:object="${memberSignRequest}"
-          method="post">
+    <form
+            th:role="form"
+            th:action="@{/auth/sign}"
+            th:object="${memberSignRequest}"
+            th:method="post">
+
         <div>
             <label th:for="email">이메일</label>
-            <input type="email" th:field="*{email}"
-                   placeholder="이메일을 입력하세요"/>
+            <input
+                    type="email"
+                    th:field="*{email}"
+                    placeholder="이메일을 입력하세요"
+            />
         </div>
+
         <div>
             <label th:for="password">패스워드</label>
-            <input type="password" th:field="*{password}"
-                   placeholder="패스워드를 입력하세요">
+            <input
+                    type="password"
+                    th:field="*{password}"
+                    placeholder="패스워드를 입력하세요"
+            />
         </div>
+
         <div>
             <label th:for="name">이름</label>
-            <input type="text" th:field="*{name}"
-                   placeholder="이름을 입력하세요">
+            <input
+                    type="text"
+                    th:field="*{name}"
+                    placeholder="이름을 입력하세요"
+            />
         </div>
+
         <div>
             <label th:for="nickName">닉네임</label>
-            <input type="text" th:field="*{nickname}"
-                   placeholder="닉네임을 입력하세요">
+            <input
+                    type="text"
+                    th:field="*{nickname}"
+                    placeholder="닉네임을 입력하세요"
+            />
         </div>
+
         <div>
             <label th:for="gender">성별</label>
-            <input type="text" th:field="*{gender}"
-                   placeholder="성별을 입력하세요">
+            <input
+                    type="text"
+                    th:field="*{gender}"
+                    placeholder="성별을 입력하세요"
+            />
         </div>
+
         <div>
             <label th:for="birth">생일</label>
-            <input type="text" th:field="*{birth}"
-                   placeholder="생일 입력하세요">
+            <input
+                    type="text"
+                    th:field="*{birth}"
+                    placeholder="생일 입력하세요"
+            />
         </div>
         <div>
             <label th:for="phoneNumber">전화번호</label>
-            <input type="text" th:field="*{phoneNumber}"
-                   placeholder="전화번호를 입력하세요">
+            <input
+                    type="text"
+                    th:field="*{phoneNumber}"
+                    placeholder="전화번호를 입력하세요"
+            />
         </div>
         <button type="submit">Submit</button>
     </form>

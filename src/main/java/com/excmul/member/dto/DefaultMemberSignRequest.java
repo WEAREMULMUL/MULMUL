@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MemberSignRequest {
+public class DefaultMemberSignRequest {
 
     private Email email;
     private Password password;
