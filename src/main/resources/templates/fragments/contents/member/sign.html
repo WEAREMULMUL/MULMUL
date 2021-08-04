@@ -49,11 +49,13 @@
 
         <div>
             <label th:for="gender">성별</label>
-            <input
-                    type="text"
-                    th:field="*{gender}"
-                    placeholder="성별을 입력하세요"
-            />
+            <select th:field="*{gender}" placeholder="성별을 입력하세요">
+                <option th:value="MAN">남자</option>
+                <option th:value="WOMAN">여자</option>
+                <option th:value="EMPTY">선택안함</option>
+            </select>
+
+
         </div>
 
         <div>
@@ -72,6 +74,22 @@
                     placeholder="전화번호를 입력하세요"
             />
         </div>
+        <div>
+            <label th:for="terms">위치정보 동의 </label>
+            동의<input type="checkbox" th:value="true" th:field="*{terms.termLocation}">
+        </div>
+
+        <div>
+            <label th:for="terms">개인정보 동의</label>
+            동의<input type="checkbox" th:value="true" th:field="*{terms.termPrivacy}">
+        </div>
+
+        <div>
+            <label th:for="terms">서비스 이용약관 동의</label>
+            동의<input type="checkbox" th:value="true" th:field="*{terms.termService}">
+        </div>
+
+
         <button type="submit">Submit</button>
     </form>
 </div>

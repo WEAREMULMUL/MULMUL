@@ -24,14 +24,10 @@ public class MemberEntity extends DateEntity {
     private Password password;
 
     @Embedded
-    private Name username;
+    private Name name;
 
     @Embedded
     private Nickname nickname;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "member_role", nullable = false)
-    private Role role;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "member_gender", nullable = false)
@@ -43,8 +39,15 @@ public class MemberEntity extends DateEntity {
     @Embedded
     private PhoneNumber phoneNumber;
 
+    @Embedded
+    private Terms terms;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "member_auth", nullable = false)
     private Auth auth;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "member_role", nullable = false)
+    private Role role;
 
 }

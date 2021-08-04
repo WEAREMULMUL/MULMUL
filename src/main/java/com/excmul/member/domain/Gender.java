@@ -8,7 +8,7 @@ public enum Gender {
     WOMAN("여자"),
     EMPTY("선택안함");
 
-    @Column(name = "member_gender",nullable = false)
+    @Column(name = "member_gender", nullable = false)
     private final String value;
 
     Gender(final String gender) {

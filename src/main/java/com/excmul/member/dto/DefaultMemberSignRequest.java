@@ -16,19 +16,21 @@ public class DefaultMemberSignRequest {
     private Nickname nickname;
     private Gender gender;
     private Birth birth;
+    private Terms terms;
     private PhoneNumber phoneNumber;
 
     public MemberEntity sign() {
         return MemberEntity.builder()
                 .email(email)
                 .password(password)
-                .username(name)
-                .role((Role.USER))
+                .name(name)
                 .nickname(nickname)
                 .gender(gender)
                 .birth(birth)
                 .phoneNumber(phoneNumber)
+                .terms(terms)
                 .auth(Auth.DEFAULT)
+                .role((Role.USER))
                 .build();
     }
 

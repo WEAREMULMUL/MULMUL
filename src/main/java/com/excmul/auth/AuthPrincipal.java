@@ -1,17 +1,11 @@
 package com.excmul.auth;
 
-
-import com.excmul.member.domain.Auth;
-import com.excmul.member.domain.Email;
 import com.excmul.member.domain.MemberEntity;
-import com.excmul.member.domain.Password;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 @Getter

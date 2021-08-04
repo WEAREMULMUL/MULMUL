@@ -20,6 +20,12 @@ public class Terms {
     @Column(nullable = false)
     private boolean termLocation;
 
+    public void Terms(boolean termService, boolean termPrivacy, boolean termLocation) {
+        this.termService = termService;
+        this.termPrivacy = termPrivacy;
+        this.termLocation = termLocation;
+    }
+
     public boolean isTermService() {
         return termService;
     }
