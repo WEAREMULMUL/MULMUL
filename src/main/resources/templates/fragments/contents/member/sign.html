@@ -76,18 +76,28 @@
         </div>
         <div>
             <label th:for="terms">위치정보 동의 </label>
+            <p>위치정보 동의를 진행해주세요</p>
             동의<input type="checkbox" th:value="true" th:field="*{terms.termLocation}">
         </div>
 
         <div>
             <label th:for="terms">개인정보 동의</label>
+            <p>개인정보 동의를 진행해주세요</p>
             동의<input type="checkbox" th:value="true" th:field="*{terms.termPrivacy}">
         </div>
 
         <div>
             <label th:for="terms">서비스 이용약관 동의</label>
+            <p>서비스 이용약관 동의를 진행해주세요</p>
             동의<input type="checkbox" th:value="true" th:field="*{terms.termService}">
         </div>
+
+        <button type="button">Google</button>
+
+        <button type="button">KAKAO</button>
+
+
+        <button type="button">NAVER</button>
 
 
         <button type="submit">Submit</button>
