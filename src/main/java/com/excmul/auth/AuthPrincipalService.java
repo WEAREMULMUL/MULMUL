@@ -3,7 +3,6 @@ package com.excmul.auth;
 import com.excmul.member.domain.Email;
 import com.excmul.member.domain.MemberEntity;
 import com.excmul.member.domain.MemberRepository;
-import com.excmul.member.domain.Password;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,10 +20,24 @@ public class AuthPrincipalService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        MemberEntity member = memberRepository.findByEmail(getEmail(email)).orElseThrow(() -> {
+        MemberEntity memberEntity = memberRepository.findByEmail(getEmail(email)).orElseThrow(() -> {
             throw new UsernameNotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
         });
-        return new AuthPrincipal(member);
+        return getAuthPrincipal(memberEntity);
+    }
+
+    private AuthPrincipal getAuthPrincipal(MemberEntity memberEntity) {
+        return new AuthPrincipal(loginMember(memberEntity));
+    }
+
+
+    private LoginMember loginMember(MemberEntity memberEntity) {
+        return LoginMember.builder()
+                .id(memberEntity.getId())
+                .email(memberEntity.getEmail())
+                .auth(memberEntity.getAuth())
+                .password(memberEntity.getPassword())
+                .build();
     }
 
     private Email getEmail(String email) {
