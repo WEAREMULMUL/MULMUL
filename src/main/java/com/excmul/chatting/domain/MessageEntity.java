@@ -12,8 +12,8 @@ public class MessageEntity extends DateEntity {
     @Column(name = "MESSAGE_ID")
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CHATTING_ROOM_ID")
+    @ManyToOne
+    @JoinColumn(name = "MESSAGE_CHATTING_ROOM_ID")
     private ChattingRoomEntity chattingRoomEntity;
 
     @Column(name = "MESSAGE_CONTENT")

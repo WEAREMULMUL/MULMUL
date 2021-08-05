@@ -16,12 +16,12 @@ public class ChattingRoomEntity extends DateEntity {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID")
-    private UserEntity user;
+    @JoinColumn(name = "CHATTING_ROOM_SENDER_ID")
+    private UserEntity sender;
 
     @OneToOne
-    @JoinColumn(name = "PARTNER_ID")
-    private UserEntity partner;
+    @JoinColumn(name = "CHATTING_ROOM_RECIPIENT_ID")
+    private UserEntity recipient;
 
     @OneToMany(mappedBy = "chattingRoomEntity")
     private List<MessageEntity> messages = new ArrayList<>();
