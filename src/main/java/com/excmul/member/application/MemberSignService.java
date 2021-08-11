@@ -10,10 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.excmul.member.exception.MemberExceptionMessage.*;
 
 @Service
-@RequiredArgsConstructor
 public class MemberSignService {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+
+    public MemberSignService(MemberRepository memberRepository, MemberService memberService) {
+        this.memberRepository = memberRepository;
+        this.memberService = memberService;
+    }
 
     @Transactional
     public void createDefaultMember(DefaultMemberSignRequest request) {

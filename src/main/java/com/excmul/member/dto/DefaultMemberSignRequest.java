@@ -2,14 +2,11 @@ package com.excmul.member.dto;
 
 import com.excmul.member.domain.*;
 import com.excmul.member.domain.vo.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class DefaultMemberSignRequest {
 
     private EmailVo email;
@@ -44,8 +41,36 @@ public class DefaultMemberSignRequest {
         return email;
     }
 
+    public PasswordVo password() {
+        return password;
+    }
+
+    public NameVo name() {
+        return name;
+    }
+
     public NicknameVo nickname() {
         return nickname;
+    }
+
+    public GenderVo gender() {
+        return gender;
+    }
+
+    public BirthVo birth() {
+        return birth;
+    }
+
+    public boolean termService() {
+        return termService;
+    }
+
+    public boolean termPrivacy() {
+        return termPrivacy;
+    }
+
+    public boolean termLocation() {
+        return termLocation;
     }
 
     public PhoneNumberVo phoneNumber() {

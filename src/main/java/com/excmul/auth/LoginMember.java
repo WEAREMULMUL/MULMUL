@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 public class LoginMember {
-    // private final int id;
-
     private final int id;
     private final EmailVo email;
     private final PasswordVo password;
