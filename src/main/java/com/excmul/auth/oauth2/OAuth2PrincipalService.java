@@ -33,10 +33,11 @@ public class OAuth2PrincipalService implements OAuth2UserService<OAuth2UserReque
 
         OAuth2Principal attributes = OAuth2Principal.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
+        /*
         User user = saveOrUpdate(attributes);
 
         httpSession.setAttribute("user", new SessionUser(user));
-
+*/
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(RoleVo.USER.role())),
                 attributes.getAttributes(),
@@ -44,11 +45,12 @@ public class OAuth2PrincipalService implements OAuth2UserService<OAuth2UserReque
 
     }
 
+    /*
     private User saveOrUpdate(OAuth2Principal attributes) {
         Member member = memberRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getEmail())
                         .orElse(attributes.toEntity());
         return memberRepository.createKakaoMember(member);
     }
-
+*/
 }
