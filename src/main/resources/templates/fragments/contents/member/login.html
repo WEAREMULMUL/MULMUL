@@ -5,7 +5,7 @@
     <h3>나는 로그인 폼이야</h3>
 
     <form role="form" th:action="@{/auth/loginProc}" method="post">
-        
+
         <div>
             <label th:for="email">이메일</label>
             <input
@@ -23,7 +23,8 @@
                     placeholder="패스워드를 입력하세요"
             />
         </div>
-
+        <button type="button">Google</button>
+        <button type="button">NAVER</button>
         <button type="submit">Submit</button>
 
     </form>

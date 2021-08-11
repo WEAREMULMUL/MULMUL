@@ -20,11 +20,11 @@ public class DateEntity {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
-    public LocalDateTime getCreatedDate() {
+    public LocalDateTime createdDate() {
         return createdDate;
     }
 
-    public LocalDateTime getModifiedDate() {
+    public LocalDateTime modifiedDate() {
         return modifiedDate;
     }
 }
