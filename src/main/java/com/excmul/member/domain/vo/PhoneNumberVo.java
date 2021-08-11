@@ -1,11 +1,10 @@
-package com.excmul.member.domain;
+package com.excmul.member.domain.vo;
 
-import com.excmul.common.domain.BaseAggregate;
 import com.excmul.member.exception.MemberException;
 import com.excmul.member.exception.MemberExceptionMessage;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
+
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -13,38 +12,39 @@ import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.regex.Pattern;
 
+import static com.excmul.member.exception.MemberExceptionMessage.*;
+
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PhoneNumber implements BaseAggregate {
-    // Mobile Phone Identification Number :: 010
+public class PhoneNumberVo {
+    // :: Mobile Phone Identification Number :: 010
     @Transient
     private static final String PHONE_NUMBER_VALIDATOR = "^010[0-9]{8}$";
 
-    @Column(name = "member_phone_number", nullable = false)
-    private String value;
+    @Column(name = "MEMBER_PHONE_NUMBER", nullable = false)
+    private String phoneNumber;
 
-    public PhoneNumber(String phoneNumber) {
+    public PhoneNumberVo(String phoneNumber) {
         validate(phoneNumber);
-        this.value = phoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
-    @Override
     public void validate(String phoneNumber) {
         if (!Pattern.matches(PHONE_NUMBER_VALIDATOR, phoneNumber)) {
-            throw new MemberException(MemberExceptionMessage.PHONE_NUMBER);
+            throw new MemberException(PHONE_NUMBER);
         }
     }
 
     @Override
     public String toString() {
-        if (this.getValue() == null) {
-            throw new MemberException(MemberExceptionMessage.PHONE_NUMBER);
+        if (this.phoneNumber() == null) {
+            throw new MemberException(PHONE_NUMBER);
         }
-        return this.getValue();
+        return this.phoneNumber();
     }
 
-    public String getValue() {
-        return value;
+    public String phoneNumber() {
+        return phoneNumber;
     }
 }

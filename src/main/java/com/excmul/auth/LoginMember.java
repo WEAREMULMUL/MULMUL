@@ -1,33 +1,35 @@
 package com.excmul.auth;
 
-import com.excmul.member.domain.Auth;
-import com.excmul.member.domain.Email;
-import com.excmul.member.domain.Password;
-import lombok.AllArgsConstructor;
+import com.excmul.member.domain.vo.AuthVo;
+import com.excmul.member.domain.vo.EmailVo;
+import com.excmul.member.domain.vo.PasswordVo;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 /**
- * Login Member를 물고 있으려구요
+ * DTO 불변객체로 final ㄱㄱㄱ
  */
-@NoArgsConstructor
-@AllArgsConstructor
+
+@RequiredArgsConstructor
 @Builder
 public class LoginMember {
-    private int id;
-    private Email email;
-    private Password password;
-    private Auth auth;
+    // private final int id;
 
-    public Email getEmail() {
+    private final int id;
+    private final EmailVo email;
+    private final PasswordVo password;
+    private final AuthVo auth;
+
+    public EmailVo email() {
         return email;
     }
 
-    public Password getPassword() {
+    public PasswordVo password() {
         return password;
     }
 
-    public Auth getAuth() {
+    public AuthVo auth() {
         return auth;
     }
+
 }

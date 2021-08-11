@@ -1,6 +1,5 @@
-package com.excmul.member.domain;
+package com.excmul.member.domain.vo;
 
-import com.excmul.common.domain.BaseAggregate;
 import com.excmul.member.exception.MemberException;
 import com.excmul.member.exception.MemberExceptionMessage;
 import lombok.AccessLevel;
@@ -15,11 +14,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static com.excmul.member.exception.MemberExceptionMessage.*;
+
 
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Email implements BaseAggregate {
+public class EmailVo {
 
     @Transient
     private static final String EMAIL_VALIDATOR = "^[_a-zA-Z0-9-\\+]+(\\.[_a-zA-Z0-9-]+)*@" + "[a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)*(\\.[a-zA-Z]{2,3})$";
@@ -36,13 +37,13 @@ public class Email implements BaseAggregate {
     @Transient
     private static final int DOMAIN_PART_NUMBER = 1;
 
-    @Column(name = "member_email_local_part", nullable = false)
+    @Column(name = "MEMBER_EMAIL_LOCAL_PART", nullable = false)
     private String emailLocalPart;
 
-    @Column(name = "member_email_domian_part", nullable = false)
+    @Column(name = "MEMBER_EMAIL_DOMAIN_PART", nullable = false)
     private String emailDomainPart;
 
-    public Email(String email) {
+    public EmailVo(String email) {
         validate(email);
         divideMail(email);
     }
@@ -57,26 +58,25 @@ public class Email implements BaseAggregate {
         return Arrays.asList(email.split(PART_VALIDATOR));
     }
 
-    @Override
     public void validate(String email) {
         if (!StringUtils.hasText(email) || !Pattern.matches(EMAIL_VALIDATOR, email)) {
-            throw new MemberException(MemberExceptionMessage.EMAIL);
+            throw new MemberException(EMAIL);
         }
     }
 
     @Override
     public String toString() {
-        if (this.getEmailLocalPart() == null || this.getEmailDomainPart() == null) {
-            throw new MemberException(MemberExceptionMessage.EMAIL);
+        if (this.emailLocalPart() == null || this.emailDomainPart() == null) {
+            throw new MemberException(EMAIL);
         }
-        return String.format(EMAIL_FORMAT, this.getEmailDomainPart(), this.getEmailLocalPart());
+        return String.format(EMAIL_FORMAT, this.emailDomainPart(), this.emailLocalPart());
     }
 
-    public String getEmailLocalPart() {
+    public String emailLocalPart() {
         return emailLocalPart;
     }
 
-    public String getEmailDomainPart() {
+    public String emailDomainPart() {
         return emailDomainPart;
     }
 }

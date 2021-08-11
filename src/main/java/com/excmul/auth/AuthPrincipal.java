@@ -1,31 +1,27 @@
 package com.excmul.auth;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-
+@RequiredArgsConstructor
 public class AuthPrincipal implements UserDetails {
 
-    private LoginMember loginMember;
-
-    public AuthPrincipal(LoginMember loginMember) {
-        this.loginMember = loginMember;
-    }
-
+    private final LoginMember loginMember;
 
     @Override
     public String getPassword() {
         // TODO Auto-generated method stub
-        return loginMember.getPassword().getValue();
+        return loginMember.password().password();
     }
 
     @Override
     public String getUsername() {
         // TODO Auto-generated method stub
-        return loginMember.getEmail().toString();
+        return loginMember.email().toString();
     }
 
     @Override
@@ -56,7 +52,7 @@ public class AuthPrincipal implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // TODO Auto-generated method stub
         Collection<GrantedAuthority> collectors = new ArrayList<>();
-        collectors.add(loginMember.getAuth()::getValue);
+        collectors.add(loginMember.auth()::auth);
         return collectors;
     }
 

@@ -1,7 +1,7 @@
 package com.excmul.auth;
 
-import com.excmul.member.domain.Email;
-import com.excmul.member.domain.MemberEntity;
+import com.excmul.member.domain.vo.EmailVo;
+import com.excmul.member.domain.Member;
 import com.excmul.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,28 +19,28 @@ public class AuthPrincipalService implements UserDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        MemberEntity memberEntity = memberRepository.findByEmail(getEmail(email)).orElseThrow(() -> {
-            throw new UsernameNotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
-        });
-        return getAuthPrincipal(memberEntity);
+    public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
+        EmailVo email = new EmailVo(userEmail);
+        Member memberEntity = memberRepository.findByEmail(email)
+                .orElseThrow(() -> {
+                    throw new UsernameNotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
+                });
+        return newInstanceAuthPrincipal(memberEntity);
     }
 
-    private AuthPrincipal getAuthPrincipal(MemberEntity memberEntity) {
-        return new AuthPrincipal(loginMember(memberEntity));
+    // :: 명칭 수정 PR
+    private AuthPrincipal newInstanceAuthPrincipal(Member member) {
+        return new AuthPrincipal(newInstanceLoginMember(member));
     }
 
-
-    private LoginMember loginMember(MemberEntity memberEntity) {
+    // :: 명칭 수정 PR
+    private LoginMember newInstanceLoginMember(Member member) {
         return LoginMember.builder()
-                .id(memberEntity.getId())
-                .email(memberEntity.getEmail())
-                .auth(memberEntity.getAuth())
-                .password(memberEntity.getPassword())
+                .id(member.getId())
+                .email(member.getEmail())
+                .auth(member.getAuth())
+                .password(member.getPassword())
                 .build();
     }
 
-    private Email getEmail(String email) {
-        return new Email(email);
-    }
 }

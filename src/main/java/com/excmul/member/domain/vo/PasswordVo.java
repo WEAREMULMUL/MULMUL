@@ -1,6 +1,5 @@
-package com.excmul.member.domain;
+package com.excmul.member.domain.vo;
 
-import com.excmul.common.domain.BaseAggregate;
 import com.excmul.member.exception.MemberException;
 import com.excmul.member.exception.MemberExceptionMessage;
 import lombok.AccessLevel;
@@ -14,10 +13,12 @@ import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.regex.Pattern;
 
+import static com.excmul.member.exception.MemberExceptionMessage.*;
+
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Password implements BaseAggregate {
+public class PasswordVo {
 
     /**
      * 최소 8자 ~ 최대 30자
@@ -30,33 +31,32 @@ public class Password implements BaseAggregate {
     private static final String PASSWORD_VALIDATOR = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[가-힣A-Za-z\\d$@$!%*#?&]{8,30}$";
 
     @Column(name = "member_password", nullable = false)
-    private String value;
+    private String password;
 
-    public Password(String password) {
+    public PasswordVo(String password) {
         validate(password);
-        this.value = passwordEncode(password);
+        this.password = passwordEncode(password);
     }
 
     private String passwordEncode(String password) {
         return new BCryptPasswordEncoder().encode(password);
     }
 
-    @Override
     public void validate(String password) {
         if (!StringUtils.hasText(password) || !Pattern.matches(PASSWORD_VALIDATOR, password)) {
-            throw new MemberException(MemberExceptionMessage.PASSWORD);
+            throw new MemberException(PASSWORD);
         }
     }
 
-    public String getValue() {
-        return value;
+    public String password() {
+        return password;
     }
 
     @Override
     public String toString() {
-        if (this.getValue() == null) {
-            throw new MemberException(MemberExceptionMessage.PASSWORD);
+        if (this.password() == null) {
+            throw new MemberException(PASSWORD);
         }
-        return this.getValue();
+        return this.password();
     }
 }

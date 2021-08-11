@@ -1,8 +1,6 @@
-package com.excmul.member.domain;
+package com.excmul.member.domain.vo;
 
-import com.excmul.common.domain.BaseAggregate;
 import com.excmul.member.exception.MemberException;
-import com.excmul.member.exception.MemberExceptionMessage;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,38 +10,39 @@ import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.regex.Pattern;
 
+import static com.excmul.member.exception.MemberExceptionMessage.*;
+
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Name implements BaseAggregate {
+public class NameVo {
 
     @Transient
     private static final String NAME_VALIDATOR = "^[가-힣]{2,10}$";
 
-    @Column(name = "membeR_name", nullable = false)
-    private String value;
+    @Column(name = "MEMBER_NAME", nullable = false)
+    private String name;
 
-    public Name(String name) {
+    public NameVo(String name) {
         validate(name);
-        this.value = name;
+        this.name = name;
     }
 
-    @Override
     public void validate(String name) {
         if (!Pattern.matches(NAME_VALIDATOR, name)) {
-            throw new MemberException(MemberExceptionMessage.NAME);
+            throw new MemberException(NAME);
         }
     }
 
     @Override
     public String toString() {
-        if (this.getValue() == null) {
-            throw new MemberException(MemberExceptionMessage.NAME);
+        if (this.name() == null) {
+            throw new MemberException(NAME);
         }
-        return this.getValue();
+        return this.name();
     }
 
-    public String getValue() {
-        return value;
+    public String name() {
+        return name;
     }
 }

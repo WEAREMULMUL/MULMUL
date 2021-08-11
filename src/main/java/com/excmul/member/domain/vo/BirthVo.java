@@ -1,6 +1,5 @@
-package com.excmul.member.domain;
+package com.excmul.member.domain.vo;
 
-import com.excmul.common.domain.BaseAggregate;
 import com.excmul.member.exception.MemberException;
 import com.excmul.member.exception.MemberExceptionMessage;
 import lombok.AccessLevel;
@@ -12,41 +11,42 @@ import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.regex.Pattern;
 
+import static com.excmul.member.exception.MemberExceptionMessage.*;
+
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Birth implements BaseAggregate {
+public class BirthVo {
     /**
      * yyyymmdd :: 19970908
      */
     @Transient
     private final static String BIRTH_VALIDATOR = "^(19[0-9][0-9]|20\\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$";
 
-    @Column(name = "member_birth", nullable = false)
-    private String value;
+    @Column(name = "MEMBER_BIRTH", nullable = false)
+    private String birth;
 
-    public Birth(String birth) {
+    public BirthVo(String birth) {
         validate(birth);
-        this.value = birth;
+        this.birth = birth;
     }
 
-    @Override
     public void validate(String birth) {
         if (!Pattern.matches(BIRTH_VALIDATOR, birth)) {
-            throw new MemberException(MemberExceptionMessage.BIRTH);
+            throw new MemberException(BIRTH);
         }
     }
 
     @Override
     public String toString() {
-        if (this.getValue() == null) {
-            throw new MemberException(MemberExceptionMessage.BIRTH);
+        if (this.birth() == null) {
+            throw new MemberException(BIRTH);
         }
-        return this.getValue();
+        return this.birth();
     }
 
-    public String getValue() {
-        return value;
+    public String birth() {
+        return birth;
     }
 
 }

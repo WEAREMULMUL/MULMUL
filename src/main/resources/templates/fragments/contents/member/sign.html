@@ -8,7 +8,7 @@
     <form
             th:role="form"
             th:action="@{/auth/sign}"
-            th:object="${memberSignRequest}"
+            th:object="${DefaultMemberSignRequest}"
             th:method="post">
 
         <div>
@@ -74,28 +74,30 @@
                     placeholder="전화번호를 입력하세요"
             />
         </div>
+
+
         <div>
-            <label th:for="terms">위치정보 동의 </label>
-            <p>위치정보 동의를 진행해주세요</p>
-            동의<input type="checkbox" th:value="true" th:field="*{terms.termLocation}">
+            <label th:for="terms">서비스 이용약관 동의</label>
+            <p>서비스 이용약관 동의를 진행해주세요</p>
+            동의<input type="checkbox" th:value="true" th:field="*{termService}">
         </div>
 
         <div>
             <label th:for="terms">개인정보 동의</label>
             <p>개인정보 동의를 진행해주세요</p>
-            동의<input type="checkbox" th:value="true" th:field="*{terms.termPrivacy}">
+            동의<input type="checkbox" th:value="true" th:field="*{termPrivacy}">
         </div>
 
         <div>
-            <label th:for="terms">서비스 이용약관 동의</label>
-            <p>서비스 이용약관 동의를 진행해주세요</p>
-            동의<input type="checkbox" th:value="true" th:field="*{terms.termService}">
+            <label th:for="terms">위치정보 동의 </label>
+            <p>위치정보 동의를 진행해주세요</p>
+            동의<input type="checkbox" th:value="true" th:field="*{termLocation}">
         </div>
+
 
         <button type="button">Google</button>
 
         <button type="button">KAKAO</button>
-
 
         <button type="button">NAVER</button>
 

@@ -1,6 +1,5 @@
-package com.excmul.member.domain;
+package com.excmul.member.domain.vo;
 
-import com.excmul.common.domain.BaseAggregate;
 import com.excmul.member.exception.MemberException;
 import com.excmul.member.exception.MemberExceptionMessage;
 import lombok.AccessLevel;
@@ -12,38 +11,39 @@ import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.regex.Pattern;
 
+import static com.excmul.member.exception.MemberExceptionMessage.*;
+
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Nickname implements BaseAggregate {
+public class NicknameVo {
 
     @Transient
     private static final String NICKNAME_VALIDATOR = "^[a-zA-Z가-힣0-9]{2,20}$";
 
-    @Column(name = "member_nickname", nullable = false)
-    private String value;
+    @Column(name = "MEMBER_NICKNAME", nullable = false)
+    private String nickname;
 
-    public Nickname(String nickname) {
+    public NicknameVo(String nickname) {
         validate(nickname);
-        this.value = nickname;
+        this.nickname = nickname;
     }
 
-    @Override
     public void validate(String nickname) {
         if (!Pattern.matches(NICKNAME_VALIDATOR, nickname)) {
-            throw new MemberException(MemberExceptionMessage.NICKNAME);
+            throw new MemberException(NICKNAME);
         }
     }
 
     @Override
     public String toString() {
-        if (this.getValue() == null) {
-            throw new MemberException(MemberExceptionMessage.NICKNAME);
+        if (this.nickname() == null) {
+            throw new MemberException(NICKNAME);
         }
-        return this.getValue();
+        return this.nickname();
     }
 
-    public String getValue() {
-        return value;
+    public String nickname() {
+        return nickname;
     }
 }

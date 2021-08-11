@@ -1,21 +1,22 @@
 package com.excmul.member.domain;
 
-import com.excmul.auth.AuthPrincipal;
+import com.excmul.member.domain.vo.EmailVo;
+import com.excmul.member.domain.vo.NicknameVo;
+import com.excmul.member.domain.vo.PhoneNumberVo;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 
 @Repository
-public interface MemberRepository extends JpaRepository<MemberEntity, Integer> {
+public interface MemberRepository extends JpaRepository<Member, Integer> {
 
-    Optional<MemberEntity> findByEmail(Email email);
+    Optional<Member> findByEmail(EmailVo email);
 
-    boolean existsByEmail(Email email);
+    boolean existsByEmail(EmailVo email);
 
-    boolean existsByNickname(Nickname nickname);
+    boolean existsByNickname(NicknameVo nickname);
 
-    boolean existsByPhoneNumber(PhoneNumber phoneNumber);
+    boolean existsByPhoneNumber(PhoneNumberVo phoneNumber);
 }
