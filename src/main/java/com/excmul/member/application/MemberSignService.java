@@ -22,15 +22,15 @@ public class MemberSignService {
     }
 
     private void checkDuplicateMember(DefaultMemberSignRequest request) {
-        if (memberService.existsByEmail(request.email())) {
+        if (memberService.existsByEmail(request.getEmail())) {
             throw new MemberException(DUPLICATION_EMAIL);
         }
 
-        if (memberService.existsByNickname(request.nickname())) {
+        if (memberService.existsByNickname(request.getNickname())) {
             throw new MemberException(DUPLICATION_NICKNAME);
         }
 
-        if (memberService.existsByPhoneNumber(request.phoneNumber())) {
+        if (memberService.existsByPhoneNumber(request.getPhoneNumber())) {
             throw new MemberException(DUPLICATION_PHONE_NUMBER);
         }
     }

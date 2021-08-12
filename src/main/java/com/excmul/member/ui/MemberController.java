@@ -23,14 +23,14 @@ public class MemberController {
 
     @GetMapping("/auth/sign")
     public String sign(Model model) {
-        DefaultMemberSignRequest signRequest = new DefaultMemberSignRequest();
-        model.addAttribute("DefaultMemberSignRequest", signRequest);
+        DefaultMemberSignRequest request = new DefaultMemberSignRequest();
+        model.addAttribute("defaultMemberSignRequest", request);
         return "fragments/contents/member/sign";
     }
 
     @PostMapping("/auth/sign")
-    public String sign(DefaultMemberSignRequest memberSignRequest) {
-        memberSignService.createDefaultMember(memberSignRequest);
+    public String sign(DefaultMemberSignRequest defaultMemberSignRequest) {
+        memberSignService.createDefaultMember(defaultMemberSignRequest);
         return "redirect:/auth/login";
     }
 

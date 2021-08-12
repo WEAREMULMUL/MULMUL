@@ -8,8 +8,8 @@
     <form
             th:role="form"
             th:action="@{/auth/sign}"
-            th:object="${DefaultMemberSignRequest}"
-            th:method="post">
+            th:object="${defaultMemberSignRequest}"
+            th:method="POST">
 
         <div>
             <label th:for="email">이메일</label>
@@ -89,12 +89,12 @@
         </div>
 
         <div>
-            <label th:for="terms">위치정보 동의 </label>
+            <label th:for="terms">위치정보 동의</label>
             <p>위치정보 동의를 진행해주세요</p>
             동의<input type="checkbox" th:value="true" th:field="*{termLocation}">
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit">회원가입</button>
     </form>
 </div>
 </body>
