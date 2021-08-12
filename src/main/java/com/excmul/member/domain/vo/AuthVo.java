@@ -1,5 +1,7 @@
 package com.excmul.member.domain.vo;
 
+import java.util.Arrays;
+
 public enum AuthVo {
 
     KAKAO("카카오"),
@@ -8,7 +10,7 @@ public enum AuthVo {
     FACEBOOK("페이스북"),
     DEFAULT("기본");
 
-   private final String auth;
+    private final String auth;
 
     AuthVo(final String auth) {
         this.auth = auth;
@@ -16,5 +18,12 @@ public enum AuthVo {
 
     public String auth() {
         return auth;
+    }
+
+    public static AuthVo findByAuth(String inputAuth) {
+        return Arrays.stream(AuthVo.values())
+                .filter(b -> b.auth.equals(inputAuth))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 입력입니다."));
     }
 }

@@ -1,5 +1,6 @@
 package com.excmul.member.application;
 
+import com.excmul.member.domain.Member;
 import com.excmul.member.domain.MemberRepository;
 import com.excmul.member.dto.DefaultMemberSignRequest;
 import com.excmul.member.exception.MemberException;
@@ -17,11 +18,25 @@ public class MemberSignService {
 
     @Transactional
     public void createDefaultMember(DefaultMemberSignRequest request) {
-        checkDuplicateMember(request);
+        checkDuplicateDefaultMember(request);
         memberRepository.save(request.sign());
     }
 
-    private void checkDuplicateMember(DefaultMemberSignRequest request) {
+    // :: TODO OAUTH 2.0
+    @Transactional
+    public void createKaKaoMember() {
+        checkDuplicateDefaultMember(null);
+        memberRepository.save(null);
+    }
+
+
+    private void checkDuplicateKakaoMember(DefaultMemberSignRequest request) {
+        if (memberService.existsByEmail(request.getEmail())) {
+            throw new MemberException(DUPLICATION_EMAIL);
+        }
+    }
+
+    private void checkDuplicateDefaultMember(DefaultMemberSignRequest request) {
         if (memberService.existsByEmail(request.getEmail())) {
             throw new MemberException(DUPLICATION_EMAIL);
         }

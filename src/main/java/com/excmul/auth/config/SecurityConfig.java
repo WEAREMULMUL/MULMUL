@@ -1,6 +1,7 @@
 package com.excmul.auth.config;
 
-import com.excmul.auth.AuthPrincipalService;
+import com.excmul.auth.oauth.AuthPrincipalService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AuthPrincipalService authPrincipalService;
+   // private final OAuth2PrincipalService kakaoAuthPrinciple;
 
     @Bean
     @Override
@@ -68,5 +70,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling();
 
+        /*
+        http
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(kakaoAuthPrinciple);
+         */
     }
 }

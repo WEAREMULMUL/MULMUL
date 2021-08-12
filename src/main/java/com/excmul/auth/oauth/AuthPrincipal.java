@@ -1,4 +1,4 @@
-package com.excmul.auth;
+package com.excmul.auth.oauth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

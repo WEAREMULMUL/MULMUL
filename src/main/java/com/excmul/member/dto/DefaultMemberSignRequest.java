@@ -15,10 +15,11 @@ public class DefaultMemberSignRequest {
     private NicknameVo nickname;
     private GenderVo gender;
     private BirthVo birth;
+    private PhoneNumberVo phoneNumber;
     private boolean termService;
     private boolean termPrivacy;
     private boolean termLocation;
-    private PhoneNumberVo phoneNumber;
+
 
     public Member sign() {
         return Member.builder()
@@ -33,7 +34,8 @@ public class DefaultMemberSignRequest {
                 .termPrivacy(termPrivacy)
                 .termLocation(termLocation)
                 .auth(AuthVo.DEFAULT)
-                .role((RoleVo.USER))
+                .role(RoleVo.USER)
                 .build();
     }
+    
 }

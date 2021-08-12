@@ -1,10 +1,12 @@
-package com.excmul.auth;
+package com.excmul.auth.oauth;
 
 import com.excmul.member.domain.vo.AuthVo;
 import com.excmul.member.domain.vo.EmailVo;
 import com.excmul.member.domain.vo.PasswordVo;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Map;
 
 /**
  * DTO 불변객체로 final ㄱㄱㄱ
@@ -29,5 +31,4 @@ public class LoginMember {
     public AuthVo auth() {
         return auth;
     }
-
 }

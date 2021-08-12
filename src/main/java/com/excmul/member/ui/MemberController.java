@@ -29,10 +29,12 @@ public class MemberController {
     }
 
     @PostMapping("/auth/sign")
-    public String sign(DefaultMemberSignRequest defaultMemberSignRequest) {
-        memberSignService.createDefaultMember(defaultMemberSignRequest);
+    public String sign(DefaultMemberSignRequest request) {
+        System.out.println(request.toString());
+        memberSignService.createDefaultMember(request);
         return "redirect:/auth/login";
     }
+
 
     @GetMapping("/auth/login")
     public String login() {
