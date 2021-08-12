@@ -1,5 +1,6 @@
 package com.excmul.member.domain.vo;
 
+import com.excmul.auth.application.AuthorizationException;
 import com.excmul.member.exception.MemberException;
 import com.excmul.member.exception.MemberExceptionMessage;
 import lombok.AccessLevel;
@@ -58,5 +59,11 @@ public class PasswordVo {
             throw new MemberException(PASSWORD);
         }
         return this.password();
+    }
+
+    public void checkPassword(String password) {
+        if (!StringUtils.equals(this.password, password)) {
+            throw new AuthorizationException();
+        }
     }
 }

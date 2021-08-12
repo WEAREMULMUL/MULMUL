@@ -1,4 +1,4 @@
-package com.excmul.auth.config;
+package com.excmul;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
