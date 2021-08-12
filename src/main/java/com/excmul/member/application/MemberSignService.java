@@ -21,21 +21,7 @@ public class MemberSignService {
         checkDuplicateDefaultMember(request);
         memberRepository.save(request.sign());
     }
-
-    // :: TODO OAUTH 2.0
-    @Transactional
-    public void createKaKaoMember() {
-        checkDuplicateDefaultMember(null);
-        memberRepository.save(null);
-    }
-
-
-    private void checkDuplicateKakaoMember(DefaultMemberSignRequest request) {
-        if (memberService.existsByEmail(request.getEmail())) {
-            throw new MemberException(DUPLICATION_EMAIL);
-        }
-    }
-
+    
     private void checkDuplicateDefaultMember(DefaultMemberSignRequest request) {
         if (memberService.existsByEmail(request.getEmail())) {
             throw new MemberException(DUPLICATION_EMAIL);

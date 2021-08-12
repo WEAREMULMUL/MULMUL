@@ -6,9 +6,8 @@ import com.excmul.member.domain.vo.PasswordVo;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
-
-@RequiredArgsConstructor
 @Builder
+@RequiredArgsConstructor
 public class LoginMember {
     private final int id;
     private final EmailVo email;

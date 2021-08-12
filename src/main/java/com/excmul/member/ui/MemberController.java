@@ -23,19 +23,16 @@ public class MemberController {
 
     @GetMapping("/auth/sign")
     public String sign(Model model) {
-        DefaultMemberSignRequest request = new DefaultMemberSignRequest();
-        model.addAttribute("defaultMemberSignRequest", request);
+        model.addAttribute("defaultMemberSignRequest", new DefaultMemberSignRequest());
         return "fragments/contents/member/sign";
     }
 
     @PostMapping("/auth/sign")
     public String sign(DefaultMemberSignRequest request) {
-        System.out.println(request.toString());
         memberSignService.createDefaultMember(request);
         return "redirect:/auth/login";
     }
-
-
+    
     @GetMapping("/auth/login")
     public String login() {
         return "/fragments/contents/member/login";

@@ -20,16 +20,19 @@ public class AuthPrincipalService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        EmailVo email = new EmailVo(userEmail);
-        Member memberEntity = memberRepository.findByEmail(email)
+        Member member = memberRepository.findByEmail(newInstanceEmail(userEmail))
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
                 });
-        return newInstanceAuthPrincipal(memberEntity);
+        return newInstanceAuthPrincipal(member);
     }
 
-    private com.excmul.auth.AuthPrincipal newInstanceAuthPrincipal(Member member) {
-        return new com.excmul.auth.AuthPrincipal(newInstanceLoginMember(member));
+    private EmailVo newInstanceEmail(String userEmail) {
+        return new EmailVo(userEmail);
+    }
+
+    private AuthPrincipal newInstanceAuthPrincipal(Member member) {
+        return new AuthPrincipal(newInstanceLoginMember(member));
     }
 
     private LoginMember newInstanceLoginMember(Member member) {
