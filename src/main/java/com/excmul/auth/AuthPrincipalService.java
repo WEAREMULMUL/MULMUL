@@ -1,4 +1,4 @@
-package com.excmul.auth.oauth;
+package com.excmul.auth;
 
 import com.excmul.member.domain.vo.EmailVo;
 import com.excmul.member.domain.Member;
@@ -28,12 +28,10 @@ public class AuthPrincipalService implements UserDetailsService {
         return newInstanceAuthPrincipal(memberEntity);
     }
 
-    // :: 명칭 수정 PR
-    private AuthPrincipal newInstanceAuthPrincipal(Member member) {
-        return new AuthPrincipal(newInstanceLoginMember(member));
+    private com.excmul.auth.AuthPrincipal newInstanceAuthPrincipal(Member member) {
+        return new com.excmul.auth.AuthPrincipal(newInstanceLoginMember(member));
     }
 
-    // :: 명칭 수정 PR
     private LoginMember newInstanceLoginMember(Member member) {
         return LoginMember.builder()
                 .id(member.getId())

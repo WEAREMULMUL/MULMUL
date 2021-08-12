@@ -1,4 +1,4 @@
-package com.excmul.auth.oauth;
+package com.excmul.auth;
 
 import com.excmul.member.domain.vo.AuthVo;
 import com.excmul.member.domain.vo.EmailVo;
@@ -6,11 +6,6 @@ import com.excmul.member.domain.vo.PasswordVo;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Map;
-
-/**
- * DTO 불변객체로 final ㄱㄱㄱ
- */
 
 @RequiredArgsConstructor
 @Builder

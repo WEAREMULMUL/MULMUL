@@ -1,7 +1,7 @@
 package com.excmul.auth.config;
 
-import com.excmul.auth.oauth.AuthPrincipalService;
-
+import com.excmul.auth.AuthPrincipalService;
+import com.excmul.auth.OAuth2.Auth2PrincipalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +22,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AuthPrincipalService authPrincipalService;
+    private final Auth2PrincipalService auth2PrincipalService;
 
     @Bean
     @Override
@@ -68,5 +70,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .and()
                 .exceptionHandling();
+
+        http
+                .oauth2Login()
+                .defaultSuccessUrl("/index")
+                .userInfoEndpoint()
+                .userService(auth2PrincipalService);
     }
 }
