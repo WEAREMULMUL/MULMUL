@@ -1,7 +1,6 @@
 package com.excmul.member.domain.vo;
 
 import com.excmul.member.exception.MemberException;
-import com.excmul.member.exception.MemberExceptionMessage;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -30,7 +29,7 @@ public class PasswordVo {
     @Transient
     private static final String PASSWORD_VALIDATOR = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[가-힣A-Za-z\\d$@$!%*#?&]{8,30}$";
 
-    @Column(name = "member_password", nullable = false)
+    @Column(name = "MEMBER_PASSWORD", nullable = false)
     private String password;
 
     public PasswordVo(String password) {
@@ -48,15 +47,15 @@ public class PasswordVo {
         }
     }
 
-    public String password() {
+    public String value() {
         return password;
     }
 
     @Override
     public String toString() {
-        if (this.password() == null) {
+        if (this.value() == null) {
             throw new MemberException(PASSWORD);
         }
-        return this.password();
+        return this.value();
     }
 }

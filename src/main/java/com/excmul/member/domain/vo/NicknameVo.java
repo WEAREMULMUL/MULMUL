@@ -1,7 +1,6 @@
 package com.excmul.member.domain.vo;
 
 import com.excmul.member.exception.MemberException;
-import com.excmul.member.exception.MemberExceptionMessage;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -37,13 +36,13 @@ public class NicknameVo {
 
     @Override
     public String toString() {
-        if (this.nickname() == null) {
+        if (this.value() == null) {
             throw new MemberException(NICKNAME);
         }
-        return this.nickname();
+        return this.value();
     }
 
-    public String nickname() {
+    public String value() {
         return nickname;
     }
 }

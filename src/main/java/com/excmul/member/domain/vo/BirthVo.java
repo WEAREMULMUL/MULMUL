@@ -1,7 +1,6 @@
 package com.excmul.member.domain.vo;
 
 import com.excmul.member.exception.MemberException;
-import com.excmul.member.exception.MemberExceptionMessage;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -39,13 +38,13 @@ public class BirthVo {
 
     @Override
     public String toString() {
-        if (this.birth() == null) {
+        if (this.value() == null) {
             throw new MemberException(BIRTH);
         }
-        return this.birth();
+        return this.value();
     }
 
-    public String birth() {
+    public String value() {
         return birth;
     }
 

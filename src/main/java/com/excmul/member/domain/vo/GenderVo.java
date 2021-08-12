@@ -12,7 +12,7 @@ public enum GenderVo {
         this.gender = gender;
     }
 
-    public String gender() {
+    public String value() {
         return gender;
     }
 }

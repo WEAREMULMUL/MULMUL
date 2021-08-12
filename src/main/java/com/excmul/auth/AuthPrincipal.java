@@ -15,7 +15,7 @@ public class AuthPrincipal implements UserDetails {
     @Override
     public String getPassword() {
         // TODO Auto-generated method stub
-        return loginMember.password().password();
+        return loginMember.password().value();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class AuthPrincipal implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // TODO Auto-generated method stub
         Collection<GrantedAuthority> collectors = new ArrayList<>();
-        collectors.add(loginMember.auth()::auth);
+        collectors.add(loginMember.auth()::value);
         return collectors;
     }
 

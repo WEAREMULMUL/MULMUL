@@ -36,13 +36,13 @@ public class NameVo {
 
     @Override
     public String toString() {
-        if (this.name() == null) {
+        if (this.value() == null) {
             throw new MemberException(NAME);
         }
-        return this.name();
+        return this.value();
     }
 
-    public String name() {
+    public String value() {
         return name;
     }
 }

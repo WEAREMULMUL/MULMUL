@@ -1,7 +1,6 @@
 package com.excmul.member.domain.vo;
 
 import com.excmul.member.exception.MemberException;
-import com.excmul.member.exception.MemberExceptionMessage;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 
@@ -38,13 +37,13 @@ public class PhoneNumberVo {
 
     @Override
     public String toString() {
-        if (this.phoneNumber() == null) {
+        if (this.value() == null) {
             throw new MemberException(PHONE_NUMBER);
         }
-        return this.phoneNumber();
+        return this.value();
     }
 
-    public String phoneNumber() {
+    public String value() {
         return phoneNumber;
     }
 }

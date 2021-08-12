@@ -2,6 +2,8 @@ package com.excmul.member.domain.vo;
 
 import java.util.Arrays;
 
+// method -> value
+
 public enum AuthVo {
 
     KAKAO("카카오"),
@@ -16,7 +18,7 @@ public enum AuthVo {
         this.auth = auth;
     }
 
-    public String auth() {
+    public String value() {
         return auth;
     }
 

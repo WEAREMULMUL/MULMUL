@@ -21,7 +21,7 @@ public class MemberSignService {
         checkDuplicateDefaultMember(request);
         memberRepository.save(request.sign());
     }
-    
+
     private void checkDuplicateDefaultMember(DefaultMemberSignRequest request) {
         if (memberService.existsByEmail(request.getEmail())) {
             throw new MemberException(DUPLICATION_EMAIL);
