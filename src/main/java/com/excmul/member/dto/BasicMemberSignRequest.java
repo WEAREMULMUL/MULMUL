@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @Getter
 @NoArgsConstructor
-public class DefaultMemberSignRequest {
+public class BasicMemberSignRequest {
 
     private EmailVo email;
     private PasswordVo password;
@@ -19,7 +19,6 @@ public class DefaultMemberSignRequest {
     private boolean termService;
     private boolean termPrivacy;
     private boolean termLocation;
-
 
     public Member sign() {
         return Member.builder()
@@ -33,9 +32,9 @@ public class DefaultMemberSignRequest {
                 .termService(termService)
                 .termPrivacy(termPrivacy)
                 .termLocation(termLocation)
-                .auth(AuthVo.DEFAULT)
+                .auth(AuthVo.BASIC)
                 .role(RoleVo.USER)
                 .build();
     }
-    
+
 }

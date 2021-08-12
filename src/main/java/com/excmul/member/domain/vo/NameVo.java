@@ -1,16 +1,16 @@
 package com.excmul.member.domain.vo;
 
-import com.excmul.member.exception.MemberException;
+import com.excmul.member.exception.InvaildInputException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.regex.Pattern;
 
-import static com.excmul.member.exception.MemberExceptionMessage.*;
 
 @Embeddable
 @EqualsAndHashCode
@@ -29,16 +29,13 @@ public class NameVo {
     }
 
     public void validate(String name) {
-        if (!Pattern.matches(NAME_VALIDATOR, name)) {
-            throw new MemberException(NAME);
+        if (!StringUtils.hasText(name) || !Pattern.matches(NAME_VALIDATOR, name)) {
+            throw new InvaildInputException(InvaildInputException.ErrorCode.NAME);
         }
     }
 
     @Override
     public String toString() {
-        if (this.value() == null) {
-            throw new MemberException(NAME);
-        }
         return this.value();
     }
 

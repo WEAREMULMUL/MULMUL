@@ -10,7 +10,7 @@ public enum AuthVo {
     GOOGLE("구글"),
     NAVER("네이버"),
     FACEBOOK("페이스북"),
-    DEFAULT("기본");
+    BASIC("기본"); // basic으로 바꾸기
 
     private final String auth;
 

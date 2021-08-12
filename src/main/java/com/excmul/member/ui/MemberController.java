@@ -1,7 +1,7 @@
 package com.excmul.member.ui;
 
 import com.excmul.member.application.MemberSignService;
-import com.excmul.member.dto.DefaultMemberSignRequest;
+import com.excmul.member.dto.BasicMemberSignRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,16 +23,16 @@ public class MemberController {
 
     @GetMapping("/auth/sign")
     public String sign(Model model) {
-        model.addAttribute("defaultMemberSignRequest", new DefaultMemberSignRequest());
+        model.addAttribute("defaultMemberSignRequest", new BasicMemberSignRequest());
         return "fragments/contents/member/sign";
     }
 
     @PostMapping("/auth/sign")
-    public String sign(DefaultMemberSignRequest request) {
+    public String sign(BasicMemberSignRequest request) {
         memberSignService.createDefaultMember(request);
         return "redirect:/auth/login";
     }
-    
+
     @GetMapping("/auth/login")
     public String login() {
         return "/fragments/contents/member/login";

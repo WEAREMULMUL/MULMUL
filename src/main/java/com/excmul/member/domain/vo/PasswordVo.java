@@ -1,6 +1,6 @@
 package com.excmul.member.domain.vo;
 
-import com.excmul.member.exception.MemberException;
+import com.excmul.member.exception.InvaildInputException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,12 +12,12 @@ import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.regex.Pattern;
 
-import static com.excmul.member.exception.MemberExceptionMessage.*;
 
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PasswordVo {
+
 
     /**
      * 최소 8자 ~ 최대 30자
@@ -43,7 +43,7 @@ public class PasswordVo {
 
     public void validate(String password) {
         if (!StringUtils.hasText(password) || !Pattern.matches(PASSWORD_VALIDATOR, password)) {
-            throw new MemberException(PASSWORD);
+            throw new InvaildInputException(InvaildInputException.ErrorCode.PASSWORD);
         }
     }
 
@@ -53,9 +53,6 @@ public class PasswordVo {
 
     @Override
     public String toString() {
-        if (this.value() == null) {
-            throw new MemberException(PASSWORD);
-        }
         return this.value();
     }
 }
