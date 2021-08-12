@@ -21,7 +21,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AuthPrincipalService authPrincipalService;
-   // private final OAuth2PrincipalService kakaoAuthPrinciple;
 
     @Bean
     @Override
@@ -69,12 +68,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .and()
                 .exceptionHandling();
-
-        /*
-        http
-                .oauth2Login()
-                .userInfoEndpoint()
-                .userService(kakaoAuthPrinciple);
-         */
     }
 }
