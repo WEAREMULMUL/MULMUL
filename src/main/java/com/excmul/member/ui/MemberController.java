@@ -1,7 +1,8 @@
 package com.excmul.member.ui;
 
-import com.excmul.member.application.MemberSignService;
-import com.excmul.member.dto.BasicMemberSignRequest;
+import com.excmul.member.application.MemberService;
+import com.excmul.member.dto.MemberSignRequest;
+import com.excmul.member.exception.DuplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberSignService memberSignService;
+    private final MemberService memberService;
 
     @RequestMapping({"", "/", "index"})
     public String index() {
@@ -23,13 +24,25 @@ public class MemberController {
 
     @GetMapping("/auth/sign")
     public String sign(Model model) {
-        model.addAttribute("defaultMemberSignRequest", new BasicMemberSignRequest());
+        model.addAttribute("defaultMemberSignRequest", new MemberSignRequest());
         return "fragments/contents/member/sign";
     }
 
     @PostMapping("/auth/sign")
-    public String sign(BasicMemberSignRequest request) {
-        memberSignService.createDefaultMember(request);
+    public String sign(MemberSignRequest request) {
+        if (memberService.existsByEmail(request.getEmail())) {
+            throw new DuplicationException(DuplicationException.ErrorCode.DUPLICATION_EMAIL);
+        }
+
+        if (memberService.existsByNickname(request.getNickname())) {
+            throw new DuplicationException(DuplicationException.ErrorCode.DUPLICATION_NICKNAME);
+        }
+
+        if (memberService.existsByPhoneNumber(request.getPhoneNumber())) {
+            throw new DuplicationException(DuplicationException.ErrorCode.DUPLICATION_PHONE_NUMBER);
+        }
+
+        memberService.createDefaultMember(request);
         return "redirect:/auth/login";
     }
 

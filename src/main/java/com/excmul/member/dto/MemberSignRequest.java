@@ -3,11 +3,12 @@ package com.excmul.member.dto;
 import com.excmul.member.domain.*;
 import com.excmul.member.domain.vo.*;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Setter
 @Getter
 @NoArgsConstructor
-public class BasicMemberSignRequest {
+public class MemberSignRequest {
 
     private EmailVo email;
     private PasswordVo password;
@@ -23,8 +24,8 @@ public class BasicMemberSignRequest {
     public Member sign() {
         return Member.builder()
                 .email(email)
-                .password(password)
                 .name(name)
+                .password(password)
                 .nickname(nickname)
                 .gender(gender)
                 .birth(birth)
@@ -36,5 +37,4 @@ public class BasicMemberSignRequest {
                 .role(RoleVo.USER)
                 .build();
     }
-
 }

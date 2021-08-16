@@ -13,29 +13,25 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class AuthPrincipalService implements UserDetailsService {
-
-    private final String USER_NOT_FOUND_ERROR_MESSAGE = "해당 사용자를 찾을 수 없습니다 ";
+    
     private final MemberRepository memberRepository;
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(newInstanceEmail(userEmail))
+        EmailVo email = new EmailVo(userEmail);
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> {
-                    throw new UsernameNotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
+                    throw new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다 ");
                 });
-        return newInstanceAuthPrincipal(member);
+        return newAuthPrincipal(member);
     }
 
-    private EmailVo newInstanceEmail(String userEmail) {
-        return new EmailVo(userEmail);
+    private AuthPrincipal newAuthPrincipal(Member member) {
+        return new AuthPrincipal(newLoginMember(member));
     }
 
-    private AuthPrincipal newInstanceAuthPrincipal(Member member) {
-        return new AuthPrincipal(newInstanceLoginMember(member));
-    }
-
-    private LoginMember newInstanceLoginMember(Member member) {
+    private LoginMember newLoginMember(Member member) {
         return LoginMember.builder()
                 .id(member.getId())
                 .email(member.getEmail())
