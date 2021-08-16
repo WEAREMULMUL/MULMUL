@@ -58,9 +58,4 @@ public class Member extends DateEntity {
     @Column(name = "MEMBER_ROLE", nullable = false)
     private RoleVo role;
 
-
-    public void encodePassword(PasswordVo password) {
-        this.password = password;
-    }
-
 }
