@@ -35,11 +35,17 @@ public class PasswordVo {
 
     public PasswordVo(String password) {
         validate(password);
-        this.password = passwordEncode(password);
+        this.password = password;
     }
 
-    private String passwordEncode(String password) {
-        return new BCryptPasswordEncoder().encode(password);
+    private PasswordVo(PasswordEncoder passwordEncoder, String password) {
+        String encodedPassword = passwordEncoder.encode(password);
+
+        this.password = encodedPassword;
+    }
+
+    public PasswordVo encode(PasswordEncoder passwordEncoder) {
+        return new PasswordVo(passwordEncoder, password);
     }
 
     public void validate(String password) {

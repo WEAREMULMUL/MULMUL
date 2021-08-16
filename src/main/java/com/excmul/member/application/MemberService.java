@@ -17,9 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public void createDefaultMember(MemberSignRequest request) {
-        memberRepository.save(request.sign());
+        Member signMember = request.sign(passwordEncoder);
+
+        memberRepository.save(signMember);
     }
 
     @Transactional(readOnly = true)
