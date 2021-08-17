@@ -1,6 +1,5 @@
 package com.excmul.member.application;
 
-import com.excmul.member.domain.Member;
 import com.excmul.member.domain.vo.EmailVo;
 import com.excmul.member.domain.MemberRepository;
 import com.excmul.member.domain.vo.NicknameVo;
@@ -37,4 +36,5 @@ public class MemberService {
     public boolean existsByPhoneNumber(PhoneNumberVo phoneNumber) {
         return memberRepository.existsByPhoneNumber(phoneNumber);
     }
+
 }
