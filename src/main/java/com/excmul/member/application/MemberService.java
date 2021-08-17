@@ -16,10 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void createDefaultMember(MemberSignRequest request) {
-        memberRepository.save(request.sign());
+        memberRepository.save(request.sign(passwordEncoder));
     }
 
     @Transactional(readOnly = true)

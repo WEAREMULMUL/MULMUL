@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class AuthPrincipalService implements UserDetailsService {
-    
+
     private final MemberRepository memberRepository;
 
     @Override
@@ -33,10 +33,10 @@ public class AuthPrincipalService implements UserDetailsService {
 
     private LoginMember newLoginMember(Member member) {
         return LoginMember.builder()
-                .id(member.getId())
-                .email(member.getEmail())
-                .auth(member.getAuth())
-                .password(member.getPassword())
+                .id(member.id())
+                .email(member.email())
+                .auth(member.auth())
+                .password(member.password())
                 .build();
     }
 

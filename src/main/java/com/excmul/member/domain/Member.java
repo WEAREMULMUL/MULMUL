@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @Entity
 @Builder
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "MEMBER")
@@ -58,4 +57,19 @@ public class Member extends DateEntity {
     @Column(name = "MEMBER_ROLE", nullable = false)
     private RoleVo role;
 
+    public int id() {
+        return id;
+    }
+
+    public EmailVo email() {
+        return email;
+    }
+
+    public PasswordVo password() {
+        return password;
+    }
+
+    public AuthVo auth() {
+        return auth;
+    }
 }
