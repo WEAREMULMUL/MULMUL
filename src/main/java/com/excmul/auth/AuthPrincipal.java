@@ -9,7 +9,6 @@ import java.util.Collection;
 
 @RequiredArgsConstructor
 public class AuthPrincipal implements UserDetails {
-
     private final LoginMember loginMember;
 
     @Override
@@ -55,5 +54,4 @@ public class AuthPrincipal implements UserDetails {
         collectors.add(loginMember.auth()::value);
         return collectors;
     }
-
 }

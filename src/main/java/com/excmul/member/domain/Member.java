@@ -1,19 +1,21 @@
 package com.excmul.member.domain;
 
+import com.excmul.auth.LoginMember;
 import com.excmul.common.domain.DateEntity;
+import com.excmul.mail.domain.Mail;
+import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
 import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
+@Getter(AccessLevel.PRIVATE)
 @Builder
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "MEMBER")
+@Entity
 public class Member extends DateEntity {
-
     @Id
     @Column(name = "MEMBER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,4 +60,24 @@ public class Member extends DateEntity {
     @Column(name = "MEMBER_ROLE", nullable = false)
     private RoleVo role;
 
+    public LoginMember newLoginMember() {
+        return LoginMember.builder()
+                .id(id)
+                .email(email)
+                .auth(auth)
+                .password(password)
+                .build();
+    }
+
+    public PasswordChangeToken newChangePasswordToken() {
+        return PasswordChangeToken.newInstance(this, this.password);
+    }
+
+    public void changePassword(PasswordVo password) {
+        this.password = password;
+    }
+
+    public Mail newMail(Content mailContent) {
+        return new Mail(email, mailContent);
+    }
 }

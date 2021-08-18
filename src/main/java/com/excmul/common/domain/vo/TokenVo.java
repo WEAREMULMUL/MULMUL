@@ -6,9 +6,9 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.StringUtils;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.UUID;
 
 @EqualsAndHashCode
@@ -22,7 +22,11 @@ public class TokenVo {
         this.token = token;
     }
 
-    public static TokenVo newInstance(int length) {
+    public static TokenVo newInstance(String token) {
+        return new TokenVo(token);
+    }
+
+    public static TokenVo newRandomInstance(int length) {
         String tokenValue = newTokenValue(length);
 
         return new TokenVo(tokenValue);
@@ -37,8 +41,12 @@ public class TokenVo {
 
     private static void validateTokenLength(String token, int length) {
         if (token.length() < length) {
-            throw new TokenException(ErrorCode.OUT_OF_TOKEN_LENGTH);
+            throw new TokenException(ErrorCode.OUT_OF_LENGTH);
         }
+    }
+
+    public String value() {
+        return token;
     }
 
     @RequiredArgsConstructor

@@ -28,16 +28,7 @@ public class AuthPrincipalService implements UserDetailsService {
     }
 
     private AuthPrincipal newAuthPrincipal(Member member) {
-        return new AuthPrincipal(newLoginMember(member));
-    }
-
-    private LoginMember newLoginMember(Member member) {
-        return LoginMember.builder()
-                .id(member.getId())
-                .email(member.getEmail())
-                .auth(member.getAuth())
-                .password(member.getPassword())
-                .build();
+        return new AuthPrincipal(member.newLoginMember());
     }
 
 }

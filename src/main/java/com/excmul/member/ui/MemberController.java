@@ -1,8 +1,9 @@
 package com.excmul.member.ui;
 
+import com.excmul.common.domain.vo.TokenVo;
 import com.excmul.member.application.MemberService;
 import com.excmul.member.domain.vo.EmailVo;
-import com.excmul.member.domain.vo.NameVo;
+import com.excmul.member.domain.vo.PasswordVo;
 import com.excmul.member.dto.IdInquiryRequest;
 import com.excmul.member.dto.MemberSignRequest;
 import com.excmul.member.dto.PwInquiryRequest;
@@ -11,9 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -64,7 +63,8 @@ public class MemberController {
     }
 
     @PostMapping("/auth/idInquiry")
-    public String idInquiry(ModelMap modelMap, IdInquiryRequest request) {
+    public String idInquiry(ModelMap modelMap,
+                            @ModelAttribute("token") IdInquiryRequest request) {
         Optional<EmailVo> optionalEmail = memberService.inquiryId(
                 request.getName(), request.getBirth(), request.getPhoneNumber()
         );
@@ -81,12 +81,32 @@ public class MemberController {
     }
 
     @PostMapping("/auth/pwInquiry")
-    public String pwInquiry(ModelMap modelMap, PwInquiryRequest request) {
+    public String pwInquiry(ModelMap modelMap,
+                            PwInquiryRequest request) {
         boolean isSent = memberService.inquiryPw(
                 request.getEmail(), request.getName(), request.getBirth(), request.getPhoneNumber()
         );
         modelMap.addAttribute("isSent", isSent);
 
         return "fragments/contents/member/pw-inquiry-result";
+    }
+
+    @GetMapping("/auth/changePassword/{Token}")
+    public String changePassword(ModelMap modelMap,
+                                 @PathVariable("Token") TokenVo token) {
+        boolean isAvailable = memberService.isAvailablePasswordChangeToken(token);
+
+        modelMap.addAttribute("isAvailable", isAvailable);
+
+        return "fragments/contents/member/change-password";
+    }
+
+    @PostMapping("/auth/changePassword")
+    public String changePassword(@ModelAttribute("token") TokenVo token,
+                                 PasswordVo password) {
+
+        memberService.changePassword(token, password);
+
+        return "fragments/contents/member/change-password-result";
     }
 }
