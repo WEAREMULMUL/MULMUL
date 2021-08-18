@@ -11,6 +11,6 @@ public class FakeMailService implements MailService {
     public void send(final Mail mail) {
         System.out.println(mail);
 
-        mail.send();
+        mail.registerSendHistory();
     }
 }

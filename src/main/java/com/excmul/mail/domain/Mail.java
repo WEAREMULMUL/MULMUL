@@ -35,7 +35,7 @@ public class Mail extends AbstractEntity {
         this.content = content;
     }
 
-    public void send() {
+    public void registerSendHistory() {
         sentDate = LocalDateTime.now();
     }
 }
