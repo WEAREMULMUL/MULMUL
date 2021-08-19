@@ -21,9 +21,17 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public void createDefaultMember(MemberSignRequest request) {
+<<<<<<< HEAD
         memberRepository.save(request.sign(passwordEncoder));
+=======
+        Member signMember = request.sign(passwordEncoder);
+
+        memberRepository.save(signMember);
+>>>>>>> 45411320c0ee2c79afa90449b2f191576f96034f
     }
 
     @Transactional(readOnly = true)

@@ -2,14 +2,26 @@ package com.excmul.member.ui;
 
 import com.excmul.auth.AuthPrincipal;
 import com.excmul.member.application.MemberService;
+<<<<<<< HEAD
 import com.excmul.member.dto.MemberChangePasswordRequest;
 import com.excmul.member.dto.MemberSignRequest;
 import com.excmul.member.exception.DuplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+=======
+import com.excmul.member.domain.Member;
+import com.excmul.member.domain.vo.AuthVo;
+import com.excmul.member.domain.vo.PasswordVo;
+import com.excmul.member.domain.vo.RoleVo;
+import com.excmul.member.dto.MemberSignRequest;
+import com.excmul.member.exception.DuplicationException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+>>>>>>> 45411320c0ee2c79afa90449b2f191576f96034f
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 

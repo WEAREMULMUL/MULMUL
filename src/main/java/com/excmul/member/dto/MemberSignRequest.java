@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Getter
 @NoArgsConstructor
 public class MemberSignRequest {
-
     private EmailVo email;
     private PasswordVo password;
     private NameVo name;
@@ -22,7 +21,10 @@ public class MemberSignRequest {
     private boolean termLocation;
 
     public Member sign(PasswordEncoder passwordEncoder) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 45411320c0ee2c79afa90449b2f191576f96034f
         PasswordVo encodedPassword = password.encode(passwordEncoder);
 
         return Member.builder()
