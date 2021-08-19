@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <h3>나는 회원 정보 수정이얌</h3>
+    <form th:role="form"
+          th:action="@{/auth/edit}"
+          th:object="${editRequest}"
+          th:method="POST">
+        <div>
+            <label th:for="password">패스워드</label>
+            <input type="password"
+                   th:field="*{password}"/>
+        </div>
+        <div>
+            <label th:for="nickName">닉네임</label>
+            <input type="text"
+                   th:field="*{nickname}"/>
+        </div>
+        <div>
+            <label th:for="birth">생일</label>
+            <input type="text"
+                   th:field="*{birth}"/>
+        </div>
+        <div>
+            <label th:for="phoneNumber">전화번호</label>
+            <input type="text"
+                   th:field="*{phoneNumber}"/>
+        </div>
+        <button type="submit">정보 수정</button>
+    </form>
+</div>
+</body>
+</html>

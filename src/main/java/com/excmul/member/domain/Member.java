@@ -5,6 +5,7 @@ import com.excmul.common.domain.AbstractEntity;
 import com.excmul.mail.domain.Mail;
 import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
+import com.excmul.member.dto.EditDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -73,5 +74,12 @@ public class Member extends AbstractEntity {
 
     public Mail newMail(Content mailContent) {
         return new Mail(email, mailContent);
+    }
+
+    public void editMemberInfo(EditDto editDto) {
+        this.password = editDto.getPassword();
+        this.nickname = editDto.getNickname();
+        this.birth = editDto.getBirth();
+        this.phoneNumber = editDto.getPhoneNumber();
     }
 }

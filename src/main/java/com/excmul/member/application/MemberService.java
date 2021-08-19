@@ -10,6 +10,7 @@ import com.excmul.member.domain.PasswordChangeToken;
 import com.excmul.member.domain.PasswordChangeTokenRepository;
 import com.excmul.member.domain.vo.*;
 import com.excmul.member.domain.MemberRepository;
+import com.excmul.member.dto.EditDto;
 import com.excmul.member.dto.MemberChangePasswordRequest;
 import com.excmul.member.dto.MemberSignRequest;
 import lombok.RequiredArgsConstructor;
@@ -101,5 +102,14 @@ public class MemberService {
 
         PasswordVo encodedPassword = password.encode(passwordEncoder);
         passwordChangeToken.use(encodedPassword);
+    }
+
+    @Transactional
+    public void edit(String email, EditDto editDto) {
+        Member member = memberRepository.findByEmail(new EmailVo(email))
+                .orElseThrow(() -> {
+                    throw new RuntimeException("해당하는 이메일이 없습니다.");
+                });
+        member.editMemberInfo(editDto);
     }
 }

@@ -5,10 +5,7 @@ import com.excmul.common.domain.vo.TokenVo;
 import com.excmul.member.application.MemberService;
 import com.excmul.member.domain.vo.EmailVo;
 import com.excmul.member.domain.vo.PasswordVo;
-import com.excmul.member.dto.IdInquiryRequest;
-import com.excmul.member.dto.MemberChangePasswordRequest;
-import com.excmul.member.dto.MemberSignRequest;
-import com.excmul.member.dto.PwInquiryRequest;
+import com.excmul.member.dto.*;
 import com.excmul.member.exception.DuplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,8 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Optional;
-
 
 @Controller
 @RequiredArgsConstructor
@@ -126,5 +123,21 @@ public class MemberController {
         memberService.changePassword(token, password);
 
         return "fragments/contents/member/change-password-result";
+    }
+
+    /**
+     * 회원 정보 수정
+     */
+    @GetMapping("/auth/edit")
+    public String edit(Model model) {
+        EditDto editRequest = new EditDto();
+        model.addAttribute("editRequest", editRequest);
+        return "/fragments/contents/member/edit";
+    }
+
+    @PostMapping("/auth/edit")
+    public String edit(@AuthenticationPrincipal AuthPrincipal principal, EditDto editDto) {
+        memberService.edit(principal.loginMember().email().toString(), editDto);
+        return "redirect:/fragments/contents/index";
     }
 }
