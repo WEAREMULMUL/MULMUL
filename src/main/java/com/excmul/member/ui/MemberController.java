@@ -1,17 +1,12 @@
 package com.excmul.member.ui;
 
 import com.excmul.auth.AuthPrincipal;
-import com.excmul.auth.LoginMember;
 import com.excmul.member.application.MemberService;
 import com.excmul.member.dto.MemberChangePasswordRequest;
 import com.excmul.member.dto.MemberSignRequest;
 import com.excmul.member.exception.DuplicationException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,6 +54,7 @@ public class MemberController {
         return "/fragments/contents/member/login";
     }
 
+    // 세션 유진
     @GetMapping("/auth/editPassword")
     public String editPassword(Model model) {
         model.addAttribute("memberChangePasswordRequest", new MemberChangePasswordRequest());
@@ -67,6 +63,8 @@ public class MemberController {
 
     @PostMapping("/auth/editPassword")
     public String changePassword(@AuthenticationPrincipal AuthPrincipal principal, MemberChangePasswordRequest request) {
+        // request.getBeforeChangePassword() -> 서비스로 던져줘야
+        // 서비스는 request를 몰라야 한다!
         memberService.changePassword(principal.loginMember(), request);
         return "fragments/contents/index";
     }

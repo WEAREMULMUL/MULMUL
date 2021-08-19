@@ -14,21 +14,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class MemberChangePasswordRequest {
     private PasswordVo beforeChangePassword;
     private PasswordVo afterChangePassword;
-    private PasswordVo afterChangeConfirmPassword;
+    private PasswordVo afterChangeConfirmPassword; // 프론트 validate..!
 
-
+    // dto는 dto의 역할만
     public void validExistsPassword(PasswordEncoder passwordEncoder, PasswordVo authPrincipalPassword) {
         if (!passwordEncoder.matches(beforeChangePassword.value(), authPrincipalPassword.value())) {
             throw new InvalidInputException(InvalidInputException.ErrorCode.OLD_PASSWORD_MISMATCH);
         }
     }
 
+    // dto는 dto의 역할만
     public void validAfterChangePasswords() {
         if (!afterChangePassword.equals(afterChangeConfirmPassword)) {
             throw new InvalidInputException(InvalidInputException.ErrorCode.NEW_PASSWORD_MISMATCH);
         }
     }
 
+    // dto는 dto의 역할만
     public void validIsDifferentPassword() {
         if (beforeChangePassword.equals(afterChangePassword)) {
             throw new InvalidInputException(InvalidInputException.ErrorCode.IS_SAME_PASSWORD);
