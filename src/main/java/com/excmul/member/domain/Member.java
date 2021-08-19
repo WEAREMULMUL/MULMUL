@@ -1,25 +1,18 @@
 package com.excmul.member.domain;
 
-import com.excmul.auth.LoginMember;
 import com.excmul.common.domain.DateEntity;
-import com.excmul.mail.domain.Mail;
-import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
 import lombok.*;
 
 import javax.persistence.*;
 
-@Getter(AccessLevel.PRIVATE)
-@Builder
-<<<<<<< HEAD
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-=======
->>>>>>> origin/jaewon
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "MEMBER")
 @Entity
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Table(name = "MEMBER")
 public class Member extends DateEntity {
+
     @Id
     @Column(name = "MEMBER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +57,6 @@ public class Member extends DateEntity {
     @Column(name = "MEMBER_ROLE", nullable = false)
     private RoleVo role;
 
-<<<<<<< HEAD
     public int id() {
         return id;
     }
@@ -79,29 +71,9 @@ public class Member extends DateEntity {
 
     public AuthVo auth() {
         return auth;
-=======
-    public LoginMember newLoginMember() {
-        return LoginMember.builder()
-                .id(id)
-                .email(email)
-                .auth(auth)
-                .password(password)
-                .build();
-    }
-
-    public PasswordChangeToken newChangePasswordToken() {
-        return PasswordChangeToken.newInstance(this, this.password);
->>>>>>> origin/jaewon
     }
 
     public void changePassword(PasswordVo password) {
         this.password = password;
     }
-<<<<<<< HEAD
-=======
-
-    public Mail newMail(Content mailContent) {
-        return new Mail(email, mailContent);
-    }
->>>>>>> origin/jaewon
 }

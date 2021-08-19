@@ -28,12 +28,9 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-<<<<<<< HEAD
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-=======
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
->>>>>>> custom-security/donggeon
 }
 
 test {

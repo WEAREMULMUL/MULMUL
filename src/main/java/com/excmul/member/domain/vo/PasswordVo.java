@@ -1,12 +1,6 @@
 package com.excmul.member.domain.vo;
 
-<<<<<<< HEAD
 import com.excmul.member.exception.InvalidInputException;
-=======
-import com.excmul.auth.application.AuthorizationException;
-import com.excmul.member.exception.MemberException;
-import com.excmul.member.exception.MemberExceptionMessage;
->>>>>>> custom-security/donggeon
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -65,11 +59,5 @@ public class PasswordVo {
     @Override
     public String toString() {
         return this.value();
-    }
-
-    public void checkPassword(String password) {
-        if (!StringUtils.equals(this.password, password)) {
-            throw new AuthorizationException();
-        }
     }
 }
