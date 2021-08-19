@@ -1,6 +1,6 @@
 package com.excmul.auth.config;
 
-import com.excmul.auth.AuthPrincipalService;
+import com.excmul.auth.oauth.AuthPrincipalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

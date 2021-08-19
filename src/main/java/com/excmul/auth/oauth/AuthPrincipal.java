@@ -1,5 +1,6 @@
 package com.excmul.auth.oauth;
 
+import com.excmul.auth.LoginMember;
 import com.excmul.member.domain.vo.PasswordVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

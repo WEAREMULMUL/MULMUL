@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <h3>나는 아이디 찾기 결과야</h3>
+        <div>
+            <label th:text="${email != null ? email : '일치하는 회원 정보를 찾을 수 없습니다.'}">
+                아이디 찾기 결과
+            </label>
+        </div>
+</div>
+</body>
+</html>

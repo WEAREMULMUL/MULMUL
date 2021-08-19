@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <h3>나는 패스워드 찾기 결과야</h3>
+        <div>
+            <label th:text="${isSent ? '패스워드 변경 주소가 이메일로 전송 되었습니다.' : '일치하는 회원 정보를 찾을 수 없습니다.'}">
+                패스워드 찾기 결과
+            </label>
+        </div>
+</div>
+</body>
+</html>

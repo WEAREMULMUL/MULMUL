@@ -1,5 +1,6 @@
 package com.excmul.auth.oauth;
 
+import com.excmul.auth.LoginMember;
 import com.excmul.member.domain.vo.EmailVo;
 import com.excmul.member.domain.Member;
 import com.excmul.member.domain.MemberRepository;
@@ -28,16 +29,6 @@ public class AuthPrincipalService implements UserDetailsService {
     }
 
     private AuthPrincipal newAuthPrincipal(Member member) {
-        return new AuthPrincipal(newLoginMember(member));
+        return new AuthPrincipal(member.newLoginMember());
     }
-
-    private LoginMember newLoginMember(Member member) {
-        return LoginMember.builder()
-                .id(member.id())
-                .email(member.email())
-                .auth(member.auth())
-                .password(member.password())
-                .build();
-    }
-
 }
