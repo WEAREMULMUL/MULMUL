@@ -72,4 +72,8 @@ public class Member extends DateEntity {
     public AuthVo auth() {
         return auth;
     }
+
+    public void changePassword(PasswordVo password) {
+        this.password = password;
+    }
 }

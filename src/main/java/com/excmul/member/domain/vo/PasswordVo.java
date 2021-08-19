@@ -1,11 +1,9 @@
 package com.excmul.member.domain.vo;
 
-import com.excmul.member.exception.InvaildInputException;
+import com.excmul.member.exception.InvalidInputException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 
@@ -50,7 +48,7 @@ public class PasswordVo {
 
     public void validate(String password) {
         if (!StringUtils.hasText(password) || !Pattern.matches(PASSWORD_VALIDATOR, password)) {
-            throw new InvaildInputException(InvaildInputException.ErrorCode.PASSWORD);
+            throw new InvalidInputException(InvalidInputException.ErrorCode.PASSWORD);
         }
     }
 

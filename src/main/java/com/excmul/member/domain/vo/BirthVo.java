@@ -1,6 +1,6 @@
 package com.excmul.member.domain.vo;
 
-import com.excmul.member.exception.InvaildInputException;
+import com.excmul.member.exception.InvalidInputException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -31,7 +31,7 @@ public class BirthVo {
 
     public void validate(String birth) {
         if (!StringUtils.hasText(birth) || !Pattern.matches(BIRTH_VALIDATOR, birth)) {
-            throw new InvaildInputException(InvaildInputException.ErrorCode.BIRTH);
+            throw new InvalidInputException(InvalidInputException.ErrorCode.BIRTH);
         }
     }
 

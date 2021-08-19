@@ -1,6 +1,6 @@
 package com.excmul.member.domain.vo;
 
-import com.excmul.member.exception.InvaildInputException;
+import com.excmul.member.exception.InvalidInputException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -9,8 +9,6 @@ import org.springframework.util.StringUtils;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
 
 
@@ -36,7 +34,7 @@ public class EmailVo {
 
     public void validate(String email) {
         if (!StringUtils.hasText(email) || !Pattern.matches(EMAIL_VALIDATOR, email)) {
-            throw new InvaildInputException(InvaildInputException.ErrorCode.EMAIL);
+            throw new InvalidInputException(InvalidInputException.ErrorCode.EMAIL);
         }
     }
 

@@ -1,6 +1,6 @@
 package com.excmul.member.domain.vo;
 
-import com.excmul.member.exception.InvaildInputException;
+import com.excmul.member.exception.InvalidInputException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -30,7 +30,7 @@ public class NameVo {
 
     public void validate(String name) {
         if (!StringUtils.hasText(name) || !Pattern.matches(NAME_VALIDATOR, name)) {
-            throw new InvaildInputException(InvaildInputException.ErrorCode.NAME);
+            throw new InvalidInputException(InvalidInputException.ErrorCode.NAME);
         }
     }
 

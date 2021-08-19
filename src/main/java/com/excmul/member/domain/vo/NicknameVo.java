@@ -1,6 +1,6 @@
 package com.excmul.member.domain.vo;
 
-import com.excmul.member.exception.InvaildInputException;
+import com.excmul.member.exception.InvalidInputException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -29,7 +29,7 @@ public class NicknameVo {
 
     public void validate(String nickname) {
         if (!StringUtils.hasText(nickname) || !Pattern.matches(NICKNAME_VALIDATOR, nickname)) {
-            throw new InvaildInputException(InvaildInputException.ErrorCode.NICKNAME);
+            throw new InvalidInputException(InvalidInputException.ErrorCode.NICKNAME);
         }
     }
 

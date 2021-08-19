@@ -1,6 +1,6 @@
 package com.excmul.member.domain.vo;
 
-import com.excmul.member.exception.InvaildInputException;
+import com.excmul.member.exception.InvalidInputException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 
@@ -30,7 +30,7 @@ public class PhoneNumberVo {
 
     public void validate(String phoneNumber) {
         if (!StringUtils.hasText(phoneNumber) || !Pattern.matches(PHONE_NUMBER_VALIDATOR, phoneNumber)) {
-            throw new InvaildInputException(InvaildInputException.ErrorCode.PHONE_NUMBER);
+            throw new InvalidInputException(InvalidInputException.ErrorCode.PHONE_NUMBER);
         }
     }
 

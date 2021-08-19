@@ -1,5 +1,6 @@
 package com.excmul.auth;
 
+import com.excmul.member.domain.vo.PasswordVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,10 @@ public class AuthPrincipal implements UserDetails {
     public String getPassword() {
         // TODO Auto-generated method stub
         return loginMember.password().value();
+    }
+
+    public LoginMember loginMember() {
+        return loginMember;
     }
 
     @Override

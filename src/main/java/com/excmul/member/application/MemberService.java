@@ -1,12 +1,16 @@
 package com.excmul.member.application;
 
+import com.excmul.auth.LoginMember;
+import com.excmul.member.domain.Member;
 import com.excmul.member.domain.vo.EmailVo;
 import com.excmul.member.domain.MemberRepository;
 import com.excmul.member.domain.vo.NicknameVo;
 import com.excmul.member.domain.vo.PasswordVo;
 import com.excmul.member.domain.vo.PhoneNumberVo;
+import com.excmul.member.dto.MemberChangePasswordRequest;
 import com.excmul.member.dto.MemberSignRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +39,19 @@ public class MemberService {
     @Transactional(readOnly = true)
     public boolean existsByPhoneNumber(PhoneNumberVo phoneNumber) {
         return memberRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    @Transactional
+    public void changePassword(LoginMember loginMember, MemberChangePasswordRequest request) {
+        request.validExistsPassword(passwordEncoder, loginMember.password());
+        request.validAfterChangePasswords();
+        request.validIsDifferentPassword();
+
+        Member member = memberRepository.findByEmail(loginMember.email())
+                .orElseThrow(() -> {
+                    throw new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다 ");
+                });
+        member.changePassword(request.changePassword(passwordEncoder));
     }
 
 }
