@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <h3>나는 패스워드 찾기 폼이야</h3>
+
+    <form role="form" th:action="@{/auth/pwInquiry}" method="post">
+
+        <div>
+            <label th:for="email">이메일</label>
+            <input
+                    type="text"
+                    th:name="email"
+                    placeholder="이메일을 입력하세요"
+            />
+        </div>
+
+        <div>
+            <label th:for="name">이름</label>
+            <input
+                    type="text"
+                    th:name="name"
+                    placeholder="이름을 입력하세요"
+            />
+        </div>
+
+        <div>
+            <label th:for="birth">생년월일</label>
+            <input
+                    type="text"
+                    th:name="birth"
+                    placeholder="생년월일을 입력하세요"
+            />
+        </div>
+
+        <div>
+            <label th:for="phoneNumber">전화번호</label>
+            <input
+                    type="text"
+                    th:name="phoneNumber"
+                    placeholder="전화번호를 입력하세요"
+            />
+        </div>
+        <button type="submit">찾기</button>
+    </form>
+</div>
+</body>
+</html>

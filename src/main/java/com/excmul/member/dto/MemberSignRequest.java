@@ -22,9 +22,12 @@ public class MemberSignRequest {
 
     public Member sign(PasswordEncoder passwordEncoder) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 45411320c0ee2c79afa90449b2f191576f96034f
+=======
+>>>>>>> origin/jaewon
         PasswordVo encodedPassword = password.encode(passwordEncoder);
 
         return Member.builder()

@@ -28,6 +28,7 @@ public class AuthPrincipalService implements UserDetailsService {
     }
 
     private AuthPrincipal newAuthPrincipal(Member member) {
+<<<<<<< HEAD
         return new AuthPrincipal(newLoginMember(member));
     }
 
@@ -38,6 +39,9 @@ public class AuthPrincipalService implements UserDetailsService {
                 .auth(member.auth())
                 .password(member.password())
                 .build();
+=======
+        return new AuthPrincipal(member.newLoginMember());
+>>>>>>> origin/jaewon
     }
 
 }
