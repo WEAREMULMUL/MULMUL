@@ -1,6 +1,6 @@
 package com.excmul.auth.config;
 
-import com.excmul.auth.oauth.AuthPrincipalService;
+import com.excmul.auth.oauth.application.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AuthPrincipalService authPrincipalService;
+    private final AuthService authPrincipalService;
 
     @Bean
     @Override
@@ -58,6 +58,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/index")
                 .and()
                 .exceptionHandling();
+
+        http
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(authPrincipalService);
 
         http
                 .logout()
