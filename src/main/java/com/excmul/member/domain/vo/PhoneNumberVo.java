@@ -20,7 +20,7 @@ public class PhoneNumberVo {
     @Transient
     private static final String PHONE_NUMBER_VALIDATOR = "^010[0-9]{8}$";
 
-    @Column(name = "MEMBER_PHONE_NUMBER", nullable = false)
+    @Column(name = "MEMBER_PHONE_NUMBER")
     private String phoneNumber;
 
     public PhoneNumberVo(String phoneNumber) {

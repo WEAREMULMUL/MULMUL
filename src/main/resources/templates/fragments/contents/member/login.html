@@ -1,6 +1,22 @@
 <!DOCTYPE HTML>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        initSocialEvents(this);
+    });
+
+    function initSocialEvents(document) {
+        document.querySelectorAll(".btn-social-login").forEach(
+            element => {
+                element.addEventListener("click", function() {
+                    const socialType = this.getAttribute("social-type");
+                    document.location = "/oauth2/authorization/" + socialType;
+                });
+            }
+        );
+    }
+</script>
 <div class="container">
     <h3>나는 로그인 폼이야</h3>
 
@@ -23,7 +39,7 @@
                     placeholder="패스워드를 입력하세요"
             />
         </div>
-        <button type="button">Google</button>
+        <button type="button" class="btn-social-login" social-type="google">Google</button>
         <a href="">KaKao</a>
         <button type="button">NAVER</button>
         <button type="submit">Submit</button>

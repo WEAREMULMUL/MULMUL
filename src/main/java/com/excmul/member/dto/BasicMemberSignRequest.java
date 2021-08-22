@@ -32,7 +32,7 @@ public class BasicMemberSignRequest {
                 .termService(termService)
                 .termPrivacy(termPrivacy)
                 .termLocation(termLocation)
-                .auth(AuthVo.BASIC)
+                .socialType(SocialType.BASIC)
                 .role(RoleVo.USER)
                 .build();
     }

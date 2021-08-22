@@ -1,8 +1,9 @@
-package com.excmul.auth.oauth.dto;
+package com.excmul.member.domain.vo;
 
 
 import com.excmul.auth.exception.OAuth2Exception;
-import com.excmul.member.domain.vo.AuthVo;
+import com.excmul.auth.dto.GoogleAttributes;
+import com.excmul.auth.dto.SocialAttributes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -11,18 +12,14 @@ import java.util.function.Function;
 
 @RequiredArgsConstructor
 public enum SocialType {
-    GOOGLE("google", AuthVo.GOOGLE, GoogleMember::new);
+    BASIC("", null),
+    GOOGLE("google", GoogleAttributes::new);
 
     private final String registrationId;
-    private final AuthVo auth;
-    private final Function<OAuth2User, SocialMember> newSocialMemberFunction;
+    private final Function<OAuth2User, SocialAttributes> newSocialMemberFunction;
 
-    public SocialMember toSocialMember(OAuth2User oAuth2User) {
+    public SocialAttributes toSocialAttributes(OAuth2User oAuth2User) {
         return newSocialMemberFunction.apply(oAuth2User);
-    }
-
-    public AuthVo auth() {
-        return auth;
     }
 
     public static SocialType of(String registrationId) {

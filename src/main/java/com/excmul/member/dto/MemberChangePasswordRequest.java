@@ -1,8 +1,7 @@
 package com.excmul.member.dto;
 
-import com.excmul.member.domain.vo.*;
+import com.excmul.member.domain.vo.PasswordVo;
 import com.excmul.member.exception.InvalidInputException;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

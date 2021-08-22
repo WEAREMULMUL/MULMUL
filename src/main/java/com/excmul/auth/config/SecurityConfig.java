@@ -1,6 +1,6 @@
 package com.excmul.auth.config;
 
-import com.excmul.auth.oauth.application.AuthService;
+import com.excmul.auth.application.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,16 +60,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling();
 
         http
-                .oauth2Login()
-                .userInfoEndpoint()
-                .userService(authPrincipalService);
-
-        http
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/index")
                 .invalidateHttpSession(true)
                 .and()
                 .exceptionHandling();
+
+        configureOAuth2(http);
+    }
+
+    private void configureOAuth2(HttpSecurity http) throws Exception {
+        http
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(authPrincipalService);
     }
 }

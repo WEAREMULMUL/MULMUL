@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <h3>나는 소셜 회원가입 폼이야</h3>
+    
+    <form
+            th:role="form"
+            th:action="@{/auth/signup/social}"
+            th:method="POST">
+        <div>
+            <label th:for="nickName">닉네임</label>
+            <input
+                    type="text"
+                    th:name="nickname"
+                    placeholder="닉네임을 입력하세요"
+            />
+        </div>
+
+        <div>
+            <label th:for="gender">성별</label>
+            <select th:name="gender" placeholder="성별을 입력하세요">
+                <option th:value="MAN">남자</option>
+                <option th:value="WOMAN">여자</option>
+                <option th:value="EMPTY">선택안함</option>
+            </select>
+        </div>
+
+        <div>
+            <label th:for="birth">생일</label>
+            <input
+                    type="text"
+                    th:name="birth"
+                    placeholder="생일 입력하세요"
+            />
+        </div>
+
+        <div>
+            <label th:for="phoneNumber">전화번호</label>
+            <input
+                    type="text"
+                    th:name="phoneNumber"
+                    placeholder="전화번호를 입력하세요"
+            />
+        </div>
+
+        <div>
+            <label th:for="terms">서비스 이용약관 동의</label>
+            <p>서비스 이용약관 동의를 진행해주세요</p>
+            동의<input type="checkbox" th:value="true" th:name="termService">
+        </div>
+
+        <div>
+            <label th:for="terms">개인정보 동의</label>
+            <p>개인정보 동의를 진행해주세요</p>
+            동의<input type="checkbox" th:value="true" th:name="termPrivacy">
+        </div>
+
+        <div>
+            <label th:for="terms">위치정보 동의</label>
+            <p>위치정보 동의를 진행해주세요</p>
+            동의<input type="checkbox" th:value="true" th:name="termLocation">
+        </div>
+
+        <button type="submit">정보 등록</button>
+    </form>
+</div>
+</body>
+</html>

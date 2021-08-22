@@ -1,14 +1,20 @@
 package com.excmul.member.domain;
 
-import com.excmul.auth.LoginMember;
+import com.excmul.auth.dto.AuthPrincipal;
+import com.excmul.auth.dto.SocialAttributes;
 import com.excmul.common.domain.AbstractEntity;
 import com.excmul.mail.domain.Mail;
 import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
 import com.excmul.member.dto.EditDto;
-import lombok.*;
+import com.excmul.member.dto.SocialMemberInformation;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Builder
@@ -22,6 +28,8 @@ public class Member extends AbstractEntity {
     @Embedded
     private PasswordVo password;
 
+    private String socialUserKey;
+
     @Embedded
     private NameVo name;
 
@@ -29,7 +37,7 @@ public class Member extends AbstractEntity {
     private NicknameVo nickname;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "MEMBER_GENDER", nullable = false)
+    @Column(name = "MEMBER_GENDER")
     private GenderVo gender;
 
     @Embedded
@@ -48,20 +56,41 @@ public class Member extends AbstractEntity {
     private boolean termLocation;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "MEMBER_AUTH", nullable = false)
-    private AuthVo auth;
+    @Column(name = "MEMBER_SOCIAL_TYPE", nullable = false)
+    private SocialType socialType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "MEMBER_ROLE", nullable = false)
     private RoleVo role;
 
-    public LoginMember newLoginMember() {
-        return LoginMember.builder()
+    public static Member ofSocial(SocialAttributes socialMember) {
+        return Member.builder()
+                .name(socialMember.name())
+                .email(socialMember.email())
+                .socialUserKey(socialMember.userKey())
+                .socialType(socialMember.socialType())
+                .role(RoleVo.USER)
+                .build();
+    }
+
+    public boolean isSocial() {
+        return socialType != SocialType.BASIC;
+    }
+
+    public AuthPrincipal toAuthPrincipal() {
+        return AuthPrincipal.builder()
                 .id(id)
                 .email(email)
-                .auth(auth)
                 .password(password)
+                .role(role)
+                .socialType(socialType)
                 .build();
+    }
+
+    public boolean isNotCompletedSingUp() {
+        return Objects.isNull(nickname) ||
+                Objects.isNull(birth) ||
+                Objects.isNull(phoneNumber);
     }
 
     public PasswordChangeToken newChangePasswordToken() {
@@ -81,5 +110,15 @@ public class Member extends AbstractEntity {
         this.nickname = editDto.getNickname();
         this.birth = editDto.getBirth();
         this.phoneNumber = editDto.getPhoneNumber();
+    }
+
+    public void updateSocialMemberInfo(SocialMemberInformation socialMemberInformation) {
+        this.gender = socialMemberInformation.getGender();
+        this.nickname = socialMemberInformation.getNickname();
+        this.phoneNumber = socialMemberInformation.getPhoneNumber();
+        this.birth = socialMemberInformation.getBirth();
+        this.termLocation = socialMemberInformation.isTermLocation();
+        this.termPrivacy = true;
+        this.termService = true;
     }
 }

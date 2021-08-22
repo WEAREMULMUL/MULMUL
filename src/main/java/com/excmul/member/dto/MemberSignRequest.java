@@ -10,15 +10,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @NoArgsConstructor
 public class MemberSignRequest {
 
+    @NonNull
     private EmailVo email;
+    @NonNull
     private PasswordVo password;
+    @NonNull
     private NameVo name;
+    @NonNull
     private NicknameVo nickname;
+    @NonNull
     private GenderVo gender;
+    @NonNull
     private BirthVo birth;
+    @NonNull
     private PhoneNumberVo phoneNumber;
+    @NonNull
     private boolean termService;
+    @NonNull
     private boolean termPrivacy;
+    @NonNull
     private boolean termLocation;
 
     public Member sign(PasswordEncoder passwordEncoder) {
@@ -35,7 +45,7 @@ public class MemberSignRequest {
                 .termService(termService)
                 .termPrivacy(termPrivacy)
                 .termLocation(termLocation)
-                .auth(AuthVo.BASIC)
+                .socialType(SocialType.BASIC)
                 .role(RoleVo.USER)
                 .build();
     }

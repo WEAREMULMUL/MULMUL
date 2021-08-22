@@ -1,11 +1,11 @@
-package com.excmul.auth.oauth.application;
+package com.excmul.auth.application;
 
-import com.excmul.auth.oauth.dto.SocialMember;
-import com.excmul.auth.oauth.dto.SocialType;
-import com.excmul.auth.oauth.dto.AuthPrincipal;
-import com.excmul.member.domain.vo.EmailVo;
+import com.excmul.auth.dto.SocialAttributes;
+import com.excmul.auth.exception.OAuth2Exception;
 import com.excmul.member.domain.Member;
 import com.excmul.member.domain.MemberRepository;
+import com.excmul.member.domain.vo.EmailVo;
+import com.excmul.member.domain.vo.SocialType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,15 +18,12 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
-
 @Service
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService,
         OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+    private static final String USERNAME_NOT_FOUND_MESSAGE = "해당 사용자를 찾을 수 없습니다 ";
     private final MemberRepository memberRepository;
-
-    private final HttpSession httpSession;
 
     @Override
     @Transactional(readOnly = true)
@@ -34,42 +31,38 @@ public class AuthService implements UserDetailsService,
         EmailVo email = new EmailVo(userEmail);
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> {
-                    throw new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다 ");
+                    throw new UsernameNotFoundException(USERNAME_NOT_FOUND_MESSAGE);
                 });
-        return newAuthPrincipal(member);
+        return member.toAuthPrincipal();
     }
 
-    private AuthPrincipal newAuthPrincipal(Member member) {
-        return new AuthPrincipal(member.newLoginMember());
-    }
-
+    @Transactional
     @Override
     public OAuth2User loadUser(final OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        SocialMember socialMember = newSocialMember(userRequest);
-        Member member = saveSocialMember(
-                newSocialMember(userRequest)
-        );
-        AuthPrincipal userDetails = newAuthPrincipal(member);
-        httpSession.setAttribute("user", userDetails);
+        SocialAttributes socialAttributes = newSocialAttributes(userRequest);
+        Member member = findAndSaveSocialMember(socialAttributes);
 
-        return socialMember;
+        if (!member.isSocial()) {
+            throw new OAuth2Exception(OAuth2Exception.ErrorCode.NOT_FOUND_SOCIAL_TYPE);
+        }
+
+        return member.toAuthPrincipal();
     }
 
-    private SocialMember newSocialMember(final OAuth2UserRequest userRequest) {
+    private SocialAttributes newSocialAttributes(final OAuth2UserRequest userRequest) {
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         SocialType socialType = SocialType.of(registrationId);
         OAuth2User oAuth2User = InnerLazyClass.DEFAULT_OAUTH2_USER_SERVICE.loadUser(userRequest);
 
-        return socialType.toSocialMember(oAuth2User);
+        return socialType.toSocialAttributes(oAuth2User);
     }
 
     @Transactional
-    public Member saveSocialMember(SocialMember socialMember) {
-        Member member = memberRepository.findByEmail(socialMember.getEmail())
-                .orElseGet(() -> memberRepository.save(socialMember.toMember()));
-        member.updateSocialInfo(socialMember.getName());
-
-        return member;
+    public Member findAndSaveSocialMember(SocialAttributes socialAttributes) {
+        return memberRepository.findByEmail(socialAttributes.email())
+                .orElseGet(() ->
+                        memberRepository.save(Member.ofSocial(socialAttributes))
+                );
     }
 
     private static class InnerLazyClass {
