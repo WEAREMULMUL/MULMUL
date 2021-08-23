@@ -1,4 +1,4 @@
-package com.excmul.auth;
+package com.excmul.auth.oauth;
 
 import com.excmul.member.domain.vo.AuthVo;
 import com.excmul.member.domain.vo.EmailVo;

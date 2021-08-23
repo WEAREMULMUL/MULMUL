@@ -1,6 +1,6 @@
 package com.excmul.member.application;
 
-import com.excmul.auth.LoginMember;
+import com.excmul.auth.oauth.LoginMember;
 import com.excmul.common.domain.vo.TokenVo;
 import com.excmul.common.exception.TokenException;
 import com.excmul.mail.application.MailService;
@@ -105,11 +105,12 @@ public class MemberService {
     }
 
     @Transactional
-    public void edit(String email, EditDto editDto) {
-        Member member = memberRepository.findByEmail(new EmailVo(email))
+    public void edit(EmailVo email, EditDto editDto) {
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> {
                     throw new RuntimeException("해당하는 이메일이 없습니다.");
                 });
+        editDto.setPassword(editDto.getPassword().encode(passwordEncoder));
         member.editMemberInfo(editDto);
     }
 }

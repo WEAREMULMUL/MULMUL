@@ -1,6 +1,6 @@
 package com.excmul.auth.oauth;
 
-import com.excmul.auth.LoginMember;
+import com.excmul.auth.oauth.LoginMember;
 import com.excmul.member.domain.vo.EmailVo;
 import com.excmul.member.domain.Member;
 import com.excmul.member.domain.MemberRepository;

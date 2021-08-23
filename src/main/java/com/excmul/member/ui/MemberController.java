@@ -20,7 +20,6 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
-
     private final MemberService memberService;
 
     @RequestMapping({"", "/", "index"})
@@ -137,7 +136,7 @@ public class MemberController {
 
     @PostMapping("/auth/edit")
     public String edit(@AuthenticationPrincipal AuthPrincipal principal, EditDto editDto) {
-        memberService.edit(principal.loginMember().email().toString(), editDto);
-        return "redirect:/fragments/contents/index";
+        memberService.edit(principal.loginMember().email(), editDto);
+        return "/fragments/contents/index";
     }
 }

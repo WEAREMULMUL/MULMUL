@@ -1,12 +1,13 @@
 package com.excmul.member.domain;
 
-import com.excmul.auth.LoginMember;
+import com.excmul.auth.oauth.LoginMember;
 import com.excmul.common.domain.AbstractEntity;
 import com.excmul.mail.domain.Mail;
 import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
 import com.excmul.member.dto.EditDto;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
