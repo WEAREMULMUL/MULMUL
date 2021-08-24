@@ -123,10 +123,7 @@ public class MemberController {
 
         return "fragments/contents/member/change-password-result";
     }
-
-    /**
-     * 회원 정보 수정
-     */
+    
     @GetMapping("/auth/edit")
     public String edit(Model model) {
         EditDto editRequest = new EditDto();
