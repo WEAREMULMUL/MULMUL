@@ -8,6 +8,7 @@ use mulmul;
 show tables;
 
 select * from member;
+select * from follow;
 delete from member where member_id = 1;
 
 drop table member;

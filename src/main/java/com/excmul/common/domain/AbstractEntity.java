@@ -26,4 +26,8 @@ public abstract class AbstractEntity {
     @LastModifiedDate
     @Column(name = "MODIFIED_DATE")
     protected LocalDateTime modifiedDate;
+
+    public long id() {
+        return id;
+    }
 }
