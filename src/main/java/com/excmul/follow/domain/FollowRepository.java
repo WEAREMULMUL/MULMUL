@@ -13,8 +13,8 @@ public interface FollowRepository extends JpaRepository<Follow, Integer> {
 
     Optional<Follow> findFollowByFromMemberAndToMember(Member fromMember, Member toMember);
 
-    Optional<Follow> findByFromMember(Member fromMember);
+    int countByFromMember(Member fromMember);
 
-    Optional<Follow> findByToMember(Member toMember);
+    int countByToMember(Member toMember);
 
 }

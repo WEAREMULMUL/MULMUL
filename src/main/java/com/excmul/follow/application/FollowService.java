@@ -56,5 +56,16 @@ public class FollowService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public int countFollowFromMe(EmailVo fromEmail) {
+        Optional<Member> fromMember = memberRepository.findByEmail(fromEmail);
+        return followRepository.countByFromMember(fromMember.get());
+    }
+
+    @Transactional(readOnly = true)
+    public int countFollowToMe(EmailVo toEmail) {
+        Optional<Member> toMember = memberRepository.findByEmail(toEmail);
+        return followRepository.countByToMember(toMember.get());
+    }
 
 }

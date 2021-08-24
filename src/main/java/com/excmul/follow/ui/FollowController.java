@@ -24,6 +24,13 @@ public class FollowController {
     public String followMemberResult(@AuthenticationPrincipal AuthPrincipal principal, EmailVo email) {
         EmailVo fromMail = principal.loginMember().email();
         followService.followMember(fromMail, email);
+
+        int countFollowFromMe = followService.countFollowFromMe(fromMail);
+        int countFollowToMe = followService.countFollowToMe(email);
+
+        System.out.println("From me " + countFollowFromMe);
+        System.out.println("To me " + countFollowToMe);
+
         return "fragments/contents/follow/follow-result";
     }
 
@@ -36,6 +43,13 @@ public class FollowController {
     public String unfollowMemberResult(@AuthenticationPrincipal AuthPrincipal principal, EmailVo email) {
         EmailVo fromMail = principal.loginMember().email();
         followService.unfollowMember(fromMail, email);
+
+        int countFollowFromMe = followService.countFollowFromMe(fromMail);
+        int countFollowToMe = followService.countFollowToMe(email);
+
+        System.out.println("From me " + countFollowFromMe);
+        System.out.println("To me " + countFollowToMe);
+
         return "fragments/contents/follow/follow-result";
     }
 }
