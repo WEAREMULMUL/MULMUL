@@ -3,6 +3,8 @@ package com.excmul.follow.ui;
 import com.excmul.auth.oauth.AuthPrincipal;
 import com.excmul.follow.application.FollowService;
 import com.excmul.follow.dto.FollowDto;
+import com.excmul.member.application.MemberService;
+import com.excmul.member.domain.Member;
 import com.excmul.member.domain.vo.EmailVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class FollowController {
 
     private final FollowService followService;
+    private final MemberService memberService;
 
     @GetMapping("/follow/member")
     public String followingMember() {
@@ -24,8 +27,9 @@ public class FollowController {
 
     @PostMapping("/follow/member")
     public String followMemberResult(@AuthenticationPrincipal AuthPrincipal principal, EmailVo email) {
-        EmailVo fromMail = principal.loginMember().email();
-        followService.followMember(fromMail, email);
+        Member fromMember = memberService.findMemberByEmail(principal.loginMember().email());
+        Member toMember = memberService.findMemberByEmail(email);
+        followService.followMember(fromMember, toMember);
         return "redirect:/follow/result";
     }
 
@@ -36,20 +40,21 @@ public class FollowController {
 
     @PostMapping("/unfollow/member")
     public String unfollowMemberResult(@AuthenticationPrincipal AuthPrincipal principal, EmailVo email) {
-        EmailVo fromMail = principal.loginMember().email();
-        followService.unfollowMember(fromMail, email);
+        Member fromMember = memberService.findMemberByEmail(principal.loginMember().email());
+        Member toMember = memberService.findMemberByEmail(email);
+        followService.unfollowMember(fromMember, toMember);
         return "redirect:/follow/result";
     }
 
     @GetMapping("/follow/result")
     public String followResult(@AuthenticationPrincipal AuthPrincipal principal, Model model) {
-        EmailVo email = principal.loginMember().email();
-        int countFollowFromMe = followService.countFollowFromMe(email);
-        int countFollowToMe = followService.countFollowToMe(email);
+        Member member = memberService.findMemberByEmail(principal.loginMember().email());
+        int countFollowFromMe = followService.countFollowFromMe(member);
+        int countFollowToMe = followService.countFollowToMe(member);
         FollowDto follow = new FollowDto(countFollowFromMe, countFollowToMe);
 
         model.addAttribute("follow", follow);
-        
+
         return "fragments/contents/follow/follow-result";
     }
 }

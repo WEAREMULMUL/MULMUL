@@ -112,4 +112,10 @@ public class MemberService {
                 });
         member.editMemberInfo(editDto);
     }
+
+    @Transactional(readOnly = true)
+    public Member findMemberByEmail(EmailVo email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("에러"));
+    }
 }

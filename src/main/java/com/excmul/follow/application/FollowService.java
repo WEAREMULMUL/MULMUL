@@ -2,9 +2,8 @@ package com.excmul.follow.application;
 
 import com.excmul.follow.domain.Follow;
 import com.excmul.follow.domain.FollowRepository;
+import com.excmul.follow.exception.FollowException;
 import com.excmul.member.domain.Member;
-import com.excmul.member.domain.MemberRepository;
-import com.excmul.member.domain.vo.EmailVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,58 +13,51 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class FollowService {
-    private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
 
     @Transactional
-    public EmailVo followMember(EmailVo fromEmail, EmailVo toEmail) {
-        selfFollow(fromEmail, toEmail);
+    public long followMember(Member fromMember, Member toMember) {
+        selfFollow(fromMember, toMember);
 
-        Optional<Member> fromMember = memberRepository.findByEmail(fromEmail);
-        Optional<Member> toMember = memberRepository.findByEmail(toEmail);
-        Optional<Follow> follow = followRepository.findFollowByFromMemberAndToMember(fromMember.get(), toMember.get());
+        Optional<Follow> follow = followRepository.findFollowByFromMemberAndToMember(fromMember, toMember);
 
         if (follow.isEmpty()) {
             followRepository.save(Follow.builder()
-                    .fromMember(fromMember.get())
-                    .toMember(toMember.get())
+                    .fromMember(fromMember)
+                    .toMember(toMember)
                     .build()
             );
         }
-        return toEmail;
+        return toMember.id();
     }
 
     @Transactional
-    public EmailVo unfollowMember(EmailVo fromEmail, EmailVo toEmail) {
-        selfFollow(fromEmail, toEmail);
+    public long unfollowMember(Member fromMember, Member toMember) {
+        selfFollow(fromMember, toMember);
 
-        Optional<Member> fromMember = memberRepository.findByEmail(fromEmail);
-        Optional<Member> toMember = memberRepository.findByEmail(toEmail);
-        Optional<Follow> follow = followRepository.findFollowByFromMemberAndToMember(fromMember.get(), toMember.get());
+        Optional<Follow> follow = followRepository.findFollowByFromMemberAndToMember(fromMember, toMember);
 
         if (follow.isPresent()) {
-            followRepository.deleteByFromMemberAndToMember(fromMember.get(), toMember.get());
+            followRepository.deleteByFromMemberAndToMember(fromMember, toMember);
         }
 
-        return toEmail;
+        return toMember.id();
     }
 
-    private void selfFollow(EmailVo fromEmail, EmailVo toEmail) {
-        if (fromEmail.equals(toEmail)) {
-            throw new IllegalArgumentException("같은 이메일입니다!!!");
+    private void selfFollow(Member fromMember, Member toMember) {
+        if (fromMember.equals(toMember)) {
+            throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);
         }
     }
 
     @Transactional(readOnly = true)
-    public int countFollowFromMe(EmailVo fromEmail) {
-        Optional<Member> fromMember = memberRepository.findByEmail(fromEmail);
-        return followRepository.countByFromMember(fromMember.get());
+    public int countFollowFromMe(Member fromMember) {
+        return followRepository.countByFromMember(fromMember);
     }
 
     @Transactional(readOnly = true)
-    public int countFollowToMe(EmailVo toEmail) {
-        Optional<Member> toMember = memberRepository.findByEmail(toEmail);
-        return followRepository.countByToMember(toMember.get());
+    public int countFollowToMe(Member toMember) {
+        return followRepository.countByToMember(toMember);
     }
 
 }
