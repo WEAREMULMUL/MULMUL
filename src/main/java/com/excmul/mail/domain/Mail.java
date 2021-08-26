@@ -2,24 +2,27 @@ package com.excmul.mail.domain;
 
 import com.excmul.common.domain.AbstractEntity;
 import com.excmul.mail.domain.vo.Content;
-import com.excmul.member.domain.vo.EmailVo;
+import com.excmul.member.domain.vo.Email;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "MAIL")
-public class Mail extends AbstractEntity {
+public class Mail extends AbstractEntity<Long> {
     @AttributeOverride(
             name = "email",
             column = @Column(name = "MAIL_RECEIVER")
     )
-    private EmailVo receiver;
+    private Email receiver;
 
     @AttributeOverride(
             name = "content",
@@ -30,7 +33,7 @@ public class Mail extends AbstractEntity {
     @Column(name = "MAIL_SENT_DATE")
     private LocalDateTime sentDate;
 
-    public Mail(EmailVo receiver, Content content) {
+    public Mail(Email receiver, Content content) {
         this.receiver = receiver;
         this.content = content;
     }

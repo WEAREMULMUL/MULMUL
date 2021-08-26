@@ -1,8 +1,8 @@
 package com.excmul.auth.dto;
 
-import com.excmul.member.domain.vo.EmailVo;
-import com.excmul.member.domain.vo.PasswordVo;
-import com.excmul.member.domain.vo.RoleVo;
+import com.excmul.member.domain.vo.Email;
+import com.excmul.member.domain.vo.Password;
+import com.excmul.member.domain.vo.Role;
 import com.excmul.member.domain.vo.SocialType;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,9 +21,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthPrincipal implements UserDetails, OAuth2User {
     @Getter private final long id;
-    private final EmailVo email;
-    private final PasswordVo password;
-    @Getter private final RoleVo role;
+    private final Email email;
+    private final Password password;
+    @Getter private final Role role;
     @Getter private final SocialType socialType;
 
     public String getUsername() {
@@ -34,11 +34,11 @@ public class AuthPrincipal implements UserDetails, OAuth2User {
         return password.value();
     }
 
-    public EmailVo getWrappingUsername() {
+    public Email getWrappingUsername() {
         return email;
     }
 
-    public PasswordVo getWrappingPassword() {
+    public Password getWrappingPassword() {
         return password;
     }
 

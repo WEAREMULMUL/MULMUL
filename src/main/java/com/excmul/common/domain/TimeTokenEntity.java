@@ -1,20 +1,22 @@
 package com.excmul.common.domain;
 
-import com.excmul.common.domain.vo.TokenVo;
+import com.excmul.common.domain.vo.Token;
 import com.excmul.common.exception.TokenException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 import static com.excmul.common.exception.TokenException.ErrorCode;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @MappedSuperclass
-public abstract class TimeTokenEntity extends AbstractEntity {
+public abstract class TimeTokenEntity extends AbstractEntity<Long> {
     @Embedded
-    protected TokenVo token;
+    protected Token token;
 
     @Column(name = "TOKEN_USED", nullable = false)
     protected boolean used;
@@ -22,7 +24,7 @@ public abstract class TimeTokenEntity extends AbstractEntity {
     @Column(name = "EXPIRY_DATE", nullable = false)
     protected LocalDateTime expiryDate;
 
-    public TimeTokenEntity(TokenVo token, LocalDateTime expiryDate) {
+    public TimeTokenEntity(Token token, LocalDateTime expiryDate) {
         this.token = token;
         this.expiryDate = expiryDate;
 

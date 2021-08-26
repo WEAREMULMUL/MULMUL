@@ -2,12 +2,10 @@ package com.excmul.member.ui;
 
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.exception.OAuth2Exception;
-import com.excmul.common.domain.vo.TokenVo;
+import com.excmul.common.domain.vo.Token;
 import com.excmul.member.application.MemberService;
-import com.excmul.member.domain.vo.EmailVo;
-import com.excmul.member.domain.vo.NicknameVo;
-import com.excmul.member.domain.vo.PasswordVo;
-import com.excmul.member.domain.vo.PhoneNumberVo;
+import com.excmul.member.domain.vo.Email;
+import com.excmul.member.domain.vo.Password;
 import com.excmul.member.dto.*;
 import com.excmul.member.exception.DuplicationException;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +16,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import java.util.Optional;
 
-import static com.excmul.auth.exception.OAuth2Exception.*;
+import static com.excmul.auth.exception.OAuth2Exception.ErrorCode;
 
 @RequestMapping("auth")
 @Controller
@@ -32,12 +29,12 @@ public class MemberController {
 
     @GetMapping("sign")
     public String sign(Model model) {
-        model.addAttribute("defaultMemberSignRequest", new MemberSignRequest());
+        model.addAttribute("defaultMemberSignRequest", new MemberSignDto());
         return "fragments/contents/member/sign";
     }
 
     @PostMapping("sign")
-    public String sign(@Valid MemberSignRequest request) {
+    public String sign(@Valid MemberSignDto request) {
         if (memberService.existsByEmail(request.getEmail())) {
             throw new DuplicationException(DuplicationException.ErrorCode.DUPLICATION_EMAIL);
         }
@@ -61,7 +58,7 @@ public class MemberController {
 
     @PostMapping("signup/social")
     public String signUpSocial(@AuthenticationPrincipal AuthPrincipal authPrincipal,
-                               @Valid SocialMemberInformation socialMemberInformation) {
+                               @Valid SocialMemberInformationDto socialMemberInformation) {
         validateSocialSingUp(authPrincipal);
 
         memberService.updateSocialMemberInfo(authPrincipal.getId(), socialMemberInformation);
@@ -82,12 +79,12 @@ public class MemberController {
     // 세션 유진
     @GetMapping("editPassword")
     public String editPassword(Model model) {
-        model.addAttribute("memberChangePasswordRequest", new MemberChangePasswordRequest());
+        model.addAttribute("memberChangePasswordRequest", new MemberChangePasswordDto());
         return "/fragments/contents/member/edit-password";
     }
 
     @PostMapping("editPassword")
-    public String changePassword(@AuthenticationPrincipal AuthPrincipal principal, MemberChangePasswordRequest request) {
+    public String changePassword(@AuthenticationPrincipal AuthPrincipal principal, MemberChangePasswordDto request) {
         // request.getBeforeChangePassword() -> 서비스로 던져줘야
         // 서비스는 request를 몰라야 한다!
         memberService.changeHomePagePassword(principal, request);
@@ -102,7 +99,7 @@ public class MemberController {
     @PostMapping("idInquiry")
     public String idInquiry(ModelMap modelMap,
                             MemberPrivacyDto memberPrivacyDto) {
-        Optional<EmailVo> optionalEmail = memberService.inquiryId(memberPrivacyDto);
+        Optional<Email> optionalEmail = memberService.inquiryId(memberPrivacyDto);
 
         optionalEmail.ifPresent(emailVo ->
                 modelMap.addAttribute("email", emailVo.value())
@@ -117,7 +114,7 @@ public class MemberController {
 
     @PostMapping("pwInquiry")
     public String pwInquiry(ModelMap modelMap,
-                            @ModelAttribute("email") EmailVo memberEmail,
+                            @ModelAttribute("email") Email memberEmail,
                             MemberPrivacyDto memberPrivacyDto) {
         boolean isSent = memberService.inquiryPw(
                 memberEmail, memberPrivacyDto
@@ -129,7 +126,7 @@ public class MemberController {
 
     @GetMapping("changePassword/{Token}")
     public String changePassword(ModelMap modelMap,
-                                 @PathVariable("Token") TokenVo token) {
+                                 @PathVariable("Token") Token token) {
         boolean isAvailable = memberService.isAvailablePasswordChangeToken(token);
 
         modelMap.addAttribute("isAvailable", isAvailable);
@@ -138,8 +135,8 @@ public class MemberController {
     }
 
     @PostMapping("changePassword")
-    public String changePassword(@ModelAttribute("token") TokenVo token,
-                                 PasswordVo password) {
+    public String changePassword(@ModelAttribute("token") Token token,
+                                 Password password) {
 
         memberService.changePassword(token, password);
 
@@ -151,13 +148,13 @@ public class MemberController {
      */
     @GetMapping("edit")
     public String edit(Model model) {
-        EditDto editRequest = new EditDto();
+        MemberInfoEditDto editRequest = new MemberInfoEditDto();
         model.addAttribute("editRequest", editRequest);
         return "/fragments/contents/member/edit";
     }
 
     @PostMapping("edit")
-    public String edit(@AuthenticationPrincipal AuthPrincipal principal, EditDto editDto) {
+    public String edit(@AuthenticationPrincipal AuthPrincipal principal, MemberInfoEditDto editDto) {
         memberService.edit(principal.getUsername(), editDto);
         return "redirect:/fragments/contents/index";
     }

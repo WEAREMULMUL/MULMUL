@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PasswordVo {
+public class Password {
 
     /**
      * 최소 8자 ~ 최대 30자
@@ -31,19 +31,17 @@ public class PasswordVo {
     @Column(name = "MEMBER_PASSWORD")
     private String password;
 
-    public PasswordVo(String password) {
+    public Password(String password) {
         validate(password);
         this.password = password;
     }
 
-    private PasswordVo(PasswordEncoder passwordEncoder, String password) {
-        String encodedPassword = passwordEncoder.encode(password);
-
-        this.password = encodedPassword;
+    private Password(PasswordEncoder passwordEncoder, String password) {
+        this.password = passwordEncoder.encode(password);
     }
 
-    public PasswordVo encode(PasswordEncoder passwordEncoder) {
-        return new PasswordVo(passwordEncoder, password);
+    public Password encode(PasswordEncoder passwordEncoder) {
+        return new Password(passwordEncoder, password);
     }
 
     public void validate(String password) {
@@ -65,12 +63,12 @@ public class PasswordVo {
         return this.value();
     }
 
-    public static PasswordVo empty() {
+    public static Password empty() {
         return InnerLazyClass.EMPTY;
     }
 
     private static class InnerLazyClass {
-        private static final PasswordVo EMPTY = new PasswordVo() {
+        private static final Password EMPTY = new Password() {
             @Override
             public boolean isEmpty() {
                 return true;

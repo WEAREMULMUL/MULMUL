@@ -1,7 +1,7 @@
 package com.excmul.auth.dto;
 
-import com.excmul.member.domain.vo.EmailVo;
-import com.excmul.member.domain.vo.NameVo;
+import com.excmul.member.domain.vo.Email;
+import com.excmul.member.domain.vo.Name;
 import com.excmul.member.domain.vo.SocialType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -12,8 +12,8 @@ public class GoogleAttributes implements SocialAttributes {
 
     private final OAuth2User oAuth2User;
 
-    public EmailVo email() {
-        return new EmailVo(
+    public Email email() {
+        return new Email(
                 oAuth2User.getAttribute(AttributeKey.EMAIL.key)
         );
     }
@@ -28,8 +28,8 @@ public class GoogleAttributes implements SocialAttributes {
     }
 
     @Override
-    public NameVo name() {
-        return new NameVo(
+    public Name name() {
+        return new Name(
                 oAuth2User.getAttribute(AttributeKey.NAME.key)
         );
     }

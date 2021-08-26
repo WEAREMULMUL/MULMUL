@@ -14,22 +14,22 @@ import java.util.UUID;
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class TokenVo {
+public class Token {
     @Column(name = "TOKEN", nullable = false)
     private String token;
 
-    private TokenVo(String token) {
+    private Token(String token) {
         this.token = token;
     }
 
-    public static TokenVo newInstance(String token) {
-        return new TokenVo(token);
+    public static Token newInstance(String token) {
+        return new Token(token);
     }
 
-    public static TokenVo newRandomInstance(int length) {
+    public static Token newRandomInstance(int length) {
         String tokenValue = newTokenValue(length);
 
-        return new TokenVo(tokenValue);
+        return new Token(tokenValue);
     }
 
     private static String newTokenValue(int length) {

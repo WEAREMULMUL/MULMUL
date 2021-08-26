@@ -16,8 +16,7 @@ import java.util.regex.Pattern;
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class EmailVo {
-
+public class Email {
     @Transient
     private static final String EMAIL_VALIDATOR = "^[_a-zA-Z0-9-\\+]+(\\.[_a-zA-Z0-9-]+)*@" + "[a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)*(\\.[a-zA-Z]{2,3})$";
 
@@ -28,7 +27,7 @@ public class EmailVo {
     private String email;
 
 
-    public EmailVo(String email) {
+    public Email(String email) {
         validate(email);
         this.email = email;
     }

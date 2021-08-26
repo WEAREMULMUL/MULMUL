@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class NameVo {
+public class Name {
 
     @Transient
     private static final String NAME_VALIDATOR = "^[가-힣]{2,10}$";
@@ -23,7 +23,7 @@ public class NameVo {
     @Column(name = "MEMBER_NAME")
     private String name;
 
-    public NameVo(String name) {
+    public Name(String name) {
         validate(name);
         this.name = name;
     }

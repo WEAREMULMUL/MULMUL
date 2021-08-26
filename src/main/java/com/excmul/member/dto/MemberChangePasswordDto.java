@@ -1,22 +1,18 @@
 package com.excmul.member.dto;
 
-import com.excmul.member.domain.vo.PasswordVo;
+import com.excmul.member.domain.vo.Password;
 import com.excmul.member.exception.InvalidInputException;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Setter
-@Getter
-@NoArgsConstructor
-public class MemberChangePasswordRequest {
-    private PasswordVo beforeChangePassword;
-    private PasswordVo afterChangePassword;
-    private PasswordVo afterChangeConfirmPassword; // 프론트 validate..!
+@Data
+public class MemberChangePasswordDto {
+    private Password beforeChangePassword;
+    private Password afterChangePassword;
+    private Password afterChangeConfirmPassword; // 프론트 validate..!
 
     // dto는 dto의 역할만
-    public void validExistsPassword(PasswordEncoder passwordEncoder, PasswordVo authPrincipalPassword) {
+    public void validExistsPassword(PasswordEncoder passwordEncoder, Password authPrincipalPassword) {
         if (!passwordEncoder.matches(beforeChangePassword.value(), authPrincipalPassword.value())) {
             throw new InvalidInputException(InvalidInputException.ErrorCode.OLD_PASSWORD_MISMATCH);
         }
@@ -36,7 +32,7 @@ public class MemberChangePasswordRequest {
         }
     }
 
-    public PasswordVo changePassword(PasswordEncoder passwordEncoder) {
+    public Password changePassword(PasswordEncoder passwordEncoder) {
         return afterChangeConfirmPassword.encode(passwordEncoder);
     }
 }

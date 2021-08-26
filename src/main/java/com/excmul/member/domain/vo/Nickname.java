@@ -14,24 +14,22 @@ import java.util.regex.Pattern;
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BirthVo {
-    /**
-     * yyyymmdd :: 19970908
-     */
+public class Nickname {
+
     @Transient
-    private final static String BIRTH_VALIDATOR = "^(19[0-9][0-9]|20\\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$";
+    private static final String NICKNAME_VALIDATOR = "^[a-zA-Z가-힣0-9]{2,20}$";
 
-    @Column(name = "MEMBER_BIRTH")
-    private String birth;
+    @Column(name = "MEMBER_NICKNAME")
+    private String nickname;
 
-    public BirthVo(String birth) {
-        validate(birth);
-        this.birth = birth;
+    public Nickname(String nickname) {
+        validate(nickname);
+        this.nickname = nickname;
     }
 
-    public void validate(String birth) {
-        if (!StringUtils.hasText(birth) || !Pattern.matches(BIRTH_VALIDATOR, birth)) {
-            throw new InvalidInputException(InvalidInputException.ErrorCode.BIRTH);
+    public void validate(String nickname) {
+        if (!StringUtils.hasText(nickname) || !Pattern.matches(NICKNAME_VALIDATOR, nickname)) {
+            throw new InvalidInputException(InvalidInputException.ErrorCode.NICKNAME);
         }
     }
 
@@ -41,8 +39,6 @@ public class BirthVo {
     }
 
     public String value() {
-        return birth;
+        return nickname;
     }
-
 }
-

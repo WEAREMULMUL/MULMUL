@@ -3,7 +3,6 @@ package com.excmul.member.domain.vo;
 import com.excmul.member.exception.InvalidInputException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 
@@ -15,7 +14,7 @@ import java.util.regex.Pattern;
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PhoneNumberVo {
+public class PhoneNumber {
     // :: Mobile Phone Identification Number :: 010
     @Transient
     private static final String PHONE_NUMBER_VALIDATOR = "^010[0-9]{8}$";
@@ -23,7 +22,7 @@ public class PhoneNumberVo {
     @Column(name = "MEMBER_PHONE_NUMBER")
     private String phoneNumber;
 
-    public PhoneNumberVo(String phoneNumber) {
+    public PhoneNumber(String phoneNumber) {
         validate(phoneNumber);
         this.phoneNumber = phoneNumber;
     }

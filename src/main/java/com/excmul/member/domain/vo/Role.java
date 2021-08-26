@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @RequiredArgsConstructor
-public enum RoleVo {
+public enum Role {
     GUEST(new SimpleGrantedAuthority("GUEST")),
     USER(new SimpleGrantedAuthority("USER")),
     ADMIN(new SimpleGrantedAuthority("ADMIN"));

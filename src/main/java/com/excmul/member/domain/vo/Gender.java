@@ -1,6 +1,6 @@
 package com.excmul.member.domain.vo;
 
-public enum GenderVo {
+public enum Gender {
 
     MAN("남자"),
     WOMAN("여자"),
@@ -8,7 +8,7 @@ public enum GenderVo {
 
     private final String gender;
 
-    GenderVo(final String gender) {
+    Gender(final String gender) {
         this.gender = gender;
     }
 

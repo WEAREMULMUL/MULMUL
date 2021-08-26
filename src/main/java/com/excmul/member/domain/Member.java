@@ -6,8 +6,8 @@ import com.excmul.common.domain.AbstractEntity;
 import com.excmul.mail.domain.Mail;
 import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
-import com.excmul.member.dto.EditDto;
-import com.excmul.member.dto.SocialMemberInformation;
+import com.excmul.member.dto.MemberInfoEditDto;
+import com.excmul.member.dto.SocialMemberInformationDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,30 +21,30 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "MEMBER")
-public class Member extends AbstractEntity {
+public class Member extends AbstractEntity<Long> {
     @Embedded
-    private EmailVo email;
+    private Email email;
 
     @Embedded
-    private PasswordVo password;
+    private Password password;
 
     private String socialUserKey;
 
     @Embedded
-    private NameVo name;
+    private Name name;
 
     @Embedded
-    private NicknameVo nickname;
+    private Nickname nickname;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "MEMBER_GENDER")
-    private GenderVo gender;
+    private Gender gender;
 
     @Embedded
-    private BirthVo birth;
+    private Birth birth;
 
     @Embedded
-    private PhoneNumberVo phoneNumber;
+    private PhoneNumber phoneNumber;
 
     @Column(name = "MEMBER_TERM_SERVICE", nullable = false)
     private boolean termService;
@@ -61,7 +61,7 @@ public class Member extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "MEMBER_ROLE", nullable = false)
-    private RoleVo role;
+    private Role role;
 
     public static Member ofSocial(SocialAttributes socialMember) {
         return Member.builder()
@@ -69,7 +69,7 @@ public class Member extends AbstractEntity {
                 .email(socialMember.email())
                 .socialUserKey(socialMember.userKey())
                 .socialType(socialMember.socialType())
-                .role(RoleVo.USER)
+                .role(Role.USER)
                 .build();
     }
 
@@ -97,7 +97,7 @@ public class Member extends AbstractEntity {
         return PasswordChangeToken.newInstance(this, this.password);
     }
 
-    public void changePassword(PasswordVo password) {
+    public void changePassword(Password password) {
         this.password = password;
     }
 
@@ -105,14 +105,14 @@ public class Member extends AbstractEntity {
         return new Mail(email, mailContent);
     }
 
-    public void editMemberInfo(EditDto editDto) {
+    public void editMemberInfo(MemberInfoEditDto editDto) {
         this.password = editDto.getPassword();
         this.nickname = editDto.getNickname();
         this.birth = editDto.getBirth();
         this.phoneNumber = editDto.getPhoneNumber();
     }
 
-    public void updateSocialMemberInfo(SocialMemberInformation socialMemberInformation) {
+    public void updateSocialMemberInfo(SocialMemberInformationDto socialMemberInformation) {
         this.gender = socialMemberInformation.getGender();
         this.nickname = socialMemberInformation.getNickname();
         this.phoneNumber = socialMemberInformation.getPhoneNumber();

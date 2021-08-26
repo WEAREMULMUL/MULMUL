@@ -2,31 +2,30 @@ package com.excmul.member.dto;
 
 import com.excmul.member.domain.Member;
 import com.excmul.member.domain.vo.*;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
-public class MemberSignRequest {
+public class MemberSignDto {
     @NonNull
-    private EmailVo email;
+    private Email email;
     @Setter
     @NonNull
-    private PasswordVo password;
+    private Password password;
     @NonNull
-    private NameVo name;
+    private Name name;
     @NonNull
-    private NicknameVo nickname;
+    private Nickname nickname;
     @NonNull
-    private GenderVo gender;
+    private Gender gender;
     @NonNull
-    private BirthVo birth;
+    private Birth birth;
     @NonNull
-    private PhoneNumberVo phoneNumber;
+    private PhoneNumber phoneNumber;
     @NonNull
     private boolean termService;
     @NonNull
@@ -34,10 +33,8 @@ public class MemberSignRequest {
     @NonNull
     private boolean termLocation;
 
-
-
-    public Member sign(PasswordEncoder passwordEncoder) {
-        PasswordVo encodedPassword = password.encode(passwordEncoder);
+    public Member toMember(PasswordEncoder passwordEncoder) {
+        Password encodedPassword = password.encode(passwordEncoder);
 
         return Member.builder()
                 .email(email)
@@ -51,7 +48,7 @@ public class MemberSignRequest {
                 .termPrivacy(termPrivacy)
                 .termLocation(termLocation)
                 .socialType(SocialType.BASIC)
-                .role(RoleVo.USER)
+                .role(Role.USER)
                 .build();
     }
 }

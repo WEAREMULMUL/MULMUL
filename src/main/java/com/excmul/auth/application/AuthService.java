@@ -4,7 +4,7 @@ import com.excmul.auth.dto.SocialAttributes;
 import com.excmul.auth.exception.OAuth2Exception;
 import com.excmul.member.domain.Member;
 import com.excmul.member.domain.MemberRepository;
-import com.excmul.member.domain.vo.EmailVo;
+import com.excmul.member.domain.vo.Email;
 import com.excmul.member.domain.vo.SocialType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +18,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
+import static com.excmul.auth.exception.OAuth2Exception.*;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService,
@@ -28,7 +32,7 @@ public class AuthService implements UserDetailsService,
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        EmailVo email = new EmailVo(userEmail);
+        Email email = new Email(userEmail);
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException(USERNAME_NOT_FOUND_MESSAGE);
@@ -43,7 +47,7 @@ public class AuthService implements UserDetailsService,
         Member member = findAndSaveSocialMember(socialAttributes);
 
         if (!member.isSocial()) {
-            throw new OAuth2Exception(OAuth2Exception.ErrorCode.NOT_FOUND_SOCIAL_TYPE);
+            throw new OAuth2Exception(ErrorCode.NOT_FOUND_SOCIAL_TYPE);
         }
 
         return member.toAuthPrincipal();

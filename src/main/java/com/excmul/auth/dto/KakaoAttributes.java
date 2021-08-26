@@ -1,7 +1,7 @@
 package com.excmul.auth.dto;
 
-import com.excmul.member.domain.vo.EmailVo;
-import com.excmul.member.domain.vo.NameVo;
+import com.excmul.member.domain.vo.Email;
+import com.excmul.member.domain.vo.Name;
 import com.excmul.member.domain.vo.SocialType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -25,22 +25,22 @@ public class KakaoAttributes implements SocialAttributes {
     }
 
     @Override
-    public NameVo name() {
+    public Name name() {
         //noinspection unchecked
         Map<String, Object> profile = (Map<String, Object>) account(AttributeKey.PROFILE.key);
-        return new NameVo(
-                profile.get(
+        return new Name(
+                (String) profile.get(
                         AttributeKey.NICKNAME.key
-                ).toString()
+                )
         );
     }
 
     @Override
-    public EmailVo email() {
-        return new EmailVo(
-                account(
+    public Email email() {
+        return new Email(
+                (String) account(
                         AttributeKey.EMAIL.key
-                ).toString()
+                )
         );
     }
 

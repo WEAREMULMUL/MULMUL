@@ -2,10 +2,10 @@ package com.excmul.member.domain;
 
 import com.excmul.common.domain.TimeTokenEntity;
 import com.excmul.common.domain.Url;
-import com.excmul.common.domain.vo.TokenVo;
+import com.excmul.common.domain.vo.Token;
 import com.excmul.mail.domain.Mail;
 import com.excmul.mail.domain.vo.Content;
-import com.excmul.member.domain.vo.PasswordVo;
+import com.excmul.member.domain.vo.Password;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -37,28 +37,28 @@ public class PasswordChangeToken extends TimeTokenEntity {
             name = "password",
             column = @Column(name = "TOKEN_OLD_PASSWORD", updatable = false)
     )
-    private PasswordVo oldPassword;
+    private Password oldPassword;
 
     @AttributeOverride(
             name = "password",
             column = @Column(name = "TOKEN_CHANGED_PASSWORD")
     )
-    private PasswordVo changedPassword;
+    private Password changedPassword;
 
-    private PasswordChangeToken(TokenVo token, LocalDateTime expiryTime, Member member, PasswordVo oldPassword) {
+    private PasswordChangeToken(Token token, LocalDateTime expiryTime, Member member, Password oldPassword) {
         super(token, expiryTime);
         this.member = member;
         this.oldPassword = oldPassword;
     }
 
-    public static PasswordChangeToken newInstance(Member member, PasswordVo oldPassword) {
-        TokenVo token = TokenVo.newRandomInstance(TOKEN_LENGTH);
+    public static PasswordChangeToken newInstance(Member member, Password oldPassword) {
+        Token token = Token.newRandomInstance(TOKEN_LENGTH);
         LocalDateTime expiryTime = LocalDateTime.now().plusHours(EXPIRY_HOURS);
 
         return new PasswordChangeToken(token, expiryTime, member, oldPassword);
     }
 
-    public void use(PasswordVo changedPassword) {
+    public void use(Password changedPassword) {
         validateAvailable();
 
         member.changePassword(changedPassword);

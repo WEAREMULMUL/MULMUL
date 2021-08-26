@@ -11,17 +11,17 @@ import java.util.Optional;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    Optional<Member> findByEmail(EmailVo email);
+    Optional<Member> findByEmail(Email email);
 
-    boolean existsByEmail(EmailVo email);
+    boolean existsByEmail(Email email);
 
-    boolean existsByNickname(NicknameVo nickname);
+    boolean existsByNickname(Nickname nickname);
 
-    boolean existsByPhoneNumber(PhoneNumberVo phoneNumber);
+    boolean existsByPhoneNumber(PhoneNumber phoneNumber);
 
     @Query("SELECT m.email FROM Member m WHERE m.name = :name AND m.birth = :birth AND m.phoneNumber = :phoneNumber")
-    Optional<EmailVo> findEmailByPrivacy(NameVo name, BirthVo birth, PhoneNumberVo phoneNumber);
+    Optional<Email> findEmailByPrivacy(Name name, Birth birth, PhoneNumber phoneNumber);
 
     @Query("SELECT m FROM Member m WHERE m.email = :email AND m.name = :name AND m.birth = :birth AND m.phoneNumber = :phoneNumber")
-    Optional<Member> findByEmailAndPrivacy(EmailVo email, NameVo name, BirthVo birth, PhoneNumberVo phoneNumber);
+    Optional<Member> findByEmailAndPrivacy(Email email, Name name, Birth birth, PhoneNumber phoneNumber);
 }
