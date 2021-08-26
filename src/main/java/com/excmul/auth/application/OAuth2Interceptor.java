@@ -1,7 +1,6 @@
 package com.excmul.auth.application;
 
 import com.excmul.auth.dto.AuthPrincipal;
-import com.excmul.auth.exception.OAuth2Exception;
 import com.excmul.config.Interceptor;
 import com.excmul.member.domain.MemberRepository;
 import com.excmul.member.exception.NotFoundMemberException;
@@ -52,6 +51,8 @@ public class OAuth2Interceptor implements HandlerInterceptor {
                 .map(p -> (AuthPrincipal) p);
     }
 
+    // Basic -> 레파지토리에 요청 X
+    // OAuth2 -> 레파지토리에 요청 O
     private boolean isNotCompletedSignUp(AuthPrincipal authPrincipal) {
         return memberRepository.findById(authPrincipal.getId())
                 .orElseThrow(NotFoundMemberException::new)

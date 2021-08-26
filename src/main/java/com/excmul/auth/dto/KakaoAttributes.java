@@ -26,6 +26,7 @@ public class KakaoAttributes implements SocialAttributes {
 
     @Override
     public NameVo name() {
+        //noinspection unchecked
         Map<String, Object> profile = (Map<String, Object>) account(AttributeKey.PROFILE.key);
         return new NameVo(
                 profile.get(

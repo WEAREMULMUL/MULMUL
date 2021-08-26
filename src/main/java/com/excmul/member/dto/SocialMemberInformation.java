@@ -1,11 +1,13 @@
 package com.excmul.member.dto;
 
-import com.excmul.member.domain.Member;
-import com.excmul.member.domain.vo.*;
-import lombok.*;
+import com.excmul.member.domain.vo.BirthVo;
+import com.excmul.member.domain.vo.GenderVo;
+import com.excmul.member.domain.vo.NicknameVo;
+import com.excmul.member.domain.vo.PhoneNumberVo;
+import lombok.Data;
+import lombok.NonNull;
 
 @Data
-@NoArgsConstructor
 public class SocialMemberInformation {
     @NonNull
     private NicknameVo nickname;

@@ -1,17 +1,20 @@
 package com.excmul.member.dto;
 
-import com.excmul.member.domain.*;
+import com.excmul.member.domain.Member;
 import com.excmul.member.domain.vo.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Setter
 @Getter
 @NoArgsConstructor
 public class MemberSignRequest {
-
     @NonNull
     private EmailVo email;
+    @Setter
     @NonNull
     private PasswordVo password;
     @NonNull
@@ -30,6 +33,8 @@ public class MemberSignRequest {
     private boolean termPrivacy;
     @NonNull
     private boolean termLocation;
+
+
 
     public Member sign(PasswordEncoder passwordEncoder) {
         PasswordVo encodedPassword = password.encode(passwordEncoder);
