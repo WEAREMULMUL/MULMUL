@@ -1,17 +1,18 @@
 package com.excmul.member.domain.vo;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+@RequiredArgsConstructor
 public enum RoleVo {
-    GUEST("손님"),
-    USER("사용자"),
-    ADMIN("관리자");
+    GUEST(new SimpleGrantedAuthority("GUEST")),
+    USER(new SimpleGrantedAuthority("USER")),
+    ADMIN(new SimpleGrantedAuthority("ADMIN"));
 
-    private final String role;
+    private final GrantedAuthority grantedAuthority;
 
-    RoleVo(final String role) {
-        this.role = role;
-    }
-
-    public String value() {
-        return role;
+    public GrantedAuthority grantedAuthority() {
+        return grantedAuthority;
     }
 }

@@ -4,6 +4,7 @@ import com.excmul.member.exception.InvalidInputException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
@@ -11,7 +12,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.regex.Pattern;
 
-
+@ToString
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,11 +37,6 @@ public class EmailVo {
         if (!StringUtils.hasText(email) || !Pattern.matches(EMAIL_VALIDATOR, email)) {
             throw new InvalidInputException(InvalidInputException.ErrorCode.EMAIL);
         }
-    }
-
-    @Override
-    public String toString() {
-        return this.value();
     }
 
     public String value() {

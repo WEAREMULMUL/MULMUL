@@ -9,7 +9,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, Integer> {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByEmail(EmailVo email);
 
@@ -23,5 +23,5 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
     Optional<EmailVo> findEmailByPrivacy(NameVo name, BirthVo birth, PhoneNumberVo phoneNumber);
 
     @Query("SELECT m FROM Member m WHERE m.email = :email AND m.name = :name AND m.birth = :birth AND m.phoneNumber = :phoneNumber")
-    Optional<Member> findByPrivacy(EmailVo email, NameVo name, BirthVo birth, PhoneNumberVo phoneNumber);
+    Optional<Member> findByEmailAndPrivacy(EmailVo email, NameVo name, BirthVo birth, PhoneNumberVo phoneNumber);
 }

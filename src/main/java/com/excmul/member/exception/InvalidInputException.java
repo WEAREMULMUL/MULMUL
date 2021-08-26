@@ -1,5 +1,8 @@
 package com.excmul.member.exception;
 
+import lombok.Getter;
+
+@Getter
 public class InvalidInputException extends IllegalArgumentException {
 
     private ErrorCode errorCode;

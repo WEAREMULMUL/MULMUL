@@ -28,7 +28,7 @@ public class PasswordVo {
     @Transient
     private static final String PASSWORD_VALIDATOR = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[가-힣A-Za-z\\d$@$!%*#?&]{8,30}$";
 
-    @Column(name = "MEMBER_PASSWORD", nullable = false)
+    @Column(name = "MEMBER_PASSWORD")
     private String password;
 
     public PasswordVo(String password) {
@@ -56,8 +56,25 @@ public class PasswordVo {
         return password;
     }
 
+    public boolean isEmpty() {
+        return false;
+    }
+
     @Override
     public String toString() {
         return this.value();
+    }
+
+    public static PasswordVo empty() {
+        return InnerLazyClass.EMPTY;
+    }
+
+    private static class InnerLazyClass {
+        private static final PasswordVo EMPTY = new PasswordVo() {
+            @Override
+            public boolean isEmpty() {
+                return true;
+            }
+        };
     }
 }

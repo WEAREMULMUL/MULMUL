@@ -19,7 +19,7 @@ public class NicknameVo {
     @Transient
     private static final String NICKNAME_VALIDATOR = "^[a-zA-Z가-힣0-9]{2,20}$";
 
-    @Column(name = "MEMBER_NICKNAME", nullable = false)
+    @Column(name = "MEMBER_NICKNAME")
     private String nickname;
 
     public NicknameVo(String nickname) {

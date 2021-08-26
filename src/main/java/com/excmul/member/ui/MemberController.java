@@ -1,10 +1,13 @@
 package com.excmul.member.ui;
 
-import com.excmul.auth.oauth.AuthPrincipal;
+import com.excmul.auth.dto.AuthPrincipal;
+import com.excmul.auth.exception.OAuth2Exception;
 import com.excmul.common.domain.vo.TokenVo;
 import com.excmul.member.application.MemberService;
 import com.excmul.member.domain.vo.EmailVo;
+import com.excmul.member.domain.vo.NicknameVo;
 import com.excmul.member.domain.vo.PasswordVo;
+import com.excmul.member.domain.vo.PhoneNumberVo;
 import com.excmul.member.dto.*;
 import com.excmul.member.exception.DuplicationException;
 import lombok.RequiredArgsConstructor;
@@ -14,36 +17,33 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import java.util.Optional;
 
+import static com.excmul.auth.exception.OAuth2Exception.*;
+
+@RequestMapping("auth")
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
 
-    @RequestMapping({"", "/", "index"})
-    public String index() {
-        return "fragments/contents/index";
-    }
-
-    @GetMapping("/auth/sign")
+    @GetMapping("sign")
     public String sign(Model model) {
         model.addAttribute("defaultMemberSignRequest", new MemberSignRequest());
         return "fragments/contents/member/sign";
     }
 
-    @PostMapping("/auth/sign")
-    public String sign(MemberSignRequest request) {
+    @PostMapping("sign")
+    public String sign(@Valid MemberSignRequest request) {
         if (memberService.existsByEmail(request.getEmail())) {
             throw new DuplicationException(DuplicationException.ErrorCode.DUPLICATION_EMAIL);
         }
-
         if (memberService.existsByNickname(request.getNickname())) {
             throw new DuplicationException(DuplicationException.ErrorCode.DUPLICATION_NICKNAME);
         }
-
         if (memberService.existsByPhoneNumber(request.getPhoneNumber())) {
             throw new DuplicationException(DuplicationException.ErrorCode.DUPLICATION_PHONE_NUMBER);
         }
@@ -52,37 +52,57 @@ public class MemberController {
         return "redirect:/auth/login";
     }
 
-    @GetMapping("/auth/login")
+    @GetMapping("signup/social")
+    public String signUpSocial(@AuthenticationPrincipal AuthPrincipal authPrincipal) {
+        validateSocialSingUp(authPrincipal);
+
+        return "fragments/contents/member/social-sign-up";
+    }
+
+    @PostMapping("signup/social")
+    public String signUpSocial(@AuthenticationPrincipal AuthPrincipal authPrincipal,
+                               @Valid SocialMemberInformation socialMemberInformation) {
+        validateSocialSingUp(authPrincipal);
+
+        memberService.updateSocialMemberInfo(authPrincipal.getId(), socialMemberInformation);
+        return "fragments/contents/member/social-sign-up-result";
+    }
+
+    private void validateSocialSingUp(AuthPrincipal authPrincipal) {
+        if (!authPrincipal.isSocial()) {
+            throw new OAuth2Exception(ErrorCode.NOT_SOCIAL_ACCOUNT);
+        }
+    }
+
+    @GetMapping("login")
     public String login() {
         return "/fragments/contents/member/login";
     }
 
     // 세션 유진
-    @GetMapping("/auth/editPassword")
+    @GetMapping("editPassword")
     public String editPassword(Model model) {
         model.addAttribute("memberChangePasswordRequest", new MemberChangePasswordRequest());
         return "/fragments/contents/member/edit-password";
     }
 
-    @PostMapping("/auth/editPassword")
+    @PostMapping("editPassword")
     public String changePassword(@AuthenticationPrincipal AuthPrincipal principal, MemberChangePasswordRequest request) {
         // request.getBeforeChangePassword() -> 서비스로 던져줘야
         // 서비스는 request를 몰라야 한다!
-        memberService.changeHomePagePassword(principal.loginMember(), request);
+        memberService.changeHomePagePassword(principal, request);
         return "fragments/contents/index";
     }
 
-    @GetMapping("/auth/idInquiry")
+    @GetMapping("idInquiry")
     public String idInquiry() {
         return "fragments/contents/member/id-inquiry";
     }
 
-    @PostMapping("/auth/idInquiry")
+    @PostMapping("idInquiry")
     public String idInquiry(ModelMap modelMap,
-                            @ModelAttribute("token") IdInquiryRequest request) {
-        Optional<EmailVo> optionalEmail = memberService.inquiryId(
-                request.getName(), request.getBirth(), request.getPhoneNumber()
-        );
+                            MemberPrivacyDto memberPrivacyDto) {
+        Optional<EmailVo> optionalEmail = memberService.inquiryId(memberPrivacyDto);
 
         optionalEmail.ifPresent(emailVo ->
                 modelMap.addAttribute("email", emailVo.value())
@@ -90,23 +110,24 @@ public class MemberController {
         return "fragments/contents/member/id-inquiry-result";
     }
 
-    @GetMapping("/auth/pwInquiry")
+    @GetMapping("pwInquiry")
     public String pwInquiry() {
         return "fragments/contents/member/pw-inquiry";
     }
 
-    @PostMapping("/auth/pwInquiry")
+    @PostMapping("pwInquiry")
     public String pwInquiry(ModelMap modelMap,
-                            PwInquiryRequest request) {
+                            @ModelAttribute("email") EmailVo memberEmail,
+                            MemberPrivacyDto memberPrivacyDto) {
         boolean isSent = memberService.inquiryPw(
-                request.getEmail(), request.getName(), request.getBirth(), request.getPhoneNumber()
+                memberEmail, memberPrivacyDto
         );
         modelMap.addAttribute("isSent", isSent);
 
         return "fragments/contents/member/pw-inquiry-result";
     }
 
-    @GetMapping("/auth/changePassword/{Token}")
+    @GetMapping("changePassword/{Token}")
     public String changePassword(ModelMap modelMap,
                                  @PathVariable("Token") TokenVo token) {
         boolean isAvailable = memberService.isAvailablePasswordChangeToken(token);
@@ -116,7 +137,7 @@ public class MemberController {
         return "fragments/contents/member/change-password";
     }
 
-    @PostMapping("/auth/changePassword")
+    @PostMapping("changePassword")
     public String changePassword(@ModelAttribute("token") TokenVo token,
                                  PasswordVo password) {
 
@@ -128,16 +149,16 @@ public class MemberController {
     /**
      * 회원 정보 수정
      */
-    @GetMapping("/auth/edit")
+    @GetMapping("edit")
     public String edit(Model model) {
         EditDto editRequest = new EditDto();
         model.addAttribute("editRequest", editRequest);
         return "/fragments/contents/member/edit";
     }
 
-    @PostMapping("/auth/edit")
+    @PostMapping("edit")
     public String edit(@AuthenticationPrincipal AuthPrincipal principal, EditDto editDto) {
-        memberService.edit(principal.loginMember().email().toString(), editDto);
+        memberService.edit(principal.getUsername(), editDto);
         return "redirect:/fragments/contents/index";
     }
 }

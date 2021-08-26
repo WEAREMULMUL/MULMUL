@@ -20,7 +20,7 @@ public class NameVo {
     @Transient
     private static final String NAME_VALIDATOR = "^[가-힣]{2,10}$";
 
-    @Column(name = "MEMBER_NAME", nullable = false)
+    @Column(name = "MEMBER_NAME")
     private String name;
 
     public NameVo(String name) {
