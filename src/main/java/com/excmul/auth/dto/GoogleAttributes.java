@@ -14,7 +14,7 @@ public class GoogleAttributes implements SocialAttributes {
 
     public EmailVo email() {
         return new EmailVo(
-                oAuth2User.getAttribute("email")
+                oAuth2User.getAttribute(AttributeKey.EMAIL.key)
         );
     }
 
@@ -30,7 +30,18 @@ public class GoogleAttributes implements SocialAttributes {
     @Override
     public NameVo name() {
         return new NameVo(
-                oAuth2User.getAttribute("name")
+                oAuth2User.getAttribute(AttributeKey.NAME.key)
         );
+    }
+
+    private enum AttributeKey {
+        NAME("name"),
+        EMAIL("email");
+
+        private final String key;
+
+        AttributeKey(String key) {
+            this.key = key;
+        }
     }
 }

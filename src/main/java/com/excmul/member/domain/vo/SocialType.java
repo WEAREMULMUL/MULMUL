@@ -1,6 +1,6 @@
 package com.excmul.member.domain.vo;
 
-
+import com.excmul.auth.dto.KakaoAttributes;
 import com.excmul.auth.exception.OAuth2Exception;
 import com.excmul.auth.dto.GoogleAttributes;
 import com.excmul.auth.dto.SocialAttributes;
@@ -13,7 +13,8 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public enum SocialType {
     BASIC("", null),
-    GOOGLE("google", GoogleAttributes::new);
+    GOOGLE("google", GoogleAttributes::new),
+    KAKAO("kakao", KakaoAttributes::new);
 
     private final String registrationId;
     private final Function<OAuth2User, SocialAttributes> newSocialMemberFunction;
