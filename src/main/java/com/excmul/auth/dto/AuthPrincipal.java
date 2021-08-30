@@ -21,7 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthPrincipal implements UserDetails, OAuth2User {
     @Getter private final long id;
-    private final Email email;
+    @Getter private final Email email;
     private final Password password;
     @Getter private final Role role;
     @Getter private final SocialType socialType;

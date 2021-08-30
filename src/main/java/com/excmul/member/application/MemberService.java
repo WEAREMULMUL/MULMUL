@@ -32,9 +32,7 @@ import static com.excmul.auth.exception.OAuth2Exception.ErrorCode;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordChangeTokenRepository changePasswordTokenRepository;
-
     private final MailService mailService;
-
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -141,5 +139,11 @@ public class MemberService {
                     throw new RuntimeException("해당하는 이메일이 없습니다.");
                 });
         member.editMemberInfo(editDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Member findMemberByEmail(Email email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("에러"));
     }
 }
