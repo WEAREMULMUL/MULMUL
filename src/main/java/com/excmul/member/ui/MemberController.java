@@ -8,8 +8,10 @@ import com.excmul.member.domain.vo.Email;
 import com.excmul.member.domain.vo.Password;
 import com.excmul.member.dto.*;
 import com.excmul.member.exception.DuplicationException;
+import com.excmul.member.exception.InvalidInputException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -24,8 +26,8 @@ import static com.excmul.auth.exception.OAuth2Exception.ErrorCode;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
-
     private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("sign")
     public String sign(Model model) {
@@ -44,7 +46,6 @@ public class MemberController {
         if (memberService.existsByPhoneNumber(request.getPhoneNumber())) {
             throw new DuplicationException(DuplicationException.ErrorCode.DUPLICATION_PHONE_NUMBER);
         }
-
         memberService.createDefaultMember(request);
         return "redirect:/auth/login";
     }
@@ -76,17 +77,24 @@ public class MemberController {
         return "/fragments/contents/member/login";
     }
 
-    // 세션 유진
     @GetMapping("editPassword")
     public String editPassword(Model model) {
         model.addAttribute("memberChangePasswordRequest", new MemberChangePasswordDto());
         return "/fragments/contents/member/edit-password";
     }
 
+    // 서비스는 request를 몰라야 한다!
     @PostMapping("editPassword")
     public String changePassword(@AuthenticationPrincipal AuthPrincipal principal, MemberChangePasswordDto request) {
-        // request.getBeforeChangePassword() -> 서비스로 던져줘야
-        // 서비스는 request를 몰라야 한다!
+        if (request.getBeforeChangePassword().equals(request.getAfterChangePassword())) {
+            throw new InvalidInputException(InvalidInputException.ErrorCode.IS_SAME_PASSWORD);
+        }
+        if (!request.getAfterChangePassword().equals(request.getAfterChangeConfirmPassword())) {
+            throw new InvalidInputException(InvalidInputException.ErrorCode.NEW_PASSWORD_MISMATCH);
+        }
+        if (!passwordEncoder.matches(request.getAfterChangePassword().value(), principal.getPassword())) {
+            throw new InvalidInputException(InvalidInputException.ErrorCode.OLD_PASSWORD_MISMATCH);
+        }
         memberService.changeHomePagePassword(principal, request);
         return "fragments/contents/index";
     }

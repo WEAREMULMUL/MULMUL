@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public abstract class AbstractEntity<E extends Serializable> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_2")
+    @Column(name = "ID")
     protected E id;
 
     @CreatedDate
