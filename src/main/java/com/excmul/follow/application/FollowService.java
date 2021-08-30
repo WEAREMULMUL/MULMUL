@@ -16,7 +16,7 @@ public class FollowService {
     private final FollowRepository followRepository;
 
     @Transactional
-    public long followMember(Member fromMember, Member toMember) {
+    public Member followMember(Member fromMember, Member toMember) {
         selfFollow(fromMember, toMember);
 
         Optional<Follow> follow = followRepository.findFollowByFromMemberAndToMember(fromMember, toMember);
@@ -28,11 +28,11 @@ public class FollowService {
                     .build()
             );
         }
-        return toMember.id();
+        return toMember;
     }
 
     @Transactional
-    public long unfollowMember(Member fromMember, Member toMember) {
+    public Member unfollowMember(Member fromMember, Member toMember) {
         selfFollow(fromMember, toMember);
 
         Optional<Follow> follow = followRepository.findFollowByFromMemberAndToMember(fromMember, toMember);
@@ -41,10 +41,9 @@ public class FollowService {
             followRepository.deleteByFromMemberAndToMember(fromMember, toMember);
         }
 
-        return toMember.id();
+        return toMember;
     }
 
-    //
     private void selfFollow(Member fromMember, Member toMember) {
         if (fromMember.equals(toMember)) {
             throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);

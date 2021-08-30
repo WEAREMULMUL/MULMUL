@@ -1,7 +1,6 @@
 package com.excmul.common.domain;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
 public abstract class AbstractEntity<E extends Serializable> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "ID_2")
     protected E id;
 
     @CreatedDate
@@ -28,8 +27,4 @@ public abstract class AbstractEntity<E extends Serializable> {
     @Column(name = "MODIFIED_DATE")
     protected LocalDateTime modifiedDate;
 
-
-    public E id() {
-        return id;
-    }
 }

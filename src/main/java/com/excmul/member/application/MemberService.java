@@ -146,4 +146,10 @@ public class MemberService {
         return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("에러"));
     }
+
+    @Transactional(readOnly = true)
+    public Member findMemberById(long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("에러"));
+    }
 }

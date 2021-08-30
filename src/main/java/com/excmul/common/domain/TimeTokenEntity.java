@@ -27,7 +27,6 @@ public abstract class TimeTokenEntity extends AbstractEntity<Long> {
     public TimeTokenEntity(Token token, LocalDateTime expiryDate) {
         this.token = token;
         this.expiryDate = expiryDate;
-
         this.used = false;
     }
 

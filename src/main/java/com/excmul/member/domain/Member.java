@@ -121,5 +121,4 @@ public class Member extends AbstractEntity<Long> {
         this.termPrivacy = true;
         this.termService = true;
     }
-
 }

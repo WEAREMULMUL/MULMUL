@@ -12,8 +12,8 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "FOLLOW")
-public class Follow extends AbstractEntity {
-    
+public class Follow extends AbstractEntity<Long> {
+
     @ManyToOne
     @JoinColumn(name = "FOLLOW_FROM_MEMBER")
     private Member fromMember;
