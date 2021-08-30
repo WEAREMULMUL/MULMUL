@@ -27,4 +27,9 @@ public abstract class AbstractEntity<E extends Serializable> {
     @LastModifiedDate
     @Column(name = "MODIFIED_DATE")
     protected LocalDateTime modifiedDate;
+
+
+    public E id() {
+        return id;
+    }
 }
