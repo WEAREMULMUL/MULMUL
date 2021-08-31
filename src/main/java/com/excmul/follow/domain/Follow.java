@@ -13,7 +13,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "FOLLOW")
 public class Follow extends AbstractEntity<Long> {
-
     @ManyToOne
     @JoinColumn(name = "FOLLOW_FROM_MEMBER")
     private Member fromMember;
@@ -21,5 +20,4 @@ public class Follow extends AbstractEntity<Long> {
     @ManyToOne
     @JoinColumn(name = "FOLLOW_TO_MEMBER")
     private Member toMember;
-
 }

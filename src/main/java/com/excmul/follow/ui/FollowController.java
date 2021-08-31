@@ -6,7 +6,6 @@ import com.excmul.follow.dto.FollowDto;
 import com.excmul.follow.exception.FollowException;
 import com.excmul.member.application.MemberService;
 import com.excmul.member.domain.Member;
-import com.excmul.member.domain.vo.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -26,9 +25,9 @@ public class FollowController {
     }
 
     @PostMapping("/follow/member")
-    public String followMemberResult(@AuthenticationPrincipal AuthPrincipal principal, Email email) {
-        Member fromMember = memberService.findMemberByEmail(principal.getEmail());
-        Member toMember = memberService.findMemberByEmail(email);
+    public String followMemberResult(@AuthenticationPrincipal AuthPrincipal principal, long id) {
+        Member fromMember = memberService.findMemberById(principal.getId());
+        Member toMember = memberService.findMemberById(id);
 
         if (fromMember.equals(toMember)) {
             throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);
@@ -44,9 +43,9 @@ public class FollowController {
     }
 
     @PostMapping("/unfollow/member")
-    public String unfollowMemberResult(@AuthenticationPrincipal AuthPrincipal principal, Email email) {
-        Member fromMember = memberService.findMemberByEmail(principal.getEmail());
-        Member toMember = memberService.findMemberByEmail(email);
+    public String unfollowMemberResult(@AuthenticationPrincipal AuthPrincipal principal, long id) {
+        Member fromMember = memberService.findMemberById(principal.getId());
+        Member toMember = memberService.findMemberById(id);
 
         if (fromMember.equals(toMember)) {
             throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);

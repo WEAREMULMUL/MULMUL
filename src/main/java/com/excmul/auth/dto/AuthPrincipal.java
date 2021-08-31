@@ -20,11 +20,15 @@ import java.util.Map;
 @Builder
 @RequiredArgsConstructor
 public class AuthPrincipal implements UserDetails, OAuth2User {
-    @Getter private final long id;
-    @Getter private final Email email;
+    @Getter
+    private final long id;
+    @Getter
+    private final Email email;
     private final Password password;
-    @Getter private final Role role;
-    @Getter private final SocialType socialType;
+    @Getter
+    private final Role role;
+    @Getter
+    private final SocialType socialType;
 
     public String getUsername() {
         return email.value();
@@ -33,15 +37,7 @@ public class AuthPrincipal implements UserDetails, OAuth2User {
     public String getPassword() {
         return password.value();
     }
-
-    public Email getWrappingUsername() {
-        return email;
-    }
-
-    public Password getWrappingPassword() {
-        return password;
-    }
-
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(
