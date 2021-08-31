@@ -2,7 +2,7 @@ package com.excmul.member.application;
 
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.exception.OAuth2Exception;
-import com.excmul.common.domain.vo.Token;
+import com.excmul.common.domain.vo.TokenSerial;
 import com.excmul.common.exception.TokenException;
 import com.excmul.mail.application.MailService;
 import com.excmul.mail.domain.Mail;
@@ -31,11 +31,15 @@ import static com.excmul.auth.exception.OAuth2Exception.ErrorCode;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final PasswordChangeTokenRepository changePasswordTokenRepository;
 
     private final MailService mailService;
 
     private final PasswordEncoder passwordEncoder;
+
+    private Member findById(long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(NotFoundMemberException::new);
+    }
 
     @Transactional
     public void createDefaultMember(MemberSignDto request) {
@@ -44,8 +48,7 @@ public class MemberService {
 
     @Transactional
     public void updateSocialMemberInfo(long memberId, SocialMemberInformationDto socialMemberInformation) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(NotFoundMemberException::new);
+        Member member = findById(memberId);
 
         if (!member.isNotCompletedSingUp()) {
             throw new OAuth2Exception(ErrorCode.ALREADY_COMPLETED_SIGN_UP);
@@ -108,30 +111,12 @@ public class MemberService {
                 memberEmail, memberPrivacyDto.getName(), memberPrivacyDto.getBirth(), memberPrivacyDto.getPhoneNumber()
         );
         optionalMember.ifPresent(member -> {
-            PasswordChangeToken token = member.newChangePasswordToken();
-            changePasswordTokenRepository.save(token);
+            PasswordChangeToken token = member.makePasswordChangeToken();
 
             Mail mail = token.newMail();
             mailService.send(mail);
         });
         return optionalMember.isPresent();
-    }
-
-    @Transactional(readOnly = true)
-    public boolean isAvailablePasswordChangeToken(Token token) {
-        PasswordChangeToken passwordChangeToken = changePasswordTokenRepository.findByToken(token)
-                .orElseThrow(() -> new TokenException(TokenException.ErrorCode.NOT_FOUND));
-
-        return passwordChangeToken.isAvailable();
-    }
-
-    @Transactional
-    public void changePassword(Token token, Password password) {
-        PasswordChangeToken passwordChangeToken = changePasswordTokenRepository.findByTokenWithMember(token)
-                .orElseThrow(() -> new TokenException(TokenException.ErrorCode.NOT_FOUND));
-
-        Password encodedPassword = password.encode(passwordEncoder);
-        passwordChangeToken.use(encodedPassword);
     }
 
     @Transactional
@@ -145,8 +130,7 @@ public class MemberService {
 
     @Transactional
     public void leaveId(long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(NotFoundMemberException::new);
+        Member member = findById(memberId);
 
         member.leaveId();
     }

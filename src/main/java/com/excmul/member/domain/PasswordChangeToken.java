@@ -2,7 +2,7 @@ package com.excmul.member.domain;
 
 import com.excmul.common.domain.TimeTokenEntity;
 import com.excmul.common.domain.Url;
-import com.excmul.common.domain.vo.Token;
+import com.excmul.common.domain.vo.TokenSerial;
 import com.excmul.mail.domain.Mail;
 import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.Password;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 @Table(
         indexes = {
-                @Index(name = "INDEX_TOKEN", columnList = "TOKEN", unique = true)
+                @Index(name = "INDEX_TOKEN", columnList = "TOKEN_TOKEN_SERIAL", unique = true)
         }
 )
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -45,14 +45,14 @@ public class PasswordChangeToken extends TimeTokenEntity {
     )
     private Password changedPassword;
 
-    private PasswordChangeToken(Token token, LocalDateTime expiryTime, Member member, Password oldPassword) {
+    private PasswordChangeToken(TokenSerial token, LocalDateTime expiryTime, Member member, Password oldPassword) {
         super(token, expiryTime);
         this.member = member;
         this.oldPassword = oldPassword;
     }
 
     public static PasswordChangeToken newInstance(Member member, Password oldPassword) {
-        Token token = Token.newRandomInstance(TOKEN_LENGTH);
+        TokenSerial token = TokenSerial.newRandomInstance(TOKEN_LENGTH);
         LocalDateTime expiryTime = LocalDateTime.now().plusHours(EXPIRY_HOURS);
 
         return new PasswordChangeToken(token, expiryTime, member, oldPassword);
@@ -62,7 +62,6 @@ public class PasswordChangeToken extends TimeTokenEntity {
         validateAvailable();
 
         member.changePassword(changedPassword);
-
         this.changedPassword = changedPassword;
         this.used = true;
     }
@@ -73,7 +72,7 @@ public class PasswordChangeToken extends TimeTokenEntity {
 
     private Content newMailContent() {
         Url passwordChangeUrl = BASE_PASSWORD_CHANGE_URL.append(
-                token.value()
+                tokenSerial.value()
         );
         String contentValue = String.format(BASE_MAIL_CONTENT, passwordChangeUrl.value());
         return new Content(contentValue);

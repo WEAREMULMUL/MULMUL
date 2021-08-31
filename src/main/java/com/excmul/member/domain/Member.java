@@ -3,6 +3,8 @@ package com.excmul.member.domain;
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.dto.SocialAttributes;
 import com.excmul.common.domain.AbstractEntity;
+import com.excmul.common.domain.vo.TokenSerial;
+import com.excmul.common.exception.TokenException;
 import com.excmul.mail.domain.Mail;
 import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
@@ -66,6 +68,8 @@ public class Member extends AbstractEntity<Long> {
 
     private LeftHistories leftHistories;
 
+    private PasswordChangeTokens passwordChangeTokens;
+
     protected Member() {
     }
 
@@ -100,10 +104,6 @@ public class Member extends AbstractEntity<Long> {
                 Objects.isNull(phoneNumber);
     }
 
-    public PasswordChangeToken newChangePasswordToken() {
-        return PasswordChangeToken.newInstance(this, this.password);
-    }
-
     public void changePassword(Password password) {
         this.password = password;
     }
@@ -134,5 +134,12 @@ public class Member extends AbstractEntity<Long> {
 
         LeftHistory leftHistory = new LeftHistory(this, left);
         leftHistories.add(leftHistory);
+    }
+
+    public PasswordChangeToken makePasswordChangeToken() {
+        PasswordChangeToken token = PasswordChangeToken.newInstance(this, password);
+        passwordChangeTokens.add(token);
+
+        return token;
     }
 }
