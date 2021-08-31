@@ -85,17 +85,16 @@ public class MemberController {
 
     // 서비스는 request를 몰라야 한다!
     @PostMapping("editPassword")
-    public String changePassword(@AuthenticationPrincipal AuthPrincipal principal, MemberChangePasswordDto request) {
-        if (request.getBeforeChangePassword().equals(request.getAfterChangePassword())) {
+    public String changePassword(@AuthenticationPrincipal AuthPrincipal principal, MemberChangePasswordDto memberChangePasswordDto) {
+        Password beforePassword = memberChangePasswordDto.getBeforeChangePassword();
+        Password afterPassword = memberChangePasswordDto.getAfterChangePassword();
+        if (beforePassword.equals(afterPassword)) {
             throw new InvalidInputException(InvalidInputException.ErrorCode.IS_SAME_PASSWORD);
         }
-        if (!request.getAfterChangePassword().equals(request.getAfterChangeConfirmPassword())) {
-            throw new InvalidInputException(InvalidInputException.ErrorCode.NEW_PASSWORD_MISMATCH);
-        }
-        if (!passwordEncoder.matches(request.getAfterChangePassword().value(), principal.getPassword())) {
+        if (!passwordEncoder.matches(afterPassword.value(), principal.getPassword())) {
             throw new InvalidInputException(InvalidInputException.ErrorCode.OLD_PASSWORD_MISMATCH);
         }
-        memberService.changeHomePagePassword(principal, request);
+        memberService.changeHomePagePassword(principal.getEmail(), afterPassword);
         return "fragments/contents/index";
     }
 

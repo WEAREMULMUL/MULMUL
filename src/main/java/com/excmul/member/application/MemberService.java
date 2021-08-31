@@ -81,16 +81,12 @@ public class MemberService {
     }
 
     @Transactional
-    public void changeHomePagePassword(AuthPrincipal authPrincipal, MemberChangePasswordDto request) {
-        request.validExistsPassword(passwordEncoder, authPrincipal.getWrappingPassword());
-        request.validAfterChangePasswords();
-        request.validIsDifferentPassword();
-
-        Member member = memberRepository.findByEmail(authPrincipal.getWrappingUsername())
+    public void changeHomePagePassword(Email email, Password password) {
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다 ");
                 });
-        member.changePassword(request.changePassword(passwordEncoder));
+        member.changePassword(password.encode(passwordEncoder));
     }
 
     @Transactional(readOnly = true)
