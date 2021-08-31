@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -157,5 +158,24 @@ public class MemberController {
     public String edit(@AuthenticationPrincipal AuthPrincipal principal, MemberInfoEditDto editDto) {
         memberService.edit(principal.getUsername(), editDto);
         return "redirect:/fragments/contents/index";
+    }
+
+    /**
+     * 회원 탈퇴
+     */
+    @GetMapping("leaveId")
+    public String leaveId() {
+        return "/fragments/contents/member/leaveId";
+    }
+
+    @PostMapping("leaveId")
+    public String leaveId(@AuthenticationPrincipal AuthPrincipal principal,
+                          final HttpSession httpSession) {
+        long memberId = principal.getId();
+        memberService.leaveId(memberId);
+
+        httpSession.invalidate();
+
+        return "/fragments/contents/member/leaveId-result";
     }
 }

@@ -25,6 +25,7 @@ public class AuthPrincipal implements UserDetails, OAuth2User {
     private final Password password;
     @Getter private final Role role;
     @Getter private final SocialType socialType;
+    @Getter private final boolean left;
 
     public String getUsername() {
         return email.value();

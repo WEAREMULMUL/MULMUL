@@ -142,4 +142,12 @@ public class MemberService {
                 });
         member.editMemberInfo(editDto);
     }
+
+    @Transactional
+    public void leaveId(long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        member.leaveId();
+    }
 }

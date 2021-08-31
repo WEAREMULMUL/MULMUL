@@ -8,18 +8,15 @@ import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
 import com.excmul.member.dto.MemberInfoEditDto;
 import com.excmul.member.dto.SocialMemberInformationDto;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Entity
 @Table(name = "MEMBER")
 public class Member extends AbstractEntity<Long> {
     @Embedded
@@ -63,6 +60,15 @@ public class Member extends AbstractEntity<Long> {
     @Column(name = "MEMBER_ROLE", nullable = false)
     private Role role;
 
+    @Builder.Default
+    @Column(name = "MEMBER_LEFT", nullable = false)
+    private boolean left = false;
+
+    private LeftHistories leftHistories;
+
+    protected Member() {
+    }
+
     public static Member ofSocial(SocialAttributes socialMember) {
         return Member.builder()
                 .name(socialMember.name())
@@ -84,6 +90,7 @@ public class Member extends AbstractEntity<Long> {
                 .password(password)
                 .role(role)
                 .socialType(socialType)
+                .left(left)
                 .build();
     }
 
@@ -120,5 +127,12 @@ public class Member extends AbstractEntity<Long> {
         this.termLocation = socialMemberInformation.isTermLocation();
         this.termPrivacy = true;
         this.termService = true;
+    }
+
+    public void leaveId() {
+        left = !left;
+
+        LeftHistory leftHistory = new LeftHistory(this, left);
+        leftHistories.add(leftHistory);
     }
 }

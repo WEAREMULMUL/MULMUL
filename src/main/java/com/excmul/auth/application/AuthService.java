@@ -1,5 +1,6 @@
 package com.excmul.auth.application;
 
+import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.dto.SocialAttributes;
 import com.excmul.auth.exception.OAuth2Exception;
 import com.excmul.member.domain.Member;
@@ -18,16 +19,18 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
+import java.util.List;
 
-import static com.excmul.auth.exception.OAuth2Exception.*;
+import static com.excmul.auth.exception.OAuth2Exception.ErrorCode;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService,
         OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private static final String USERNAME_NOT_FOUND_MESSAGE = "해당 사용자를 찾을 수 없습니다.";
+
     private final MemberRepository memberRepository;
+    private final List<LoginPostProcessor> loginPostProcessors;
 
     @Override
     @Transactional(readOnly = true)
@@ -37,7 +40,10 @@ public class AuthService implements UserDetailsService,
                 .orElseThrow(() -> {
                     throw new UsernameNotFoundException(USERNAME_NOT_FOUND_MESSAGE);
                 });
-        return member.toAuthPrincipal();
+
+        AuthPrincipal authPrincipal = member.toAuthPrincipal();
+        execLoginPostProcessors(authPrincipal);
+        return authPrincipal;
     }
 
     @Transactional
@@ -50,7 +56,9 @@ public class AuthService implements UserDetailsService,
             throw new OAuth2Exception(ErrorCode.NOT_FOUND_SOCIAL_TYPE);
         }
 
-        return member.toAuthPrincipal();
+        AuthPrincipal authPrincipal = member.toAuthPrincipal();
+        execLoginPostProcessors(authPrincipal);
+        return authPrincipal;
     }
 
     private SocialAttributes newSocialAttributes(final OAuth2UserRequest userRequest) {
@@ -59,6 +67,12 @@ public class AuthService implements UserDetailsService,
         OAuth2User oAuth2User = InnerLazyClass.DEFAULT_OAUTH2_USER_SERVICE.loadUser(userRequest);
 
         return socialType.toSocialAttributes(oAuth2User);
+    }
+
+    private void execLoginPostProcessors(AuthPrincipal authPrincipal) {
+        for (LoginPostProcessor loginPostProcessor : loginPostProcessors) {
+            loginPostProcessor.process(authPrincipal);
+        }
     }
 
     @Transactional
