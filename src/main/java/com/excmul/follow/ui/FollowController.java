@@ -33,7 +33,7 @@ public class FollowController {
             throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);
         }
 
-        followService.followMember(fromMember, toMember);
+        followService.followMember(fromMember, id);
         return "redirect:/follow/result";
     }
 
@@ -51,7 +51,7 @@ public class FollowController {
             throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);
         }
 
-        followService.unfollowMember(fromMember, toMember);
+        followService.unfollowMember(fromMember, id);
         return "redirect:/follow/result";
     }
 
@@ -59,7 +59,7 @@ public class FollowController {
     public String followResult(@AuthenticationPrincipal AuthPrincipal principal, Model model) {
         Member member = memberService.findMemberByEmail(principal.getEmail());
         int countFollowFromMe = followService.countFollowFromMe(member);
-        int countFollowToMe = followService.countFollowToMe(member);
+        int countFollowToMe = followService.countFollowToMe(member.id());
         FollowDto follow = new FollowDto(countFollowFromMe, countFollowToMe);
 
         model.addAttribute("follow", follow);

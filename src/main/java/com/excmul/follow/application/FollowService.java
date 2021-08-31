@@ -15,7 +15,7 @@ public class FollowService {
     private final FollowRepository followRepository;
 
     @Transactional
-    public Member followMember(Member fromMember, Member toMember) {
+    public void followMember(Member fromMember, long toMember) {
         Optional<Follow> follow = followRepository.findFollowByFromMemberAndToMember(fromMember, toMember);
 
         if (follow.isEmpty()) {
@@ -25,19 +25,15 @@ public class FollowService {
                     .build()
             );
         }
-        
-        return toMember;
     }
 
     @Transactional
-    public Member unfollowMember(Member fromMember, Member toMember) {
+    public void unfollowMember(Member fromMember, long toMember) {
         Optional<Follow> follow = followRepository.findFollowByFromMemberAndToMember(fromMember, toMember);
 
         if (follow.isPresent()) {
             followRepository.deleteByFromMemberAndToMember(fromMember, toMember);
         }
-
-        return toMember;
     }
 
     @Transactional(readOnly = true)
@@ -46,7 +42,7 @@ public class FollowService {
     }
 
     @Transactional(readOnly = true)
-    public int countFollowToMe(Member toMember) {
+    public int countFollowToMe(long toMember) {
         return followRepository.countByToMember(toMember);
     }
 

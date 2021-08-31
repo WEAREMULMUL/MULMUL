@@ -8,11 +8,11 @@ import java.util.Optional;
 
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, Integer> {
-    void deleteByFromMemberAndToMember(Member fromMember, Member toMember);
+    void deleteByFromMemberAndToMember(Member fromMember, long toMember);
 
-    Optional<Follow> findFollowByFromMemberAndToMember(Member fromMember, Member toMember);
+    Optional<Follow> findFollowByFromMemberAndToMember(Member fromMember, long toMember);
 
     int countByFromMember(Member fromMember);
 
-    int countByToMember(Member toMember);
+    int countByToMember(long toMember);
 }

@@ -3,6 +3,7 @@ package com.excmul.member.domain;
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.dto.SocialAttributes;
 import com.excmul.common.domain.AbstractEntity;
+import com.excmul.follow.domain.Follow;
 import com.excmul.mail.domain.Mail;
 import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
@@ -15,6 +16,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
 @Builder
@@ -62,6 +65,14 @@ public class Member extends AbstractEntity<Long> {
     @Enumerated(EnumType.STRING)
     @Column(name = "MEMBER_ROLE", nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "fromMember", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Set<Follow> follows = new TreeSet<>();
+
+    public void addFollow(Follow follow) {
+        follows.add(follow);
+        follow.setMember(this);
+    }
 
     public static Member ofSocial(SocialAttributes socialMember) {
         return Member.builder()
@@ -120,5 +131,9 @@ public class Member extends AbstractEntity<Long> {
         this.termLocation = socialMemberInformation.isTermLocation();
         this.termPrivacy = true;
         this.termService = true;
+    }
+
+    public long id() {
+        return id;
     }
 }
