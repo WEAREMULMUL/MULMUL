@@ -19,9 +19,6 @@ import java.util.regex.Pattern;
 public class Email {
     @Transient
     private static final String EMAIL_VALIDATOR = "^[_a-zA-Z0-9-\\+]+(\\.[_a-zA-Z0-9-]+)*@" + "[a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)*(\\.[a-zA-Z]{2,3})$";
-
-    @Transient
-    private static final String EMAIL_FORMAT = "%s@%s";
     
     @Column(name = "MEMBER_EMAIL", nullable = false)
     private String email;
