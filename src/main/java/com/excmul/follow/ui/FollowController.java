@@ -3,6 +3,7 @@ package com.excmul.follow.ui;
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.follow.application.FollowService;
 import com.excmul.follow.dto.FollowDto;
+import com.excmul.follow.exception.FollowException;
 import com.excmul.member.application.MemberService;
 import com.excmul.member.domain.Member;
 import com.excmul.member.domain.vo.Email;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequiredArgsConstructor
 public class FollowController {
-
     private final FollowService followService;
     private final MemberService memberService;
 
@@ -29,6 +29,11 @@ public class FollowController {
     public String followMemberResult(@AuthenticationPrincipal AuthPrincipal principal, Email email) {
         Member fromMember = memberService.findMemberByEmail(principal.getEmail());
         Member toMember = memberService.findMemberByEmail(email);
+
+        if (fromMember.equals(toMember)) {
+            throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);
+        }
+
         followService.followMember(fromMember, toMember);
         return "redirect:/follow/result";
     }
@@ -42,6 +47,11 @@ public class FollowController {
     public String unfollowMemberResult(@AuthenticationPrincipal AuthPrincipal principal, Email email) {
         Member fromMember = memberService.findMemberByEmail(principal.getEmail());
         Member toMember = memberService.findMemberByEmail(email);
+
+        if (fromMember.equals(toMember)) {
+            throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);
+        }
+
         followService.unfollowMember(fromMember, toMember);
         return "redirect:/follow/result";
     }

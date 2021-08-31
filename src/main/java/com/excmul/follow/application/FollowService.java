@@ -2,7 +2,6 @@ package com.excmul.follow.application;
 
 import com.excmul.follow.domain.Follow;
 import com.excmul.follow.domain.FollowRepository;
-import com.excmul.follow.exception.FollowException;
 import com.excmul.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,6 @@ public class FollowService {
 
     @Transactional
     public Member followMember(Member fromMember, Member toMember) {
-        selfFollow(fromMember, toMember);
-
         Optional<Follow> follow = followRepository.findFollowByFromMemberAndToMember(fromMember, toMember);
 
         if (follow.isEmpty()) {
@@ -28,13 +25,12 @@ public class FollowService {
                     .build()
             );
         }
+        
         return toMember;
     }
 
     @Transactional
     public Member unfollowMember(Member fromMember, Member toMember) {
-        selfFollow(fromMember, toMember);
-
         Optional<Follow> follow = followRepository.findFollowByFromMemberAndToMember(fromMember, toMember);
 
         if (follow.isPresent()) {
@@ -42,12 +38,6 @@ public class FollowService {
         }
 
         return toMember;
-    }
-
-    private void selfFollow(Member fromMember, Member toMember) {
-        if (fromMember.equals(toMember)) {
-            throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);
-        }
     }
 
     @Transactional(readOnly = true)
