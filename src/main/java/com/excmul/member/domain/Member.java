@@ -100,6 +100,13 @@ public class Member extends AbstractEntity<Long> {
         return toFollows.size();
     }
 
+    public boolean isFollowing(Follow follow) {
+        if (toFollows.contains(follow)) {
+            return true;
+        }
+        return false;
+    }
+
     public static Member ofSocial(SocialAttributes socialMember) {
         return Member.builder()
                 .name(socialMember.name())

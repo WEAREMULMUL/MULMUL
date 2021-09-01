@@ -150,6 +150,8 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("에러"));
     }
 
+
+    // TODO follow가 된 상태에서 버튼을 누르면 unfollow, follow가 되어 있지 않은 상태에서 버튼을 누르면 follow
     @Transactional
     public void follow(long fromMemberId, long toMemberId) {
         Member fromMember = findMemberById(fromMemberId);
@@ -157,8 +159,12 @@ public class MemberService {
 
         Follow follow = fromMember.newFollow(toMember);
 
-        fromMember.addFromFollow(follow);
-        toMember.addToFollow(follow);
+        boolean status = fromMember.isFollowing(follow);
+
+        if (!status) {
+            fromMember.addFromFollow(follow);
+            toMember.addToFollow(follow);
+        }
     }
 
     @Transactional
@@ -168,7 +174,12 @@ public class MemberService {
 
         Follow follow = fromMember.newFollow(toMember);
 
-        fromMember.deleteFromFollow(follow);
-        toMember.deleteToFollow(follow);
+        boolean status = fromMember.isFollowing(follow);
+
+        if (status) {
+            fromMember.deleteFromFollow(follow);
+            toMember.deleteToFollow(follow);
+        }
     }
+
 }
