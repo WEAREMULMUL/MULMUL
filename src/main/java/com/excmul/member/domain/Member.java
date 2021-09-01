@@ -21,7 +21,6 @@ import java.util.TreeSet;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@EqualsAndHashCode
 @Table(name = "MEMBER")
 public class Member extends AbstractEntity<Long> {
     @Embedded
@@ -66,10 +65,40 @@ public class Member extends AbstractEntity<Long> {
     private Role role;
 
     @OneToMany(mappedBy = "fromMember", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private Set<Follow> fromFollow = new HashSet<>();
+    private Set<Follow> fromFollows = new HashSet<>();
 
     @OneToMany(mappedBy = "toMember", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private Set<Follow> toFollow = new HashSet<>();
+    private Set<Follow> toFollows = new HashSet<>();
+
+    public void addFromFollow(Follow follow) {
+        fromFollows.add(follow);
+        follow.setFromMember(this);
+    }
+
+    public void addToFollow(Follow follow) {
+        toFollows.add(follow);
+        follow.setToMember(this);
+    }
+
+    public void deleteFromFollow(Follow follow) {
+        fromFollows.remove(follow);
+    }
+
+    public void deleteToFollow(Follow follow) {
+        toFollows.remove(follow);
+    }
+
+    public Follow newFollow(Member toMember) {
+        return new Follow(this, toMember);
+    }
+
+    public int countFollowFromMe() {
+        return fromFollows.size();
+    }
+
+    public int countFollowToMe() {
+        return toFollows.size();
+    }
 
     public static Member ofSocial(SocialAttributes socialMember) {
         return Member.builder()

@@ -14,5 +14,5 @@ public interface FollowRepository extends JpaRepository<Follow, Integer> {
 
     int countByFromMember(Member fromMember);
 
-    int countByToMember(long toMember);
+    int countByToMember(Member toMember);
 }

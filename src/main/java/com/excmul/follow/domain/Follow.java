@@ -6,19 +6,30 @@ import lombok.*;
 
 import javax.persistence.*;
 
-
 @Entity
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Table(name = "FOLLOW")
 public class Follow extends AbstractEntity<Long> {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FOLLOW_FROM_MEMBER")
     private Member fromMember;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FOLLOW_TO_MEMBER")
     private Member toMember;
-    
+
+    public Follow(Member fromMember, Member toMember) {
+        this.fromMember = fromMember;
+        this.toMember = toMember;
+    }
+
+    public void setFromMember(Member fromMember) {
+        this.fromMember = fromMember;
+    }
+
+    public void setToMember(Member toMember) {
+        this.toMember = toMember;
+    }
+
 }

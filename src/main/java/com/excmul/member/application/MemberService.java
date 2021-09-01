@@ -4,6 +4,7 @@ import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.exception.OAuth2Exception;
 import com.excmul.common.domain.vo.Token;
 import com.excmul.common.exception.TokenException;
+import com.excmul.follow.domain.Follow;
 import com.excmul.mail.application.MailService;
 import com.excmul.mail.domain.Mail;
 import com.excmul.member.domain.Member;
@@ -147,5 +148,27 @@ public class MemberService {
     public Member findMemberById(long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("에러"));
+    }
+
+    @Transactional
+    public void follow(long fromMemberId, long toMemberId) {
+        Member fromMember = findMemberById(fromMemberId);
+        Member toMember = findMemberById(toMemberId);
+
+        Follow follow = fromMember.newFollow(toMember);
+
+        fromMember.addFromFollow(follow);
+        toMember.addToFollow(follow);
+    }
+
+    @Transactional
+    public void unfollow(long fromMemberId, long toMemberId) {
+        Member fromMember = findMemberById(fromMemberId);
+        Member toMember = findMemberById(toMemberId);
+
+        Follow follow = fromMember.newFollow(toMember);
+
+        fromMember.deleteFromFollow(follow);
+        toMember.deleteToFollow(follow);
     }
 }

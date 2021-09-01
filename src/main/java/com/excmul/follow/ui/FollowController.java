@@ -26,14 +26,10 @@ public class FollowController {
 
     @PostMapping("/follow/member")
     public String followMemberResult(@AuthenticationPrincipal AuthPrincipal principal, long id) {
-        Member fromMember = memberService.findMemberById(principal.getId());
-        Member toMember = memberService.findMemberById(id);
-
-        if (fromMember.equals(toMember)) {
+        if (principal.getId() == id) {
             throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);
         }
-
-        followService.followMember(fromMember, toMember);
+        memberService.follow(principal.getId(), id);
         return "redirect:/follow/result";
     }
 
@@ -44,22 +40,19 @@ public class FollowController {
 
     @PostMapping("/unfollow/member")
     public String unfollowMemberResult(@AuthenticationPrincipal AuthPrincipal principal, long id) {
-        Member fromMember = memberService.findMemberById(principal.getId());
-        Member toMember = memberService.findMemberById(id);
-
-        if (fromMember.equals(toMember)) {
+        if (principal.getId() == id) {
             throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);
         }
 
-        followService.unfollowMember(fromMember, toMember);
+        memberService.unfollow(principal.getId(), id);
         return "redirect:/follow/result";
     }
 
     @GetMapping("/follow/result")
     public String followResult(@AuthenticationPrincipal AuthPrincipal principal, Model model) {
         Member member = memberService.findMemberByEmail(principal.getEmail());
-        int countFollowFromMe = followService.countFollowFromMe(member);
-        int countFollowToMe = followService.countFollowToMe(member.id());
+        int countFollowFromMe = member.countFollowFromMe();
+        int countFollowToMe = member.countFollowToMe();
         FollowDto follow = new FollowDto(countFollowFromMe, countFollowToMe);
 
         model.addAttribute("follow", follow);
