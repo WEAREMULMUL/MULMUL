@@ -17,10 +17,8 @@ public class Follow extends AbstractEntity<Long> {
     @JoinColumn(name = "FOLLOW_FROM_MEMBER")
     private Member fromMember;
 
+    @ManyToOne
     @JoinColumn(name = "FOLLOW_TO_MEMBER")
-    private long toMember;
-
-    public void setMember(Member fromMember) {
-        this.fromMember = fromMember;
-    }
+    private Member toMember;
+    
 }

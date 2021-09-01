@@ -33,7 +33,7 @@ public class FollowController {
             throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);
         }
 
-        followService.followMember(fromMember, id);
+        followService.followMember(fromMember, toMember);
         return "redirect:/follow/result";
     }
 
@@ -51,7 +51,7 @@ public class FollowController {
             throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);
         }
 
-        followService.unfollowMember(fromMember, id);
+        followService.unfollowMember(fromMember, toMember);
         return "redirect:/follow/result";
     }
 

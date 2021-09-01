@@ -9,12 +9,10 @@ import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
 import com.excmul.member.dto.MemberInfoEditDto;
 import com.excmul.member.dto.SocialMemberInformationDto;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -23,6 +21,7 @@ import java.util.TreeSet;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@EqualsAndHashCode
 @Table(name = "MEMBER")
 public class Member extends AbstractEntity<Long> {
     @Embedded
@@ -67,12 +66,10 @@ public class Member extends AbstractEntity<Long> {
     private Role role;
 
     @OneToMany(mappedBy = "fromMember", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private Set<Follow> follows = new TreeSet<>();
+    private Set<Follow> fromFollow = new HashSet<>();
 
-    public void addFollow(Follow follow) {
-        follows.add(follow);
-        follow.setMember(this);
-    }
+    @OneToMany(mappedBy = "toMember", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Set<Follow> toFollow = new HashSet<>();
 
     public static Member ofSocial(SocialAttributes socialMember) {
         return Member.builder()
