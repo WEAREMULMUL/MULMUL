@@ -15,7 +15,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Entity
 @Builder
@@ -72,12 +71,12 @@ public class Member extends AbstractEntity<Long> {
 
     public void addFromFollow(Follow follow) {
         fromFollows.add(follow);
-        follow.setFromMember(this);
+        follow.fromMember(this);
     }
 
     public void addToFollow(Follow follow) {
         toFollows.add(follow);
-        follow.setToMember(this);
+        follow.toMember(this);
     }
 
     public void deleteFromFollow(Follow follow) {

@@ -183,13 +183,13 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public int countFollowFrom(long id) {
+    public int countFromFollow(long id) {
         Member member = findMemberById(id);
         return member.countFollowFromMe();
     }
 
     @Transactional(readOnly = true)
-    public int countFollowTo(long id) {
+    public int countToFollow(long id) {
         Member member = findMemberById(id);
         return member.countFollowToMe();
     }

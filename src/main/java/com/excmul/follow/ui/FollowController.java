@@ -46,8 +46,8 @@ public class FollowController {
 
     @GetMapping("/follow/result")
     public String followResult(@AuthenticationPrincipal AuthPrincipal principal, Model model) {
-        int countFollowFromMe = memberService.countFollowFrom(principal.getId());
-        int countFollowToMe = memberService.countFollowTo(principal.getId());
+        int countFollowFromMe = memberService.countFromFollow(principal.getId());
+        int countFollowToMe = memberService.countToFollow(principal.getId());
         FollowDto follow = new FollowDto(countFollowFromMe, countFollowToMe);
 
         model.addAttribute("follow", follow);

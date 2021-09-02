@@ -24,11 +24,11 @@ public class Follow extends AbstractEntity<Long> {
         this.toMember = toMember;
     }
 
-    public void setFromMember(Member fromMember) {
+    public void fromMember(Member fromMember) {
         this.fromMember = fromMember;
     }
 
-    public void setToMember(Member toMember) {
+    public void toMember(Member toMember) {
         this.toMember = toMember;
     }
 
