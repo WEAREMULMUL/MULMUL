@@ -1,10 +1,10 @@
 package com.excmul.member.domain.vo;
 
-import com.excmul.auth.dto.KakaoAttributes;
 import com.excmul.auth.dto.NaverAttributes;
-import com.excmul.auth.exception.OAuth2Exception;
 import com.excmul.auth.dto.GoogleAttributes;
+import com.excmul.auth.dto.KakaoAttributes;
 import com.excmul.auth.dto.SocialAttributes;
+import com.excmul.auth.exception.OAuth2Exception;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 

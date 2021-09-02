@@ -1,6 +1,5 @@
 package com.excmul.common.exception;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 public class TokenException extends RuntimeException {
