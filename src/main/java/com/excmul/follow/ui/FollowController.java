@@ -1,11 +1,9 @@
 package com.excmul.follow.ui;
 
 import com.excmul.auth.dto.AuthPrincipal;
-import com.excmul.follow.application.FollowService;
 import com.excmul.follow.dto.FollowDto;
 import com.excmul.follow.exception.FollowException;
 import com.excmul.member.application.MemberService;
-import com.excmul.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequiredArgsConstructor
 public class FollowController {
-    private final FollowService followService;
     private final MemberService memberService;
 
     @GetMapping("/follow/member")
@@ -43,16 +40,14 @@ public class FollowController {
         if (principal.getId() == id) {
             throw new FollowException(FollowException.ErrorCode.IS_SAME_MEMBER);
         }
-
         memberService.unfollow(principal.getId(), id);
         return "redirect:/follow/result";
     }
 
     @GetMapping("/follow/result")
     public String followResult(@AuthenticationPrincipal AuthPrincipal principal, Model model) {
-        Member member = memberService.findMemberByEmail(principal.getEmail());
-        int countFollowFromMe = member.countFollowFromMe();
-        int countFollowToMe = member.countFollowToMe();
+        int countFollowFromMe = memberService.countFollowFrom(principal.getId());
+        int countFollowToMe = memberService.countFollowTo(principal.getId());
         FollowDto follow = new FollowDto(countFollowFromMe, countFollowToMe);
 
         model.addAttribute("follow", follow);

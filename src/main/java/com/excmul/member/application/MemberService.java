@@ -182,4 +182,16 @@ public class MemberService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public int countFollowFrom(long id) {
+        Member member = findMemberById(id);
+        return member.countFollowFromMe();
+    }
+
+    @Transactional(readOnly = true)
+    public int countFollowTo(long id) {
+        Member member = findMemberById(id);
+        return member.countFollowToMe();
+    }
+
 }
