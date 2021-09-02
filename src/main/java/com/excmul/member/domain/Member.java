@@ -63,32 +63,22 @@ public class Member extends AbstractEntity<Long> {
     @Column(name = "MEMBER_ROLE", nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "fromMember", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "fromMember", cascade = CascadeType.ALL)
     private Set<Follow> fromFollows = new HashSet<>();
 
-    @OneToMany(mappedBy = "toMember", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "toMember", cascade = CascadeType.ALL)
     private Set<Follow> toFollows = new HashSet<>();
 
-    public void addFromFollow(Follow follow) {
+    public void follow(Member toMember) {
+        Follow follow = new Follow(this, toMember);
         fromFollows.add(follow);
-        follow.fromMember(this);
+        toMember.toFollows.add(follow);
     }
 
-    public void addToFollow(Follow follow) {
-        toFollows.add(follow);
-        follow.toMember(this);
-    }
-
-    public void deleteFromFollow(Follow follow) {
+    public void unfollow(Member toMember) {
+        Follow follow = new Follow(this, toMember);
         fromFollows.remove(follow);
-    }
-
-    public void deleteToFollow(Follow follow) {
-        toFollows.remove(follow);
-    }
-
-    public Follow newFollow(Member toMember) {
-        return new Follow(this, toMember);
+        toMember.toFollows.remove(follow);
     }
 
     public int countFollowFromMe() {
@@ -99,8 +89,11 @@ public class Member extends AbstractEntity<Long> {
         return toFollows.size();
     }
 
-    public boolean isFollowing(Follow follow) {
-        if (toFollows.contains(follow)) {
+    // 일급컬렉션으로 수정해서 고치기!
+    public boolean isFollowing(Member toMember) {
+        Follow follow = new Follow(this, toMember);
+
+        if (fromFollows.contains(follow) && toMember.toFollows.contains(follow)) {
             return true;
         }
         return false;

@@ -1,6 +1,5 @@
 package com.excmul.member.application;
 
-import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.exception.OAuth2Exception;
 import com.excmul.common.domain.vo.Token;
 import com.excmul.common.exception.TokenException;
@@ -157,13 +156,10 @@ public class MemberService {
         Member fromMember = findMemberById(fromMemberId);
         Member toMember = findMemberById(toMemberId);
 
-        Follow follow = fromMember.newFollow(toMember);
-
-        boolean status = fromMember.isFollowing(follow);
+        boolean status = fromMember.isFollowing(toMember);
 
         if (!status) {
-            fromMember.addFromFollow(follow);
-            toMember.addToFollow(follow);
+            fromMember.follow(toMember);
         }
     }
 
@@ -171,14 +167,11 @@ public class MemberService {
     public void unfollow(long fromMemberId, long toMemberId) {
         Member fromMember = findMemberById(fromMemberId);
         Member toMember = findMemberById(toMemberId);
-
-        Follow follow = fromMember.newFollow(toMember);
-
-        boolean status = fromMember.isFollowing(follow);
+        
+        boolean status = fromMember.isFollowing(toMember);
 
         if (status) {
-            fromMember.deleteFromFollow(follow);
-            toMember.deleteToFollow(follow);
+            fromMember.unfollow(toMember);
         }
     }
 

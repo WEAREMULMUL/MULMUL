@@ -24,12 +24,4 @@ public class Follow extends AbstractEntity<Long> {
         this.toMember = toMember;
     }
 
-    public void fromMember(Member fromMember) {
-        this.fromMember = fromMember;
-    }
-
-    public void toMember(Member toMember) {
-        this.toMember = toMember;
-    }
-
 }
