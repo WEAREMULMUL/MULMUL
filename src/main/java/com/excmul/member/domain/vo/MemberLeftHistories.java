@@ -1,6 +1,6 @@
 package com.excmul.member.domain.vo;
 
-import com.excmul.member.domain.LeftHistory;
+import com.excmul.member.domain.MemberLeftHistory;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.CascadeType;
@@ -12,19 +12,19 @@ import java.util.List;
 
 @EqualsAndHashCode
 @Embeddable
-public class LeftHistories {
+public class MemberLeftHistories {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<LeftHistory> leftHistories;
+    private List<MemberLeftHistory> leftHistories;
 
-    public LeftHistories(final List<LeftHistory> leftHistories) {
+    public MemberLeftHistories(final List<MemberLeftHistory> leftHistories) {
         this.leftHistories = leftHistories;
     }
 
-    protected LeftHistories() {
+    protected MemberLeftHistories() {
         this(new ArrayList<>());
     }
 
-    public void add(LeftHistory leftHistory) {
+    public void add(MemberLeftHistory leftHistory) {
         this.leftHistories.add(
                 leftHistory
         );

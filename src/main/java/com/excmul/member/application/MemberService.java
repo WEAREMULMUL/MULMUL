@@ -2,17 +2,13 @@ package com.excmul.member.application;
 
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.exception.OAuth2Exception;
-import com.excmul.common.domain.vo.TokenSerial;
-import com.excmul.common.exception.TokenException;
 import com.excmul.mail.application.MailService;
 import com.excmul.mail.domain.Mail;
 import com.excmul.member.domain.Member;
 import com.excmul.member.domain.MemberRepository;
 import com.excmul.member.domain.PasswordChangeToken;
-import com.excmul.member.domain.PasswordChangeTokenRepository;
 import com.excmul.member.domain.vo.Email;
 import com.excmul.member.domain.vo.Nickname;
-import com.excmul.member.domain.vo.Password;
 import com.excmul.member.domain.vo.PhoneNumber;
 import com.excmul.member.dto.*;
 import com.excmul.member.exception.DuplicationException;
@@ -132,6 +128,6 @@ public class MemberService {
     public void leaveId(long memberId) {
         Member member = findById(memberId);
 
-        member.leaveId();
+        member.leave();
     }
 }

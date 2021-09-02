@@ -3,8 +3,6 @@ package com.excmul.member.domain;
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.dto.SocialAttributes;
 import com.excmul.common.domain.AbstractEntity;
-import com.excmul.common.domain.vo.TokenSerial;
-import com.excmul.common.exception.TokenException;
 import com.excmul.mail.domain.Mail;
 import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
@@ -66,7 +64,7 @@ public class Member extends AbstractEntity<Long> {
     @Column(name = "MEMBER_LEFT", nullable = false)
     private boolean left = false;
 
-    private LeftHistories leftHistories;
+    private MemberLeftHistories leftHistories;
 
     private PasswordChangeTokens passwordChangeTokens;
 
@@ -129,10 +127,10 @@ public class Member extends AbstractEntity<Long> {
         this.termService = true;
     }
 
-    public void leaveId() {
-        left = !left;
+    public void leave() {
+        left = true;
 
-        LeftHistory leftHistory = new LeftHistory(this, left);
+        MemberLeftHistory leftHistory = new MemberLeftHistory(this, left);
         leftHistories.add(leftHistory);
     }
 

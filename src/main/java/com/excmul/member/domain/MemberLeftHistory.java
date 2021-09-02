@@ -5,20 +5,20 @@ import com.excmul.member.dto.LeftHistoryDto;
 
 import javax.persistence.*;
 
+@Table(name = "MEMBER_LEFT_HISTORY")
 @Entity
-public class LeftHistory extends AbstractEntity<Long> {
+public class MemberLeftHistory extends AbstractEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "LEFT_HISTORY_MEMBER")
+    @JoinColumn(name = "MEMBER_LEFT_HISTORY_MEMBER")
     private Member member;
 
-    @Column(name = "LEFT_HISTORY_LEFT", nullable = false)
+    @Column(name = "MEMBER_LEFT_HISTORY_LEFT", nullable = false)
     private boolean left;
 
-    protected LeftHistory() {
-
+    protected MemberLeftHistory() {
     }
 
-    public LeftHistory(final Member member, final boolean left) {
+    public MemberLeftHistory(final Member member, final boolean left) {
         this.member = member;
         this.left = left;
     }
