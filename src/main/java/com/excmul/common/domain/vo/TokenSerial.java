@@ -14,22 +14,22 @@ import java.util.UUID;
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class Token {
-    @Column(name = "TOKEN", nullable = false)
-    private String token;
+public class TokenSerial {
+    @Column(name = "TOKEN_TOKEN_SERIAL", nullable = false)
+    private String tokenSerial;
 
-    private Token(String token) {
-        this.token = token;
+    private TokenSerial(String tokenSerial) {
+        this.tokenSerial = tokenSerial;
     }
 
-    public static Token newInstance(String token) {
-        return new Token(token);
+    public static TokenSerial newInstance(String token) {
+        return new TokenSerial(token);
     }
 
-    public static Token newRandomInstance(int length) {
+    public static TokenSerial newRandomInstance(int length) {
         String tokenValue = newTokenValue(length);
 
-        return new Token(tokenValue);
+        return new TokenSerial(tokenValue);
     }
 
     private static String newTokenValue(int length) {
@@ -46,7 +46,7 @@ public class Token {
     }
 
     public String value() {
-        return token;
+        return tokenSerial;
     }
 
     @RequiredArgsConstructor
