@@ -62,7 +62,7 @@ public class Member extends AbstractEntity<Long> {
     @Enumerated(EnumType.STRING)
     @Column(name = "MEMBER_ROLE", nullable = false)
     private Role role;
-
+    
     @OneToMany(mappedBy = "fromMember", cascade = CascadeType.ALL)
     private Set<Follow> fromFollows = new HashSet<>();
 
@@ -70,13 +70,13 @@ public class Member extends AbstractEntity<Long> {
     private Set<Follow> toFollows = new HashSet<>();
 
     public void follow(Member toMember) {
-        Follow follow = new Follow(this, toMember);
+        Follow follow = newFollow(toMember);
         fromFollows.add(follow);
         toMember.toFollows.add(follow);
     }
 
     public void unfollow(Member toMember) {
-        Follow follow = new Follow(this, toMember);
+        Follow follow = newFollow(toMember);
         fromFollows.remove(follow);
         toMember.toFollows.remove(follow);
     }
@@ -91,12 +91,16 @@ public class Member extends AbstractEntity<Long> {
 
     // 일급컬렉션으로 수정해서 고치기!
     public boolean isFollowing(Member toMember) {
-        Follow follow = new Follow(this, toMember);
+        Follow follow = newFollow(toMember);
 
         if (fromFollows.contains(follow) && toMember.toFollows.contains(follow)) {
             return true;
         }
         return false;
+    }
+
+    private Follow newFollow(Member toMember) {
+        return new Follow(this, toMember);
     }
 
     public static Member ofSocial(SocialAttributes socialMember) {
