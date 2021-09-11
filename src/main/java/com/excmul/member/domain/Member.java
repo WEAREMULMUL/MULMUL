@@ -12,9 +12,8 @@ import com.excmul.member.dto.SocialMemberInformationDto;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
+
 
 @Entity
 @Builder
@@ -62,41 +61,29 @@ public class Member extends AbstractEntity<Long> {
     @Enumerated(EnumType.STRING)
     @Column(name = "MEMBER_ROLE", nullable = false)
     private Role role;
-    
-    @OneToMany(mappedBy = "fromMember", cascade = CascadeType.ALL)
-    private Set<Follow> fromFollows = new HashSet<>();
 
-    @OneToMany(mappedBy = "toMember", cascade = CascadeType.ALL)
-    private Set<Follow> toFollows = new HashSet<>();
+    @Embedded
+    private Follows follows;
+
+    public Follows follows() {
+        return follows;
+    }
 
     public void follow(Member toMember) {
         Follow follow = newFollow(toMember);
-        fromFollows.add(follow);
-        toMember.toFollows.add(follow);
+        follows.addFromFollows(follow);
+        toMember.follows.addToFollows(follow);
     }
 
     public void unfollow(Member toMember) {
         Follow follow = newFollow(toMember);
-        fromFollows.remove(follow);
-        toMember.toFollows.remove(follow);
+        follows.removeFromFollows(follow);
+        toMember.follows.removeToFollows(follow);
     }
 
-    public int countFollowFromMe() {
-        return fromFollows.size();
-    }
-
-    public int countFollowToMe() {
-        return toFollows.size();
-    }
-
-    // 일급컬렉션으로 수정해서 고치기!
     public boolean isFollowing(Member toMember) {
         Follow follow = newFollow(toMember);
-
-        if (fromFollows.contains(follow) && toMember.toFollows.contains(follow)) {
-            return true;
-        }
-        return false;
+        return follows.existsFromFollows(follow) && follows.existsToFollows(follow);
     }
 
     private Follow newFollow(Member toMember) {

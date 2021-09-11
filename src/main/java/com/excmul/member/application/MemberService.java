@@ -167,7 +167,7 @@ public class MemberService {
     public void unfollow(long fromMemberId, long toMemberId) {
         Member fromMember = findMemberById(fromMemberId);
         Member toMember = findMemberById(toMemberId);
-        
+
         boolean status = fromMember.isFollowing(toMember);
 
         if (status) {
@@ -178,13 +178,13 @@ public class MemberService {
     @Transactional(readOnly = true)
     public int countFromFollow(long id) {
         Member member = findMemberById(id);
-        return member.countFollowFromMe();
+        return member.follows().countFollowFromMe();
     }
 
     @Transactional(readOnly = true)
     public int countToFollow(long id) {
         Member member = findMemberById(id);
-        return member.countFollowToMe();
+        return member.follows().countFollowToMe();
     }
 
 }
