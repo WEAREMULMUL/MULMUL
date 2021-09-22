@@ -179,4 +179,22 @@ public class MemberController {
 
         return "/fragments/contents/member/leaveId-result";
     }
+
+    /**
+     * 프로필 사진
+     */
+    @GetMapping("profile")
+    public String profile(@AuthenticationPrincipal AuthPrincipal principal,
+                          Model model) {
+        String profileUrl = this.memberService.getProfileUrl(principal.getId());
+        model.addAttribute("profileUrl", profileUrl);
+        return "/fragments/contents/member/profile";
+    }
+
+    @PostMapping("profile")
+    public String profile(@AuthenticationPrincipal AuthPrincipal principal,
+                          String profileUrl) {
+        this.memberService.updateProfileUrl(principal.getId(), profileUrl);
+        return "/fragments/contents/member/profile";
+    }
 }

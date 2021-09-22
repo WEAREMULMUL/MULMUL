@@ -27,9 +27,7 @@ import static com.excmul.auth.exception.OAuth2Exception.ErrorCode;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-
     private final MailService mailService;
-
     private final PasswordEncoder passwordEncoder;
 
     private Member findById(long id) {
@@ -129,5 +127,16 @@ public class MemberService {
         Member member = findById(memberId);
 
         member.leave();
+    }
+
+    public String getProfileUrl(long id) {
+        Member member = findById(id);
+        return member.getProfileUrl();
+    }
+
+    @Transactional
+    public void updateProfileUrl(Long MemberId, String profileUrl) {
+        Member member = findById(MemberId);
+        member.updateProfileUrl(profileUrl);
     }
 }

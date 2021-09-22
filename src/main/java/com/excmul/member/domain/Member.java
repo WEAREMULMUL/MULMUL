@@ -10,6 +10,7 @@ import com.excmul.member.dto.MemberInfoEditDto;
 import com.excmul.member.dto.SocialMemberInformationDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -67,6 +68,10 @@ public class Member extends AbstractEntity<Long> {
     private MemberLeftHistories leftHistories;
 
     private PasswordChangeTokens passwordChangeTokens;
+
+    @Getter
+    @Column(name = "MEMBER_PROFILE_URL")
+    private String profileUrl;
 
     protected Member() {
     }
@@ -139,5 +144,9 @@ public class Member extends AbstractEntity<Long> {
         passwordChangeTokens.add(token);
 
         return token;
+    }
+
+    public void updateProfileUrl(String profileUrl) {
+        this.profileUrl = "image/" + profileUrl + ".png";
     }
 }
