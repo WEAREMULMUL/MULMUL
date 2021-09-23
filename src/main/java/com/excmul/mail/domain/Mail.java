@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "MAIL")
 public class Mail extends AbstractEntity<Long> {
@@ -32,6 +31,9 @@ public class Mail extends AbstractEntity<Long> {
 
     @Column(name = "MAIL_SENT_DATE")
     private LocalDateTime sentDate;
+
+    protected Mail() {
+    }
 
     public Mail(Email receiver, Content content) {
         this.receiver = receiver;
