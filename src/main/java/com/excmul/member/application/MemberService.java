@@ -130,4 +130,31 @@ public class MemberService {
 
         member.leave();
     }
+
+    @Transactional
+    public void follow(long fromMemberId, long toMemberId) {
+        Member fromMember = memberRepository.findById(fromMemberId)
+                .orElseThrow(() -> new NotFoundMemberException());
+
+        Member toMember = memberRepository.findById(toMemberId)
+                .orElseThrow(() -> new NotFoundMemberException());
+
+        fromMember.follow(toMember);
+    }
+
+    @Transactional(readOnly = true)
+    public int countFollowTo(long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundMemberException());
+
+        return member.follows().countToFollows();
+    }
+
+    @Transactional(readOnly = true)
+    public int countFollowFrom(long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundMemberException());
+
+        return member.follows().countFromFollows();
+    }
 }

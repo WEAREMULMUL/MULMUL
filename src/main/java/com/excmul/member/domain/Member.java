@@ -3,6 +3,8 @@ package com.excmul.member.domain;
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.dto.SocialAttributes;
 import com.excmul.common.domain.AbstractEntity;
+import com.excmul.follow.domain.Follow;
+import com.excmul.follow.domain.Follows;
 import com.excmul.mail.domain.Mail;
 import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
@@ -70,6 +72,9 @@ public class Member extends AbstractEntity<Long> {
 
     protected Member() {
     }
+
+    @Embedded
+    private Follows follows;
 
     public static Member ofSocial(SocialAttributes socialMember) {
         return Member.builder()
@@ -139,5 +144,33 @@ public class Member extends AbstractEntity<Long> {
         passwordChangeTokens.add(token);
 
         return token;
+    }
+
+    public Follows follows() {
+        return follows;
+    }
+
+    public boolean follow(Member target) {
+        Follow follow = new Follow(this, target);
+        if (isFollowing(follow)) {
+            return unfollow(follow, target);
+        }
+        return follow(follow, target);
+    }
+
+    private boolean isFollowing(Follow follow) {
+        return follows.existsToFollows(follow);
+    }
+
+    private boolean unfollow(Follow follow, Member target) {
+        follows.removeToFollows(follow);
+        target.follows.removeFromFollows(follow);
+        return false;
+    }
+
+    private boolean follow(Follow follow, Member target) {
+        follows.addToFollows(follow);
+        target.follows.addFromFollows(follow);
+        return true;
     }
 }
