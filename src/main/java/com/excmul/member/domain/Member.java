@@ -178,8 +178,8 @@ public class Member extends AbstractEntity<Long> {
         target.follows.addFromFollows(follow);
         return true;
     }
-  
+
     public void updateProfileUrl(String profileUrl) {
-      this.profileUrl = "image/" + profileUrl + ".png";
+        this.profileUrl = "../image/" + profileUrl;
     }
 }

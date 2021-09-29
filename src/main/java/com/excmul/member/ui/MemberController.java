@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -186,15 +187,15 @@ public class MemberController {
     @GetMapping("profile")
     public String profile(@AuthenticationPrincipal AuthPrincipal principal,
                           Model model) {
-        String profileUrl = this.memberService.getProfileUrl(principal.getId());
+        String profileUrl = memberService.getProfileUrl(principal.getId());
         model.addAttribute("profileUrl", profileUrl);
         return "/fragments/contents/member/profile";
     }
 
     @PostMapping("profile")
     public String profile(@AuthenticationPrincipal AuthPrincipal principal,
-                          String profileUrl) {
-        this.memberService.updateProfileUrl(principal.getId(), profileUrl);
+                          @RequestPart(value = "profile") MultipartFile profile) {
+        memberService.updateProfileUrl(principal.getId(), profile.getOriginalFilename());
         return "/fragments/contents/member/profile";
     }
 }

@@ -10,10 +10,11 @@
           th:method="POST"
           th:action="@{/auth/profile}"
           enctype="multipart/form-data"
+          accept="image/jpg"
+          required
     >
         <input type="file"
-               name="file"
-               th:value="${profileUrl}"
+               name="profile"
         />
         <br/>
         <input type="submit"
