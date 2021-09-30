@@ -196,6 +196,6 @@ public class MemberController {
     public String profile(@AuthenticationPrincipal AuthPrincipal principal,
                           @RequestPart(value = "profile") MultipartFile profile) {
         memberService.updateProfileUrl(principal.getId(), profile.getOriginalFilename());
-        return "/fragments/contents/member/profile";
+        return "redirect:/auth/profile";
     }
 }
