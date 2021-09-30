@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 
 import static com.excmul.common.exception.TokenException.ErrorCode;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @MappedSuperclass
 public abstract class TimeTokenEntity extends AbstractEntity<Long> {
     @Embedded
@@ -23,6 +22,10 @@ public abstract class TimeTokenEntity extends AbstractEntity<Long> {
 
     @Column(name = "EXPIRY_DATE", nullable = false)
     protected LocalDateTime expiryDate;
+
+    protected TimeTokenEntity() {
+
+    }
 
     public TimeTokenEntity(TokenSerial tokenSerial, LocalDateTime expiryDate) {
         this.tokenSerial = tokenSerial;

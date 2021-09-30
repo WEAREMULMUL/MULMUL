@@ -3,8 +3,6 @@ package com.excmul.mail.domain;
 import com.excmul.common.domain.AbstractEntity;
 import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.Email;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.AttributeOverride;

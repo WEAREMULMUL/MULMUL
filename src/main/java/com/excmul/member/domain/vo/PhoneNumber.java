@@ -1,10 +1,7 @@
 package com.excmul.member.domain.vo;
 
 import com.excmul.member.exception.InvalidInputException;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -13,7 +10,6 @@ import java.util.regex.Pattern;
 
 @Embeddable
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PhoneNumber {
     // :: Mobile Phone Identification Number :: 010
     @Transient
@@ -28,7 +24,7 @@ public class PhoneNumber {
     }
 
     public void validate(String phoneNumber) {
-        if (!StringUtils.hasText(phoneNumber) || !Pattern.matches(PHONE_NUMBER_VALIDATOR, phoneNumber)) {
+        if (!Pattern.matches(PHONE_NUMBER_VALIDATOR, phoneNumber)) {
             throw new InvalidInputException(InvalidInputException.ErrorCode.PHONE_NUMBER);
         }
     }
@@ -40,5 +36,9 @@ public class PhoneNumber {
 
     public String value() {
         return phoneNumber;
+    }
+
+    protected PhoneNumber() {
+
     }
 }

@@ -11,12 +11,15 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.UUID;
 
-@EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
+@EqualsAndHashCode
 public class TokenSerial {
     @Column(name = "TOKEN_TOKEN_SERIAL", nullable = false)
     private String tokenSerial;
+
+    protected TokenSerial() {
+
+    }
 
     private TokenSerial(String tokenSerial) {
         this.tokenSerial = tokenSerial;

@@ -7,8 +7,8 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 
 @Entity
-@EqualsAndHashCode
 @Table(name = "FOLLOW")
+@EqualsAndHashCode
 public class Follow extends AbstractEntity<Long> {
 
     @ManyToOne(fetch = FetchType.LAZY)

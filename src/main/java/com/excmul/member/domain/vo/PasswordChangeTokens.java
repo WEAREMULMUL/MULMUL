@@ -1,6 +1,5 @@
 package com.excmul.member.domain.vo;
 
-import com.excmul.common.domain.vo.TokenSerial;
 import com.excmul.member.domain.PasswordChangeToken;
 
 import javax.persistence.CascadeType;
@@ -9,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Embeddable
 public class PasswordChangeTokens {

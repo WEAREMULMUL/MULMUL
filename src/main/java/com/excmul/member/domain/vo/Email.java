@@ -1,9 +1,7 @@
 package com.excmul.member.domain.vo;
 
 import com.excmul.member.exception.InvalidInputException;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.util.StringUtils;
 
@@ -15,17 +13,19 @@ import java.util.regex.Pattern;
 @ToString
 @Embeddable
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Email {
     @Transient
     private static final String EMAIL_VALIDATOR = "^[_a-zA-Z0-9-\\+]+(\\.[_a-zA-Z0-9-]+)*@" + "[a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)*(\\.[a-zA-Z]{2,3})$";
 
     @Transient
     private static final String EMAIL_FORMAT = "%s@%s";
-    
+
     @Column(name = "MEMBER_EMAIL", nullable = false)
     private String email;
 
+    protected Email() {
+
+    }
 
     public Email(String email) {
         validate(email);

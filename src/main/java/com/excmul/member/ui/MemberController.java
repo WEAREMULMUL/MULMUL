@@ -22,8 +22,9 @@ import java.util.Optional;
 
 import static com.excmul.auth.exception.OAuth2Exception.ErrorCode;
 
-@RequestMapping("auth")
+
 @Controller
+@RequestMapping("auth")
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;

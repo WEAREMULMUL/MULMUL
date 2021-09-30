@@ -1,10 +1,7 @@
 package com.excmul.member.domain.vo;
 
 import com.excmul.member.exception.InvalidInputException;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -14,7 +11,6 @@ import java.util.regex.Pattern;
 
 @Embeddable
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Name {
 
     @Transient
@@ -23,13 +19,17 @@ public class Name {
     @Column(name = "MEMBER_NAME")
     private String name;
 
+    protected Name() {
+
+    }
+
     public Name(String name) {
         validate(name);
         this.name = name;
     }
 
     public void validate(String name) {
-        if (!StringUtils.hasText(name) || !Pattern.matches(NAME_VALIDATOR, name)) {
+        if (!Pattern.matches(NAME_VALIDATOR, name)) {
             throw new InvalidInputException(InvalidInputException.ErrorCode.NAME);
         }
     }
@@ -42,4 +42,5 @@ public class Name {
     public String value() {
         return name;
     }
+
 }

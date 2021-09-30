@@ -1,21 +1,16 @@
 package com.excmul.member.domain.vo;
 
 import com.excmul.member.exception.InvalidInputException;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.regex.Pattern;
 
-
 @Embeddable
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Password {
 
     /**
@@ -31,6 +26,10 @@ public class Password {
     @Column(name = "MEMBER_PASSWORD")
     private String password;
 
+    protected Password() {
+
+    }
+
     public Password(String password) {
         validate(password);
         this.password = password;
@@ -45,7 +44,7 @@ public class Password {
     }
 
     public void validate(String password) {
-        if (!StringUtils.hasText(password) || !Pattern.matches(PASSWORD_VALIDATOR, password)) {
+        if (!Pattern.matches(PASSWORD_VALIDATOR, password)) {
             throw new InvalidInputException(InvalidInputException.ErrorCode.PASSWORD);
         }
     }
@@ -75,4 +74,5 @@ public class Password {
             }
         };
     }
+
 }
