@@ -3,6 +3,7 @@ package com.excmul.member.ui;
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.exception.OAuth2Exception;
 import com.excmul.common.domain.vo.TokenSerial;
+import com.excmul.common.utils.FileManager;
 import com.excmul.member.application.MemberService;
 import com.excmul.member.application.PasswordChangeTokenService;
 import com.excmul.member.domain.vo.Email;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Optional;
 
 import static com.excmul.auth.exception.OAuth2Exception.ErrorCode;
@@ -194,8 +196,18 @@ public class MemberController {
 
     @PostMapping("profile")
     public String profile(@AuthenticationPrincipal AuthPrincipal principal,
-                          @RequestPart(value = "profile") MultipartFile profile) {
-        memberService.updateProfileUrl(principal.getId(), profile.getOriginalFilename());
+                          @RequestPart(value = "profile") MultipartFile profile) throws IOException {
+        if (profile.isEmpty()) {
+            throw new RuntimeException("프로필 사진이 없습니다.");
+        }
+
+        String newFileName = FileManager.doFileUpload(
+                profile.getInputStream(),
+                profile.getOriginalFilename(),
+                FileManager.ABSOLUTE_ADDRESS_DIR
+        );
+
+        memberService.updateProfileUrl(principal.getId(), newFileName);
         return "redirect:/auth/profile";
     }
 }

@@ -3,6 +3,7 @@ package com.excmul.member.domain;
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.dto.SocialAttributes;
 import com.excmul.common.domain.AbstractEntity;
+import com.excmul.common.utils.FileManager;
 import com.excmul.follow.domain.Follow;
 import com.excmul.follow.domain.Follows;
 import com.excmul.mail.domain.Mail;
@@ -180,6 +181,6 @@ public class Member extends AbstractEntity<Long> {
     }
 
     public void updateProfileUrl(String profileUrl) {
-        this.profileUrl = "../image/" + profileUrl;
+        this.profileUrl = FileManager.RELATIVE_ADDRESS_DIR + profileUrl;
     }
 }
