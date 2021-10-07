@@ -132,7 +132,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void follow(long fromMemberId, long toMemberId) {
+    public void follow(Long fromMemberId, Long toMemberId) {
         Member fromMember = memberRepository.findById(fromMemberId)
                 .orElseThrow(() -> new NotFoundMemberException());
 

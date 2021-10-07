@@ -3,11 +3,11 @@ package com.excmul.follow.dto;
 import lombok.Data;
 
 @Data
-public class FollowDto {
+public class FollowCountDto {
     private int countFollowToMe;
     private int countFollowFromMe;
 
-    public FollowDto(int countFollowToMe, int countFollowFromMe) {
+    public FollowCountDto(int countFollowToMe, int countFollowFromMe) {
         this.countFollowToMe = countFollowToMe;
         this.countFollowFromMe = countFollowFromMe;
     }

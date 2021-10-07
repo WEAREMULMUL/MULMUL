@@ -63,7 +63,6 @@ public class MemberController {
     public String signUpSocial(@AuthenticationPrincipal AuthPrincipal authPrincipal,
                                @Valid SocialMemberInformationDto socialMemberInformation) {
         validateSocialSingUp(authPrincipal);
-
         memberService.updateSocialMemberInfo(authPrincipal.getId(), socialMemberInformation);
         return "fragments/contents/member/social-sign-up-result";
     }

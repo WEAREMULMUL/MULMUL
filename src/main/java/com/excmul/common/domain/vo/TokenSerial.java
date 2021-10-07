@@ -2,9 +2,7 @@ package com.excmul.common.domain.vo;
 
 import com.excmul.common.exception.TokenException;
 import com.excmul.common.exception.TokenException.ErrorCode;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Column;

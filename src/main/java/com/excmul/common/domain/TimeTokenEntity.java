@@ -2,8 +2,6 @@ package com.excmul.common.domain;
 
 import com.excmul.common.domain.vo.TokenSerial;
 import com.excmul.common.exception.TokenException;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
