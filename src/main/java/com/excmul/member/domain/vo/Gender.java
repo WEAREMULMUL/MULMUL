@@ -1,7 +1,6 @@
 package com.excmul.member.domain.vo;
 
 public enum Gender {
-
     MAN("남자"),
     WOMAN("여자"),
     EMPTY("선택안함");

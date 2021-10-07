@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 @Embeddable
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Nickname {
 
     @Transient
@@ -22,13 +21,17 @@ public class Nickname {
     @Column(name = "MEMBER_NICKNAME")
     private String nickname;
 
+    protected Nickname() {
+
+    }
+
     public Nickname(String nickname) {
         validate(nickname);
         this.nickname = nickname;
     }
 
     public void validate(String nickname) {
-        if (!StringUtils.hasText(nickname) || !Pattern.matches(NICKNAME_VALIDATOR, nickname)) {
+        if (!Pattern.matches(NICKNAME_VALIDATOR, nickname)) {
             throw new InvalidInputException(InvalidInputException.ErrorCode.NICKNAME);
         }
     }
@@ -41,4 +44,5 @@ public class Nickname {
     public String value() {
         return nickname;
     }
+
 }

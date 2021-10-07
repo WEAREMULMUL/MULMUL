@@ -2,34 +2,35 @@ package com.excmul.common.domain.vo;
 
 import com.excmul.common.exception.TokenException;
 import com.excmul.common.exception.TokenException.ErrorCode;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.UUID;
 
-@EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class Token {
-    @Column(name = "TOKEN", nullable = false)
-    private String token;
+@EqualsAndHashCode
+public class TokenSerial {
+    @Column(name = "TOKEN_TOKEN_SERIAL", nullable = false)
+    private String tokenSerial;
 
-    private Token(String token) {
-        this.token = token;
+    protected TokenSerial() {
+
     }
 
-    public static Token newInstance(String token) {
-        return new Token(token);
+    private TokenSerial(String tokenSerial) {
+        this.tokenSerial = tokenSerial;
     }
 
-    public static Token newRandomInstance(int length) {
+    public static TokenSerial newInstance(String token) {
+        return new TokenSerial(token);
+    }
+
+    public static TokenSerial newRandomInstance(int length) {
         String tokenValue = newTokenValue(length);
 
-        return new Token(tokenValue);
+        return new TokenSerial(tokenValue);
     }
 
     private static String newTokenValue(int length) {
@@ -46,7 +47,7 @@ public class Token {
     }
 
     public String value() {
-        return token;
+        return tokenSerial;
     }
 
     @RequiredArgsConstructor

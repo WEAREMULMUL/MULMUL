@@ -7,6 +7,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class Url {
     private static final char SLASH = '/';
+    private static final int NUMBER_REGEX = 1;
 
     // TODO :: 이후에 외부 파일로 빼기 !! 회의에서 물어보기
     private static final Url SITE_URL = new Url("http://localhost:8080");
@@ -33,6 +34,6 @@ public class Url {
     }
 
     private char lastChar() {
-        return url.charAt(url.length() - 1);
+        return url.charAt(url.length() - NUMBER_REGEX);
     }
 }

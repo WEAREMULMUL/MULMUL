@@ -9,8 +9,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 import java.util.Objects;
 
-@RequiredArgsConstructor
+
 @Configuration
+@RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
     private final List<HandlerInterceptor> interceptors;
 

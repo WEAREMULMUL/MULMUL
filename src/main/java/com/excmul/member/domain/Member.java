@@ -3,23 +3,22 @@ package com.excmul.member.domain;
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.dto.SocialAttributes;
 import com.excmul.common.domain.AbstractEntity;
+import com.excmul.follow.domain.Follow;
+import com.excmul.follow.domain.Follows;
 import com.excmul.mail.domain.Mail;
 import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
 import com.excmul.member.dto.MemberInfoEditDto;
 import com.excmul.member.dto.SocialMemberInformationDto;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Entity
 @Table(name = "MEMBER")
 public class Member extends AbstractEntity<Long> {
     @Embedded
@@ -63,6 +62,20 @@ public class Member extends AbstractEntity<Long> {
     @Column(name = "MEMBER_ROLE", nullable = false)
     private Role role;
 
+    @Builder.Default
+    @Column(name = "MEMBER_LEFT", nullable = false)
+    private boolean left = false;
+
+    private MemberLeftHistories leftHistories;
+
+    private PasswordChangeTokens passwordChangeTokens;
+
+    protected Member() {
+    }
+
+    @Embedded
+    private Follows follows;
+
     public static Member ofSocial(SocialAttributes socialMember) {
         return Member.builder()
                 .name(socialMember.name())
@@ -84,6 +97,7 @@ public class Member extends AbstractEntity<Long> {
                 .password(password)
                 .role(role)
                 .socialType(socialType)
+                .left(left)
                 .build();
     }
 
@@ -91,10 +105,6 @@ public class Member extends AbstractEntity<Long> {
         return Objects.isNull(nickname) ||
                 Objects.isNull(birth) ||
                 Objects.isNull(phoneNumber);
-    }
-
-    public PasswordChangeToken newChangePasswordToken() {
-        return PasswordChangeToken.newInstance(this, this.password);
     }
 
     public void changePassword(Password password) {
@@ -120,5 +130,47 @@ public class Member extends AbstractEntity<Long> {
         this.termLocation = socialMemberInformation.isTermLocation();
         this.termPrivacy = true;
         this.termService = true;
+    }
+
+    public void leave() {
+        left = true;
+
+        MemberLeftHistory leftHistory = new MemberLeftHistory(this, left);
+        leftHistories.add(leftHistory);
+    }
+
+    public PasswordChangeToken makePasswordChangeToken() {
+        PasswordChangeToken token = PasswordChangeToken.newInstance(this, password);
+        passwordChangeTokens.add(token);
+
+        return token;
+    }
+
+    public Follows follows() {
+        return follows;
+    }
+
+    public boolean follow(Member target) {
+        Follow follow = new Follow(this, target);
+        if (isFollowing(follow)) {
+            return unfollow(follow, target);
+        }
+        return follow(follow, target);
+    }
+
+    private boolean isFollowing(Follow follow) {
+        return follows.existsToFollows(follow);
+    }
+
+    private boolean unfollow(Follow follow, Member target) {
+        follows.removeToFollows(follow);
+        target.follows.removeFromFollows(follow);
+        return false;
+    }
+
+    private boolean follow(Follow follow, Member target) {
+        follows.addToFollows(follow);
+        target.follows.addFromFollows(follow);
+        return true;
     }
 }

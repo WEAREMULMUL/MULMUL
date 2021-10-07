@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 public @interface Interceptor {
     String[] pathPatterns();
 
-    String[] excludePathPatterns();
+    String[] excludePathPatterns() default "";
 
     String[] defaultExcludePathPatterns() default { "/auth/**", "/js/**", "/css/**", "/image/**", "/error" };
 }
