@@ -3,7 +3,8 @@ package com.excmul.member.ui;
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.exception.OAuth2Exception;
 import com.excmul.common.domain.vo.TokenSerial;
-import com.excmul.common.utils.FileManager;
+import com.excmul.common.dto.AbstractFile;
+import com.excmul.common.dto.ImageFile;
 import com.excmul.member.application.MemberService;
 import com.excmul.member.application.PasswordChangeTokenService;
 import com.excmul.member.domain.vo.Email;
@@ -201,13 +202,9 @@ public class MemberController {
             throw new RuntimeException("프로필 사진이 없습니다.");
         }
 
-        String newFileName = FileManager.doFileUpload(
-                profile.getInputStream(),
-                profile.getOriginalFilename(),
-                FileManager.ABSOLUTE_ADDRESS_DIR
-        );
-
-        memberService.updateProfileUrl(principal.getId(), newFileName);
+        ImageFile imageFile = new ImageFile(profile);
+        imageFile.saveFileToLocal();
+        memberService.updateProfileUrl(principal.getId(), imageFile.getUniqueFileName());
         return "redirect:/auth/profile";
     }
 }
