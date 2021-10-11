@@ -3,7 +3,6 @@ package com.excmul.member.domain;
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.dto.SocialAttributes;
 import com.excmul.common.domain.AbstractEntity;
-import com.excmul.common.dto.ImageFile;
 import com.excmul.follow.domain.Follow;
 import com.excmul.follow.domain.Follows;
 import com.excmul.mail.domain.Mail;
@@ -13,7 +12,6 @@ import com.excmul.member.dto.MemberInfoEditDto;
 import com.excmul.member.dto.SocialMemberInformationDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -72,7 +70,6 @@ public class Member extends AbstractEntity<Long> {
 
     private PasswordChangeTokens passwordChangeTokens;
 
-    @Getter
     @Column(name = "MEMBER_PROFILE_URL")
     private String profileUrl;
 
@@ -178,6 +175,10 @@ public class Member extends AbstractEntity<Long> {
         follows.addToFollows(follow);
         target.follows.addFromFollows(follow);
         return true;
+    }
+
+    public String getProfileUrl() {
+        return profileUrl;
     }
 
     public void updateProfileUrl(String profileUrl) {
