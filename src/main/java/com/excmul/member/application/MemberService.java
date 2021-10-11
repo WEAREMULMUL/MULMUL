@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -27,9 +28,7 @@ import static com.excmul.auth.exception.OAuth2Exception.ErrorCode;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-
     private final MailService mailService;
-
     private final PasswordEncoder passwordEncoder;
 
     private Member findById(long id) {
@@ -156,5 +155,16 @@ public class MemberService {
                 .orElseThrow(() -> new NotFoundMemberException());
 
         return member.follows().countFromFollows();
+    }
+
+    public String getProfileUrl(Long id) {
+        Member member = findById(id);
+        return member.getProfileUrl();
+    }
+
+    @Transactional
+    public void updateProfileUrl(Long MemberId, String profileUrl) {
+        Member member = findById(MemberId);
+        member.updateProfileUrl(profileUrl);
     }
 }

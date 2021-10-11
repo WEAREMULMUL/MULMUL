@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <h3>나는 프로필 사진 페이지이야</h3>
+</div>
+<div>
+    <img th:src="@{${profileUrl}}"/>
+    <form th:role="form"
+          th:method="POST"
+          th:action="@{/auth/profile}"
+          enctype="multipart/form-data"
+          accept="image/jpg"
+          required
+    >
+        <input type="file"
+               name="profile"
+        />
+        <br/>
+        <input type="submit"
+               value="업로드"
+        />
+    </form>
+</div>
+</body>
+</html>

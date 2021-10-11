@@ -70,6 +70,9 @@ public class Member extends AbstractEntity<Long> {
 
     private PasswordChangeTokens passwordChangeTokens;
 
+    @Column(name = "MEMBER_PROFILE_URL")
+    private String profileUrl;
+
     protected Member() {
     }
 
@@ -172,5 +175,13 @@ public class Member extends AbstractEntity<Long> {
         follows.addToFollows(follow);
         target.follows.addFromFollows(follow);
         return true;
+    }
+
+    public String getProfileUrl() {
+        return profileUrl;
+    }
+
+    public void updateProfileUrl(String profileUrl) {
+        this.profileUrl = "../image/" + profileUrl;
     }
 }

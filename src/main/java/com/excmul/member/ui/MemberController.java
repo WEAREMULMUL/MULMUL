@@ -3,6 +3,8 @@ package com.excmul.member.ui;
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.exception.OAuth2Exception;
 import com.excmul.common.domain.vo.TokenSerial;
+import com.excmul.common.dto.AbstractFile;
+import com.excmul.common.dto.ImageFile;
 import com.excmul.member.application.MemberService;
 import com.excmul.member.application.PasswordChangeTokenService;
 import com.excmul.member.domain.vo.Email;
@@ -15,9 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Optional;
 
 import static com.excmul.auth.exception.OAuth2Exception.ErrorCode;
@@ -178,5 +182,29 @@ public class MemberController {
         httpSession.invalidate();
 
         return "/fragments/contents/member/leaveId-result";
+    }
+
+    /**
+     * 프로필 사진
+     */
+    @GetMapping("profile")
+    public String profile(@AuthenticationPrincipal AuthPrincipal principal,
+                          Model model) {
+        String profileUrl = memberService.getProfileUrl(principal.getId());
+        model.addAttribute("profileUrl", profileUrl);
+        return "/fragments/contents/member/profile";
+    }
+
+    @PostMapping("profile")
+    public String profile(@AuthenticationPrincipal AuthPrincipal principal,
+                          @RequestPart(value = "profile") MultipartFile profile) throws IOException {
+        if (profile.isEmpty()) {
+            throw new RuntimeException("프로필 사진이 없습니다.");
+        }
+
+        ImageFile imageFile = new ImageFile(profile);
+        imageFile.saveFileToLocal();
+        memberService.updateProfileUrl(principal.getId(), imageFile.getUniqueFileName());
+        return "redirect:/auth/profile";
     }
 }
