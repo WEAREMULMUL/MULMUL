@@ -2,10 +2,9 @@
     --body-background-color: #f5f6f7;
     --font-color: #4e4e4e;
     --border-gray-color: #dadada;
-    --mulmul-green-color: #add8eB;
-    --mulmul-green-border-color: #add8eB;
+    --mulmul-blue-color: #add8eB;
+    --mulmul-blue-border-color: #add8eB;
 }
-
 
 * {
     margin: 0;
@@ -91,15 +90,14 @@ body {
     width: 465px;
     height: 48px;
     font-size: 18px;
-    background: var(--mulmul-green-color);
+    background: var(--mulmul-blue-color);
     color: white;
-    border: solid 1px var(--mulmul-green-border-color);
+    border: solid 1px var(--mulmul-blue-border-color);
 }
 
 .login-stay-sign-in {
     width: 465px;
     height: 52px;
-
     display: flex;
     font-size: 15px;
     color: #4e4e4e;
@@ -119,11 +117,9 @@ body {
 }
 
 .Easy-sgin-in-wrap {
-
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
 
 .Easy-sgin-in-wrap h2 {
@@ -156,16 +152,16 @@ body {
     font-size: 20px;
 }
 
-.fa-qrcode {
-    color: var(--mulmul-green-color);
+.fa-google {
+    color: var(--mulmul-blue-color);
+}
+
+.fa-sms {
+    color: var(--mulmul-blue-color);
 }
 
 .fa-line {
-    color: var(--mulmul-green-color);
-}
-
-.fa-facebook-square {
-    color: #4064ac;
+    color: var(--mulmul-blue-color);
 }
 
 .Easy-sgin-in-wrap .sign-button-list li button span {
@@ -180,30 +176,24 @@ body {
 
 }
 
-footer {
+.copyright-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 15px;
+}
 
+footer {
     padding-top: 95px;
     padding-bottom: 15px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 768px;
 }
 
-.copyright-wrap {
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 15px;
-
-
-}
-
 footer .copyright-wrap span img {
     width: 59px;
-
     height: 11px;
 }
 
