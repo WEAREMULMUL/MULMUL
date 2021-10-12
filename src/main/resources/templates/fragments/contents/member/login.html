@@ -1,5 +1,9 @@
 <!DOCTYPE HTML>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/css/member/member-login.css}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/51db22a717.js" crossorigin="anonymous"></script>
+</head>
 <body>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -18,33 +22,54 @@
     }
 </script>
 <div class="container">
-    <h3>나는 로그인 폼이야</h3>
-
-    <form role="form" th:action="@{/auth/loginProc}" method="post">
-
-        <div>
-            <label th:for="email">이메일</label>
-            <input
-                    type="email"
-                    th:name="username"
-                    placeholder="이메일을 입력하세요"
-            />
+    <div class="main-container">
+        <div class="main-wrap">
+            <header>
+                <div class="logo-wrap">
+                    <img th:src="@{/img/logo.png}">
+                </div>
+            </header>
+            <form role="form" th:action="@{/auth/loginProc}" method="post">
+                <section class="login-input-section-wrap">
+                    <div class="login-input-wrap">
+                        <input placeholder="Username" th:name="username" type="email"></input>
+                    </div>
+                    <div class="login-input-wrap password-wrap">
+                        <input placeholder="Password" th:name="password" type="password"></input>
+                    </div>
+                    <div class="login-button-wrap">
+                        <button type="submit">Sign In</button>
+                    </div>
+                    <div class="login-stay-sign-in">
+                        <i class="far fa-check-circle"></i>
+                        <span>Stay Signed in</span>
+                    </div>
+                </section>
+                <section class="Easy-sgin-in-wrap">
+                    <ul class="sign-button-list">
+                        <li>
+                            <button type="button" class="btn-social-login" social-type="google">
+                                <i class="fab fa-google"></i><span>Google</span></button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn-social-login" social-type="kakao"><i
+                                    class="fas fa-sms"></i><span>Kakao</span></button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn-social-login" social-type="naver"><i
+                                    class="fab fa-line"></i><span>Naver</span></button>
+                        </li>
+                    </ul>
+                    <p class="forget-msg">Forgot your Username or Password? | <a th:href="@{/auth/sign}">Sign up</a></p>
+                </section>
+            </form>
+            <footer>
+                <div class="copyright-wrap">
+                    <span>	<img th:src="@{/img/logo.png}"> Copyright © MULMUL Corp. All Rights Reserved.</span>
+                </div>
+            </footer>
         </div>
-
-        <div>
-            <label th:for="password">패스워드</label>
-            <input
-                    type="password"
-                    th:name="password"
-                    placeholder="패스워드를 입력하세요"
-            />
-        </div>
-        <button type="button" class="btn-social-login" social-type="google">Google</button>
-        <button type="button" class="btn-social-login" social-type="kakao">KaKao</button>
-        <button type="button" class="btn-social-login" social-type="naver">Naver</button>
-        <button type="submit">Submit</button>
-
-    </form>
+    </div>
 </div>
 </body>
 </html>
