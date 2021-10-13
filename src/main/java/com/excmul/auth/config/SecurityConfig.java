@@ -17,7 +17,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     private final AuthService authPrincipalService;
 
     @Bean
@@ -34,7 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(authPrincipalService).passwordEncoder(passwordEncoder());
+        auth
+                .userDetailsService(authPrincipalService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -44,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/index", "/", "/auth/**", "/js/**", "/css/**", "/image/**")
+                .antMatchers("/index", "/", "/img/**", "/auth/**", "/js/**", "/css/**", "/image/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

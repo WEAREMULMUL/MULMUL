@@ -1,10 +1,7 @@
 package com.excmul.member.domain.vo;
 
 import com.excmul.member.exception.InvalidInputException;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -14,14 +11,16 @@ import java.util.regex.Pattern;
 
 @Embeddable
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Name {
-
     @Transient
     private static final String NAME_VALIDATOR = "^[가-힣]{2,10}$";
 
     @Column(name = "MEMBER_NAME")
     private String name;
+
+    protected Name() {
+
+    }
 
     public Name(String name) {
         validate(name);
@@ -29,7 +28,7 @@ public class Name {
     }
 
     public void validate(String name) {
-        if (!StringUtils.hasText(name) || !Pattern.matches(NAME_VALIDATOR, name)) {
+        if (!Pattern.matches(NAME_VALIDATOR, name)) {
             throw new InvalidInputException(InvalidInputException.ErrorCode.NAME);
         }
     }
@@ -42,4 +41,5 @@ public class Name {
     public String value() {
         return name;
     }
+
 }

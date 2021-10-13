@@ -2,8 +2,9 @@ package com.excmul.member.ui;
 
 import com.excmul.auth.dto.AuthPrincipal;
 import com.excmul.auth.exception.OAuth2Exception;
-import com.excmul.common.domain.vo.Token;
+import com.excmul.common.domain.vo.TokenSerial;
 import com.excmul.member.application.MemberService;
+import com.excmul.member.application.PasswordChangeTokenService;
 import com.excmul.member.domain.vo.Email;
 import com.excmul.member.domain.vo.Password;
 import com.excmul.member.dto.*;
@@ -15,17 +16,19 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
 
 import static com.excmul.auth.exception.OAuth2Exception.ErrorCode;
 
-@RequestMapping("auth")
+
 @Controller
+@RequestMapping("auth")
 @RequiredArgsConstructor
 public class MemberController {
-
     private final MemberService memberService;
+    private final PasswordChangeTokenService passwordChangeTokenService;
 
     @GetMapping("sign")
     public String sign(Model model) {
@@ -60,7 +63,6 @@ public class MemberController {
     public String signUpSocial(@AuthenticationPrincipal AuthPrincipal authPrincipal,
                                @Valid SocialMemberInformationDto socialMemberInformation) {
         validateSocialSingUp(authPrincipal);
-
         memberService.updateSocialMemberInfo(authPrincipal.getId(), socialMemberInformation);
         return "fragments/contents/member/social-sign-up-result";
     }
@@ -126,8 +128,8 @@ public class MemberController {
 
     @GetMapping("changePassword/{Token}")
     public String changePassword(ModelMap modelMap,
-                                 @PathVariable("Token") Token token) {
-        boolean isAvailable = memberService.isAvailablePasswordChangeToken(token);
+                                 @PathVariable("Token") TokenSerial token) {
+        boolean isAvailable = passwordChangeTokenService.isAvailablePasswordChangeToken(token);
 
         modelMap.addAttribute("isAvailable", isAvailable);
 
@@ -135,10 +137,10 @@ public class MemberController {
     }
 
     @PostMapping("changePassword")
-    public String changePassword(@ModelAttribute("token") Token token,
+    public String changePassword(@ModelAttribute("token") TokenSerial token,
                                  Password password) {
 
-        memberService.changePassword(token, password);
+        passwordChangeTokenService.changePassword(token, password);
 
         return "fragments/contents/member/change-password-result";
     }
@@ -157,5 +159,24 @@ public class MemberController {
     public String edit(@AuthenticationPrincipal AuthPrincipal principal, MemberInfoEditDto editDto) {
         memberService.edit(principal.getUsername(), editDto);
         return "redirect:/fragments/contents/index";
+    }
+
+    /**
+     * 회원 탈퇴
+     */
+    @GetMapping("leaveId")
+    public String leaveId() {
+        return "/fragments/contents/member/leaveId";
+    }
+
+    @PostMapping("leaveId")
+    public String leaveId(@AuthenticationPrincipal AuthPrincipal principal,
+                          final HttpSession httpSession) {
+        long memberId = principal.getId();
+        memberService.leaveId(memberId);
+
+        httpSession.invalidate();
+
+        return "/fragments/contents/member/leaveId-result";
     }
 }
