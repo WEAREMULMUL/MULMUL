@@ -134,10 +134,10 @@ public class MemberService {
     @Transactional
     public void follow(Long fromMemberId, Long toMemberId) {
         Member fromMember = memberRepository.findById(fromMemberId)
-                .orElseThrow(() -> new NotFoundMemberException());
+                .orElseThrow(NotFoundMemberException::new);
 
         Member toMember = memberRepository.findById(toMemberId)
-                .orElseThrow(() -> new NotFoundMemberException());
+                .orElseThrow(NotFoundMemberException::new);
 
         fromMember.follow(toMember);
     }
@@ -145,7 +145,7 @@ public class MemberService {
     @Transactional(readOnly = true)
     public int countFollowTo(long id) {
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new NotFoundMemberException());
+                .orElseThrow(NotFoundMemberException::new);
 
         return member.follows().countToFollows();
     }
@@ -153,8 +153,9 @@ public class MemberService {
     @Transactional(readOnly = true)
     public int countFollowFrom(long id) {
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new NotFoundMemberException());
+                .orElseThrow(NotFoundMemberException::new);
 
         return member.follows().countFromFollows();
     }
+
 }

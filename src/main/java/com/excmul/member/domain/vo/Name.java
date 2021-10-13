@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 @Embeddable
 @EqualsAndHashCode
 public class Name {
-
     @Transient
     private static final String NAME_VALIDATOR = "^[가-힣]{2,10}$";
 

@@ -10,11 +10,12 @@ import com.excmul.mail.domain.vo.Content;
 import com.excmul.member.domain.vo.*;
 import com.excmul.member.dto.MemberInfoEditDto;
 import com.excmul.member.dto.SocialMemberInformationDto;
+import com.excmul.notice.domain.Notice;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.*;
 
 @Builder
 @AllArgsConstructor
@@ -70,11 +71,14 @@ public class Member extends AbstractEntity<Long> {
 
     private PasswordChangeTokens passwordChangeTokens;
 
-    protected Member() {
-    }
-
     @Embedded
     private Follows follows;
+
+    @OneToMany(mappedBy = "noticeMember", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notice> notices = new ArrayList<>();
+
+    protected Member() {
+    }
 
     public static Member ofSocial(SocialAttributes socialMember) {
         return Member.builder()
@@ -172,5 +176,9 @@ public class Member extends AbstractEntity<Long> {
         follows.addToFollows(follow);
         target.follows.addFromFollows(follow);
         return true;
+    }
+
+    public void addNotice(Notice notice) {
+        this.notices.add(notice);
     }
 }
